@@ -1,3 +1,4 @@
+package org.uwogarage;
 
 public class UWOGarage {
 
