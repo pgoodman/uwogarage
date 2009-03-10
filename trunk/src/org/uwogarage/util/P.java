@@ -1,4 +1,4 @@
-package functional;
+package org.uwogarage.util;
 
 /**
  * Predicate:

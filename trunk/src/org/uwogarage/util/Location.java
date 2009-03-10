@@ -8,6 +8,7 @@ package org.uwogarage.util;
  */
 
 public class Location implements Immutable {
+    
 	// instance variables ***************************
 	WayPoint way_point; // the location's way point
 	String street;		// the location's street address
@@ -22,6 +23,9 @@ public class Location implements Immutable {
 	 */
 	public Location(String s, String p, String c)
 	{
+	    street = s;
+	    province = p;
+	    city = c;
 	}
 	
 	// ACCESSOR METHODS ***************************
@@ -29,23 +33,31 @@ public class Location implements Immutable {
 	 * This method returns the street name of this location
 	 * @return the street name of this location
 	 */
-	public int getStreet() {}
+	public String getStreet() {
+	    return street;
+	}
 
 	/**
 	 * This method returns the street name of this location
 	 * @return the province of this location
 	 */
-	public int getProvince() {}
+	public String getProvince() {
+	    return province;
+	}
 
 	/**
 	 * This method returns the street name of this location
 	 * @return this city of this location
 	 */
-	public int getCity() {}
+	public String getCity() {
+	    return city;
+	}
 
 	/**
 	 * This method generates and returns the WayPoint for this location
 	 * @return the way point for this location
 	 */
-	public int getWayPoint() {}
+	public WayPoint getWayPoint() {
+	    return way_point;
+	}
 }
