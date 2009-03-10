@@ -1,6 +1,7 @@
 package org.uwogarage.views;
 
 import javax.swing.JFrame;
+import org.uwogarage.util.functional.D;
 
 /**
  * View class, represents a single component within the interface. Extends
@@ -10,15 +11,19 @@ import javax.swing.JFrame;
  * @author Peter Goodman
  *
  */
-abstract public class View extends org.uwogarage.util.gui.SimpleGui {
+abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
     
     /**
-     * Show the view. Views are meant to be able to respond with some sort of
-     * objects to the controllers calling them.
+     * Show a given view. A View method is given a delegate responder that
+     * expects an argument of a certain type. This is so that the controller can
+     * keep all control, but so that it doesn't need to wait on the view to do
+     * something and instead the view can toggle a change in the controller
+     * without any real access to it.
      * 
-     * @param <T>
-     * @param f
-     * @return
+     * The alternative to a responder, and this was the original idea, was to
+     * have views return an object of a specific type. This, however, would be
+     * very cumbersome as it would require all views to be in some way or another
+     * Modal and that would really be annoying to work with.
      */
-    abstract public <T> T view(JFrame f);
+    abstract public void view(JFrame f, D<T> responder);
 }

@@ -6,8 +6,6 @@ import java.awt.*;
 import java.io.InputStream;
 import java.net.URL;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.text.Document;
 import org.uwogarage.util.functional.*;
@@ -100,69 +98,50 @@ abstract public class SimpleGui {
      * Generic method to add a set of components to another.
      * @return
      */
-    protected static <C extends JComponent, I extends JComponent> C add_items_to_component(C component, I items[]) {
+    protected static <C extends JComponent, I extends JComponent> C 
+    add_items_to_component(C component, I items[]) {
         for(I item : items) {
             if(null != item)
                 component.add(item);
         }
         return component;
     }
-
+    
     /**
      * Create a menu bar. Accepts a variable number of menus.
      * 
      * @param itms
      * @return JMenuBar
      */
-    public static JMenuBar menu_bar(final JFrame frame, JMenu ... menus) {
+    public static JMenuBar menu(final JFrame frame, JMenu ... menus) {
         JMenuBar bar = add_items_to_component(new JMenuBar(), menus);
         frame.setJMenuBar(bar);
         return bar;
     }
-
-    /**
-     * Create a menu. Accepts a variable number of menu items.
-     * 
-     * @return JMenu
-     */
-    public static JMenu menu(String name, JMenuItem ... items) {
-        return add_items_to_component(new JMenu(name), items);
-    }
     
-    /**
-     * Create a menu that doesn't have any items and instead is a button itself.
-     */
-    public static JMenu menu(String name, final D<JMenu> on_click) {
-        final JMenu menu = new JMenu(name);
-        menu.addMenuListener(new MenuListener() {
-            public void menuCanceled(MenuEvent a) {
-                //menu.setArmed(false);
-            }
-            public void menuDeselected(MenuEvent a) {
-                //menu.setArmed(false);
-                //
-            }
-            public void menuSelected(MenuEvent a) {
-                //menu.doClick();
-                //menu.setFocusable(false);
-                on_click.call(menu);
-                menu.transferFocus();
-            }
-        });
-        return menu;
-    }
+    public static class menu {
+        
+        /**
+         * Create a menu. Accepts a variable number of menu items.
+         * 
+         * @return JMenu
+         */
+        public static JMenu dd(String name, JMenuItem ... items) {
+            return add_items_to_component(new JMenu(name), items);
+        }
 
-    /**
-     * Create a menu item.
-     * 
-     * @param args
-     */
-    public static JMenuItem menu_item(final String text) {
-        return menu_item(text, null);
-    }
+        /**
+         * Create a menu item.
+         * 
+         * @param args
+         */
+        public static JMenuItem item(final String text) {
+            return item(text, null);
+        }
 
-    public static JMenuItem menu_item(String text, final D<JMenuItem> on_click) {
-        return button_hook(new JMenuItem(text), on_click);
+        public static JMenuItem item(String text, final D<JMenuItem> on_click) {
+            return button_hook(new JMenuItem(text), on_click);
+        }
     }
     
     /**
@@ -182,7 +161,7 @@ abstract public class SimpleGui {
      * Swing libraries really fail; the developers should have isolated the 
      * getContentPane method in an interface so that it's not guess work.
      */
-    protected static Container get_content_pane(Container c) {
+    protected static Container content_get_pane(Container c) {
         if(c instanceof JFrame)
             return((JFrame) c).getContentPane();
         else if(c instanceof JDialog)
@@ -191,22 +170,24 @@ abstract public class SimpleGui {
         return c;
     }
     
-    /**
-     * Add something to the content pane of a component.
-     */
-    public static <T extends JComponent> T content_add(Container parent, T child) {
-        get_content_pane(parent).add(child);
-        return child;
-    }
-    
-    /**
-     * Remove something from the content pane of a component.
-     */
-    public static <T extends JComponent> void content_remove(Container parent, T child) {
-        get_content_pane(parent).remove(child);
-    }
-    public static void content_remove(Container parent) {
-        get_content_pane(parent).removeAll();
+    public static class content {
+        /**
+         * Add something to the content pane of a component.
+         */
+        public static <T extends JComponent> T add(Container parent, T child) {
+            content_get_pane(parent).add(child);
+            return child;
+        }
+        
+        /**
+         * Remove something from the content pane of a component.
+         */
+        public static <T extends JComponent> void remove(Container parent, T child) {
+            content_get_pane(parent).remove(child);
+        }
+        public static void content_remove(Container parent) {
+            content_get_pane(parent).removeAll();
+        }
     }
     
     /**
@@ -216,7 +197,7 @@ abstract public class SimpleGui {
         return grid(new JPanel(), cells);
     }
     public static <T extends Container> T grid(T pane, GridCell ... cells) {
-        Container c = get_content_pane(pane);
+        Container c = content_get_pane(pane);
         
         c.setLayout(new GridBagLayout());
         
@@ -238,27 +219,30 @@ abstract public class SimpleGui {
         return pane;
     }
     
-    /**
-     * Create and return a simple grid cell. A Simple grid cell knows how much it spans
-     * to the left and right.
-     */
-    public static GridCell grid_cell(Component item) {
-        return grid_cell(1, item, 1);
-    }
+    public static class grid {
     
-    public static GridCell grid_cell(int width, Component item) {
-        return grid_cell(width, item, 1);
-    }
-    
-    public static GridCell grid_cell(Component item, int height) {
-        return grid_cell(1, item, height);
-    }
-    
-    public static GridCell grid_cell(int width, Component item, int height) {
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridwidth = width;
-        c.gridheight = height;
-        return new GridCell(item, c);
+        /**
+         * Create and return a simple grid cell. A Simple grid cell knows how much it spans
+         * to the left and right.
+         */
+        public static GridCell cell(Component item) {
+            return cell(1, item, 1);
+        }
+        
+        public static GridCell cell(int width, Component item) {
+            return cell(width, item, 1);
+        }
+        
+        public static GridCell cell(Component item, int height) {
+            return cell(1, item, height);
+        }
+        
+        public static GridCell cell(int width, Component item, int height) {
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridwidth = width;
+            c.gridheight = height;
+            return new GridCell(item, c);
+        }
     }
     
     /**
@@ -335,41 +319,44 @@ abstract public class SimpleGui {
         return new JTextField(doc, "", columns);
     }
     
-    /**
-     * Set the look and feel.
-     */
-    public static void laf_theme(JFrame frame, String class_loc) {
-        try {
-            UIManager.setLookAndFeel(class_loc);
-            SwingUtilities.updateComponentTreeUI(frame);
-            frame.pack();
-        } catch(Exception e) {
-            alert(frame, 
-                "An error occured while trying to switch the look and feel."
-            );
-        }
-    }
+    public static class laf {
     
-    /**
-     * Load up a Synth skin given an XML file location. By default the file 
-     * location will be relative to the SimpleGUI class; however, one can pass a 
-     * Class instance to change what class the location is relative to.
-     */
-    public static void laf_skin(JFrame frame, String xml_loc) {
-        laf_skin(frame, xml_loc, SimpleGui.class);
-    }
-    public static <T> void laf_skin(JFrame frame, String xml_loc, Class<T> c) {
-        try {
-            SynthLookAndFeel synth = new SynthLookAndFeel();
-            InputStream stream = c.getResourceAsStream(xml_loc);
-            synth.load(stream, c);
-            UIManager.setLookAndFeel(synth);
-            SwingUtilities.updateComponentTreeUI(frame);
-            frame.pack();
-        } catch(Exception e) {
-            alert(frame, 
-                "An error occured while trying to switch the look and feel."
-            );
+        /**
+         * Set the look and feel.
+         */
+        public static void theme(JFrame frame, String class_loc) {
+            try {
+                UIManager.setLookAndFeel(class_loc);
+                SwingUtilities.updateComponentTreeUI(frame);
+                frame.pack();
+            } catch(Exception e) {
+                alert(frame, 
+                    "An error occured while trying to switch the look and feel."
+                );
+            }
+        }
+        
+        /**
+         * Load up a Synth skin given an XML file location. By default the file 
+         * location will be relative to the SimpleGUI class; however, one can pass a 
+         * Class instance to change what class the location is relative to.
+         */
+        public static void skin(JFrame frame, String xml_loc) {
+            skin(frame, xml_loc, SimpleGui.class);
+        }
+        public static <T> void skin(JFrame frame, String xml_loc, Class<T> c) {
+            try {
+                SynthLookAndFeel synth = new SynthLookAndFeel();
+                InputStream stream = c.getResourceAsStream(xml_loc);
+                synth.load(stream, c);
+                UIManager.setLookAndFeel(synth);
+                SwingUtilities.updateComponentTreeUI(frame);
+                frame.pack();
+            } catch(Exception e) {
+                alert(frame, 
+                    "An error occured while trying to switch the look and feel."
+                );
+            }
         }
     }
     

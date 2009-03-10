@@ -9,23 +9,22 @@ import org.uwogarage.util.functional.D;
  * @author petergoodman
  *
  */
-public class MenuView extends View {
+public class MenuView extends View<Object> {
 
-    public <T> T view(JFrame f) {
+    public void view(JFrame f, D<Object> responder) {
         
-        menu_bar(f,
-            menu("File",
-                menu_item("Quit", new D<JMenuItem>() {
+        menu(f,
+            menu.dd("File",
+                menu.item("Quit", new D<JMenuItem>() {
                     public void call(JMenuItem i) {
                         System.exit(0);
                     }
                 })
             ),
-            menu("Help",
-                menu_item("Help Contents")
+            menu.dd("Help",
+                menu.item("Help Contents")
             )
         );
-        return null;
     }
     
 }
