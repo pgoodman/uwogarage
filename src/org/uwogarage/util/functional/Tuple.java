@@ -1,4 +1,4 @@
-package org.uwogarage.util;
+package org.uwogarage.util.functional;
 
 /**
  * Tuple:
