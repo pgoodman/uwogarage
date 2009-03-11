@@ -6,6 +6,7 @@ package org.uwogarage.util.functional;
  * objects.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 public abstract class Boolean {
     

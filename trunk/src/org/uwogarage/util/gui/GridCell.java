@@ -13,6 +13,7 @@ import org.uwogarage.util.functional.Tuple;
  * SimpleGUI functions.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 public class GridCell extends Tuple<Component,GridBagConstraints> {
 

@@ -4,7 +4,7 @@ package org.uwogarage.models;
  * The UserModel class represents a user in the Garage Sale system
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 public class UserModel implements Model {

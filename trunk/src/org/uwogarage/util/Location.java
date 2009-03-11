@@ -4,7 +4,7 @@ package org.uwogarage.util;
  * The Location class represents a location in the Garage Sale system
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 public class Location implements Immutable {

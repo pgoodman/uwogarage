@@ -8,7 +8,7 @@ import org.uwogarage.models.GarageSaleModel;
  * in GarageSaleModels in the datastore
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 public class GarageSaleController extends Controller<GarageSaleModel> {

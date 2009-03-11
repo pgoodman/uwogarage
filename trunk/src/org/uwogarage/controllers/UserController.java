@@ -10,7 +10,6 @@ import org.uwogarage.models.UserModel;
  * @author Nate Smith
  * @version $Id$
  */
-
 public class UserController extends Controller<UserModel> {
 	
 	public UserController(Dispatcher d) {

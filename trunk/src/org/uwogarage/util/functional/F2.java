@@ -5,6 +5,7 @@ package org.uwogarage.util.functional;
  * A function of two arguments and a single return value.
  * 
  * @author Peter Goodman
+ * @version $Id$
  *
  * @param <I1> input type 1
  * @param <I2> input type 2

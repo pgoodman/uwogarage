@@ -6,6 +6,7 @@ package org.uwogarage.util.functional;
  * one output with no side-effects.
  * 
  * @author Peter Goodman
+ * @version $Id$
  *
  * @param <I> input type
  * @param <O> output type
