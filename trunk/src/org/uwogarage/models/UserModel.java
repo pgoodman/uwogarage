@@ -11,12 +11,14 @@ public class UserModel implements Model {
     
 	protected String first_name,		// the user's first name
 	                 last_name,       // the user's last name
-	                 pass,            // the user's pass
+	                 pass = "aaa", // the user's pass, default 'aaa'
 	                 user_id,         // the user's id
 	                 phone;           // the user's phone
 	
 	protected double start_lat,       // the user's default latitude
 	                 start_lng;      // the user's default longitude
+	
+	protected boolean reset_pass = true; // was the user's password was reset
 	
 	protected int start_zoom,         // the user's default zoom level
 	              average_rating;     // the user's average rating
@@ -69,6 +71,14 @@ public class UserModel implements Model {
 	 */
 	public int getDefaultZoom() {
 	    return start_zoom;
+	}
+	
+	/**
+	 * Check if the user's password should be changed, i.e. the user was just
+	 * created or the user's password was just reset by the administrator.
+	 */
+	public boolean resetPassword() {
+	    return reset_pass;
 	}
 	
 	/**

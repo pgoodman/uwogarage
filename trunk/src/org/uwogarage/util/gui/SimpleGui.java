@@ -264,12 +264,7 @@ abstract public class SimpleGui {
         return new JLabel();
     }
     
-    /**
-     * Create an alert dialog box.
-     */
-    public static void alert(JFrame frame, String message) {
-        JOptionPane.showMessageDialog(frame, message);
-    }
+    
     
     /**
      * Create a prompt.
@@ -302,23 +297,56 @@ abstract public class SimpleGui {
 
         return dialog;
     }
-    public static JDialog modal(JFrame frame, String title, F<JDialog,Container> content_init) {
-        JDialog d = dialog(frame, title, content_init);
-        d.setModal(true);
-        return d;
+    
+    public static class dialog {
+        
+        /**
+         * Show a modal dialog.
+         * @param frame
+         * @param title
+         * @param content_init
+         * @return
+         */
+        public static JDialog modal(JFrame frame, String title, F<JDialog,Container> content_init) {
+            JDialog d = dialog(frame, title, content_init);
+            d.setModal(true);
+            return d;
+        }
+        
+        /**
+         * Create an alert dialog box.
+         */
+        public static void alert(JFrame frame, String message) {
+            JOptionPane.showMessageDialog(frame, message);
+        }
     }
     
     /**
      * Create a text box.
      */
-    public static JTextField text_field() {
-        return new JTextField();
-    }
-    public static JTextField text_field(int columns) {
-        return new JTextField(columns);
-    }
-    public static JTextField text_field(int columns, Document doc) {
-        return new JTextField(doc, "", columns);
+    public static class field {
+        
+        // normal text fields
+        public static JTextField text() {
+            return new JTextField();
+        }
+        public static JTextField text(int columns) {
+            return new JTextField(columns);
+        }
+        public static JTextField text(int columns, Document doc) {
+            return new JTextField(doc, "", columns);
+        }
+        
+        // password text fields
+        public static JTextField pass() {
+            return new JPasswordField();
+        }
+        public static JTextField pass(int columns) {
+            return new JPasswordField(columns);
+        }
+        public static JTextField pass(int columns, Document doc) {
+            return new JPasswordField(doc, "", columns);
+        }
     }
     
     public static class laf {
@@ -332,7 +360,7 @@ abstract public class SimpleGui {
                 SwingUtilities.updateComponentTreeUI(frame);
                 frame.pack();
             } catch(Exception e) {
-                alert(frame, 
+                dialog.alert(frame, 
                     "An error occured while trying to switch the look and feel."
                 );
             }
@@ -355,7 +383,7 @@ abstract public class SimpleGui {
                 SwingUtilities.updateComponentTreeUI(frame);
                 frame.pack();
             } catch(Exception e) {
-                alert(frame, 
+                dialog.alert(frame, 
                     "An error occured while trying to switch the look and feel."
                 );
             }

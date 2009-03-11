@@ -1,9 +1,5 @@
 package org.uwogarage.controllers;
 
-import javax.swing.JFrame;
-
-import org.uwogarage.Dispatcher;
-
 /**
  * The CategoryController class responds to calls from a View and manipulates  
  * in Strings in the data store (as categories are nothing more than strings,
@@ -15,10 +11,6 @@ import org.uwogarage.Dispatcher;
 
 
 public class CategoryController extends Controller<String> {
-
-    public CategoryController(Dispatcher d) {
-        super(d);
-    }
 
     public void add() {
         

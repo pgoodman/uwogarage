@@ -2,6 +2,7 @@ package org.uwogarage.controllers;
 
 import org.uwogarage.Dispatcher;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.UserModel;
 
 /**
  * The Controller class responds to calls from a View and manipulates the 
@@ -17,15 +18,21 @@ abstract public class Controller<T> {
 	protected ModelSet<T> models;
 	
 	// give the controller the ability to call the other controllers
-	protected Dispatcher dispatch;
+	static protected Dispatcher dispatcher;
+	
+	// the currently logged in user
+	static protected UserModel logged_user;
 	
 	/**
 	 * Constructor, bring in the dispatcher.
 	 * @param d
 	 */
-	public Controller(Dispatcher d) {
-	    dispatch = d;
+	public Controller() {
 	    models = new ModelSet<T>();
+	}
+	
+	static public void setDispatcher(Dispatcher d) {
+	    dispatcher = d;
 	}
 	
 	/**
@@ -43,8 +50,4 @@ abstract public class Controller<T> {
      * @param f a function to manipulate the object
      */
     abstract protected void update(T model);
-	
-	
-	
-	
 }
