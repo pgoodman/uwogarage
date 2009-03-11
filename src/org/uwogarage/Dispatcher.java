@@ -23,7 +23,7 @@ final public class Dispatcher {
     final public GarageSaleController garage_sale;
     final public RatingController rating;
     
-    public Dispatcher(JFrame f) {
+    public Dispatcher() {
         user = new UserController(this);
         category = new CategoryController(this);
         garage_sale = new GarageSaleController(this);

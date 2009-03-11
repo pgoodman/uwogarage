@@ -2,7 +2,6 @@ package org.uwogarage.views;
 
 import javax.swing.JFrame;
 import org.uwogarage.util.functional.D;
-import org.uwogarage.util.gui.SimpleGui.content;
 
 /**
  * View class, represents a single component within the interface. Extends
@@ -19,7 +18,7 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
     /**
      * Set the program frame.
      */
-    public void setFrame(JFrame frame) {
+    public static void setFrame(JFrame frame) {
         if(null == frame) {
             throw new NullPointerException("Frame is required.");
         }

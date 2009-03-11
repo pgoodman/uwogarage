@@ -3,6 +3,7 @@ package org.uwogarage;
 import static org.uwogarage.util.gui.SimpleGui.frame;
 import javax.swing.JFrame;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.views.View;
 
 /**
  * The main program.

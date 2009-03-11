@@ -157,26 +157,27 @@ abstract public class SimpleGui {
         return new JLabel(label_name, text_align);
     }
     
-    /**
-     * Get the content pane for a container. This is one example of where the 
-     * Swing libraries really fail; the developers should have isolated the 
-     * getContentPane method in an interface so that it's not guess work.
-     */
-    protected static Container content_get_pane(Container c) {
-        if(c instanceof JFrame)
-            return((JFrame) c).getContentPane();
-        else if(c instanceof JDialog)
-            return ((JDialog) c).getContentPane();
-        
-        return c;
-    }
-    
     public static class content {
+        
+        /**
+         * Get the content pane for a container. This is one example of where the 
+         * Swing libraries really fail; the developers should have isolated the 
+         * getContentPane method in an interface so that it's not guess work.
+         */
+        protected static Container get_pane(Container c) {
+            if(c instanceof JFrame)
+                return((JFrame) c).getContentPane();
+            else if(c instanceof JDialog)
+                return ((JDialog) c).getContentPane();
+            
+            return c;
+        }
+        
         /**
          * Add something to the content pane of a component.
          */
         public static <T extends JComponent> T add(Container parent, T child) {
-            content_get_pane(parent).add(child);
+            get_pane(parent).add(child);
             return child;
         }
         
@@ -184,10 +185,10 @@ abstract public class SimpleGui {
          * Remove something from the content pane of a component.
          */
         public static <T extends JComponent> void remove(Container parent, T child) {
-            content_get_pane(parent).remove(child);
+            get_pane(parent).remove(child);
         }
         public static void remove(Container parent) {
-            content_get_pane(parent).removeAll();
+            get_pane(parent).removeAll();
         }
     }
     
@@ -198,7 +199,7 @@ abstract public class SimpleGui {
         return grid(new JPanel(), cells);
     }
     public static <T extends Container> T grid(T pane, GridCell ... cells) {
-        Container c = content_get_pane(pane);
+        Container c = content.get_pane(pane);
         
         c.setLayout(new GridBagLayout());
         
