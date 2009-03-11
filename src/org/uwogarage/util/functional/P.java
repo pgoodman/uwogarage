@@ -7,6 +7,7 @@ package org.uwogarage.util.functional;
  * 'nor', 'nand'; Predicates can also be negated using 'not'.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 abstract public class P<T> {
     

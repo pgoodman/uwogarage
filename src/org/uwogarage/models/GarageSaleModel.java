@@ -4,7 +4,7 @@ package org.uwogarage.models;
  * The GarageSaleModel class represents a garage sale in the Garage Sale system
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 public class GarageSaleModel implements Model {

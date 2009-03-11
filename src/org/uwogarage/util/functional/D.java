@@ -4,7 +4,8 @@ package org.uwogarage.util.functional;
  * Delegate:
  * A delegate is a function that causes side-effects.
  * 
- * @author petergoodman
+ * @author Peter Goodman
+ * @version $Id$
  *
  * @param <A>
  */

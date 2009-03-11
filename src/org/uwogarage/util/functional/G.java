@@ -6,7 +6,7 @@ package org.uwogarage.util.functional;
  * than take in one and cause side-effects. Useful as an anonymous factory.
  * 
  * @author Peter Goodman
- *
+ * @version $Id$
  */
 public interface G<A> {
     public A call();

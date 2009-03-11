@@ -5,31 +5,25 @@ import org.uwogarage.models.CategoryModel;
 
 /**
  * The CategoryController class responds to calls from a View and manipulates  
- * in CategoryModels in the datastore
+ * in Strings in the data store (as categories are nothing more than strings,
+ * no extra info is needed).
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 
-public class CategoryController extends Controller<CategoryModel> {
+public class CategoryController extends Controller<String> {
 
     public CategoryController(Dispatcher d) {
         super(d);
     }
 
     public void add() {
-        // TODO Auto-generated method stub
         
     }
-
-    public void edit(CategoryModel model) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    protected void update(CategoryModel model) {
-        // TODO Auto-generated method stub
-        
-    }
+    
+    // leave unimplemented
+    public void edit(String model) { }
+    protected void update(String model) { }
 }

@@ -4,7 +4,7 @@ package org.uwogarage.util;
  * The WayPoint class represents a way point in the Garage Sale system
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
 public class WayPoint implements Immutable {

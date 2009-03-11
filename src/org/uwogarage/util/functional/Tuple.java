@@ -5,6 +5,7 @@ package org.uwogarage.util.functional;
  * A pair of objects.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 public class Tuple<A,B> {
     
