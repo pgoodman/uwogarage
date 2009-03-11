@@ -22,15 +22,22 @@ public class UserModel implements Model {
 	              average_rating;     // the user's average rating
 	
 	
-	protected ModelCollection<RatingModel> ratings;  // the user's ratings
-	protected ModelCollection<GarageSaleModel> sales;  // the user's sales
-
+	protected ModelSet<RatingModel> ratings;  // the user's ratings
+	protected ModelSet<GarageSaleModel> sales;  // the user's sales
+	
 	/**
-	 * Constructor for UserModel
+	 * Get the user ID.
 	 */
-	public UserModel()
-	{
+	public String getId() {
+	    return user_id;
 	}
+	
+	/**
+     * Get the password.
+     */
+    public String getPass() {
+        return pass;
+    }
 	
 	/**
 	 * This method will return the user's full name

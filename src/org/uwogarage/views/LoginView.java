@@ -2,22 +2,38 @@ package org.uwogarage.views;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.documents.*;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.P;
 
 /**
- * 
- * @author petergoodman
+ * Login View, shows a login form and attempts to validate the input.
+ * @author Peter Goodman
  * @version $Id$
  */
 public class LoginView extends View<UserModel> {
-    public void view(D<UserModel> responder) {
+    
+    protected ModelSet<UserModel> users;
+    
+    public LoginView(ModelSet<UserModel> u) {
+        users = u;
+    }
+    
+    /**
+     * View the login form. Takes in a delegate from the controller that actually
+     * performs the log in operation.
+     */
+    public void view(final D<UserModel> responder) {
         
+        // text fields, need them for later ;)
         final JTextField user_id = text_field(4, new AlphaNumDocument()),
                          password = text_field(3, new AlphaDocument());
         
-        content.add(f, grid(
+        // create the form
+        content.add(f, grid(                
             grid.cell(label("User ID:"))
                 .pos(0, 0)
                 .anchor(0, 1, 0, 0)
@@ -40,9 +56,23 @@ public class LoginView extends View<UserModel> {
                 
             grid.cell(2, button("Login", new D<JButton>() {
                 public void call(JButton b) {
-                    String uid = user_id.getText(),
-                           pass = password.getText();
                     
+                    // try to find the user by id and password
+                    UserModel u = users.filterOne(new P<UserModel>() {
+                        public boolean call(UserModel u) {
+                            return u.getId().equals(user_id.getText()) 
+                                && u.getPass().equals(password.getText());
+                        }
+                    });
+                    
+                    // if the user was found, then log them in
+                    if(null != u) {
+                        responder.call(u);
+                        
+                    // invalid user info
+                    } else {
+                        alert(f, "Invalid User ID / Password combination.");
+                    }
                 }
             })).pos(0, 2).anchor(1, 1, 1, 1).margin(0, 0, 10, 0)
         ));

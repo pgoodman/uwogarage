@@ -2,8 +2,12 @@ package org.uwogarage;
 
 import static org.uwogarage.util.gui.SimpleGui.frame;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.SimpleGui.menu;
 import org.uwogarage.views.View;
+import static org.uwogarage.util.gui.SimpleGui.*;
 
 /**
  * The main program.
@@ -27,10 +31,22 @@ public class UWOGarage {
             public void run() {
                 frame("UWO Garage", new D<JFrame>() {
                     public void call(JFrame f) {
-                        
                         View.setFrame(f);
+                        final Dispatcher d = new Dispatcher();
                         
-                        Dispatcher d = new Dispatcher();
+                        menu(f,
+                            menu.dd("File",
+                                menu.item("Quit", new D<JMenuItem>() {
+                                    public void call(JMenuItem i) {
+                                        System.exit(0);
+                                    }
+                                })
+                            ),
+                            menu.dd("Help",
+                                menu.item("Help Contents")
+                            )
+                        );
+                        
                         d.user.login();
                     }
                 });

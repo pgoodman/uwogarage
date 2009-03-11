@@ -14,7 +14,7 @@ public class GarageSaleModel implements Model {
 
 	Location location;      // the garage sale's location
 	int rating;             // the garage sale's rating
-	ModelCollection<CategoryModel> categories; // the garage sale's category
+	ModelSet<CategoryModel> categories; // the garage sale's category
 	Date date;              // the garage sale's date
 	String note;            // the garage sale's note
 	
@@ -29,7 +29,7 @@ public class GarageSaleModel implements Model {
 	 * This method returns the garage sale's categories
 	 * @return the garage sale's categories
 	 */
-	ModelCollection<CategoryModel> getCategories() {
+	ModelSet<CategoryModel> getCategories() {
 	    return categories;
 	}
 	

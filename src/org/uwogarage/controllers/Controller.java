@@ -1,7 +1,7 @@
 package org.uwogarage.controllers;
 
-import java.util.Collection;
 import org.uwogarage.Dispatcher;
+import org.uwogarage.models.ModelSet;
 
 /**
  * The Controller class responds to calls from a View and manipulates the 
@@ -14,7 +14,7 @@ import org.uwogarage.Dispatcher;
 abstract public class Controller<T> {
     
     // A collection of models this controller can manipulate
-	protected Collection<T> models;
+	protected ModelSet<T> models;
 	
 	// give the controller the ability to call the other controllers
 	protected Dispatcher dispatch;
@@ -25,6 +25,7 @@ abstract public class Controller<T> {
 	 */
 	public Controller(Dispatcher d) {
 	    dispatch = d;
+	    models = new ModelSet<T>();
 	}
 	
 	/**

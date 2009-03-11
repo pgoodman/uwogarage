@@ -22,10 +22,12 @@ public class UserController extends Controller<UserModel> {
 	 * Show the login view.
 	 */
     public void login() {
-        (new LoginView()).replaceView(new D<UserModel>() {
+        (new LoginView(models)).replaceView(new D<UserModel>() {
 	        public void call(UserModel user) {
                 // TODO The login info is correct, using this info, set some stuff
                 //      and move on.
+	            
+	            System.out.println("Called responder, log them in.");
             }
         });
     }
