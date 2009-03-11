@@ -1,7 +1,8 @@
 package org.uwogarage.controllers;
 
+import javax.swing.JFrame;
+
 import org.uwogarage.Dispatcher;
-import org.uwogarage.models.CategoryModel;
 
 /**
  * The CategoryController class responds to calls from a View and manipulates  
@@ -15,8 +16,8 @@ import org.uwogarage.models.CategoryModel;
 
 public class CategoryController extends Controller<String> {
 
-    public CategoryController(Dispatcher d) {
-        super(d);
+    public CategoryController(Dispatcher d, JFrame f) {
+        super(d, f);
     }
 
     public void add() {

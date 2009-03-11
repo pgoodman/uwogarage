@@ -1,5 +1,9 @@
 package org.uwogarage.models;
 
+import java.util.Date;
+
+import org.uwogarage.util.Location;
+
 /**
  * The GarageSaleModel class represents a garage sale in the Garage Sale system
  *
@@ -8,10 +12,10 @@ package org.uwogarage.models;
  */
 
 public class GarageSaleModel implements Model {
-	// instance variables ***************************
+
 	Location location;      // the garage sale's location
 	int rating;             // the garage sale's rating
-	CategoryModel category; // the garage sale's category
+	String[] categories; // the garage sale's category
 	Date date;              // the garage sale's date
 	String note;            // the garage sale's note
 	
@@ -21,8 +25,7 @@ public class GarageSaleModel implements Model {
 	public GarageSaleModel()
 	{
 	}
-	
-	// ACCESSOR METHODS ***************************
+
 	/**
 	 * This method returns the garage sale's categories
 	 * @return the garage sale's categories
@@ -44,7 +47,6 @@ public class GarageSaleModel implements Model {
 	 */
 	String getNote() {}
 	
-	// MUTATOR METHODS ***************************
 	/**
 	 * This method sets the garage sale's location
 	 * @param loc the garage sale's new default location

@@ -12,17 +12,6 @@ import org.uwogarage.util.functional.D;
  * @version $Id$
  */
 abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
-    
-    protected JFrame f;
-    
-    /**
-     * Constructor, bring in the frame.
-     * @param frame
-     */
-    public View(JFrame frame) {
-        f = frame;
-    }
-    
     /**
      * Show a given view. A View method is given a delegate responder that
      * expects an argument of a certain type. This is so that the controller can
@@ -40,6 +29,6 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
      * controller gave the view so that it can handle the object. I.e. control
      * stays with the controller.
      */
-    public void view(D<T> responder) { }
-    public void view() { }
+    public void view(JFrame f, D<T> responder) { }
+    public void view(JFrame f) { }
 }
