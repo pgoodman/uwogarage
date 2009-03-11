@@ -8,28 +8,28 @@ import org.uwogarage.views.LoginView;
 
 /**
  * The UserController class responds to calls from a View and manipulates  
- * in UserModels in the datastore
+ * in UserModels in the data store
  *
  * @author Nate Smith
  * @version $Id$
  */
 public class UserController extends Controller<UserModel> {
 	
-	public UserController(Dispatcher d, JFrame f) {
-        super(d, f);
+	public UserController(Dispatcher d) {
+        super(d);
     }
 	
     /**
 	 * Show the login view.
 	 */
-	public void login() {
-	    view(new LoginView(), new D<UserModel>() {
-            public void call(UserModel arg1) {
-                // TODO Check if login info is correct and if so show something
-                //      different.
-            }	        
+    public void login() {
+        (new LoginView()).replaceView(new D<UserModel>() {
+	        public void call(UserModel user) {
+                // TODO The login info is correct, using this info, set some stuff
+                //      and move on.
+            }
 	    });
-	}
+    }
 	
 	/**
 	 * Validate a user's login information.

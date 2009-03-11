@@ -14,8 +14,8 @@ import org.uwogarage.models.GarageSaleModel;
 
 public class GarageSaleController extends Controller<GarageSaleModel> {
 	
-	public GarageSaleController(Dispatcher d, JFrame f) {
-        super(d, f);
+	public GarageSaleController(Dispatcher d) {
+        super(d);
     }
 
     /**

@@ -13,8 +13,8 @@ import org.uwogarage.models.RatingModel;
  */
 public class RatingController extends Controller<RatingModel> {
 
-    public RatingController(Dispatcher d, JFrame f) {
-        super(d, f);
+    public RatingController(Dispatcher d) {
+        super(d);
     }
     
     /**

@@ -18,28 +18,28 @@ import org.uwogarage.controllers.*;
  */
 final public class Dispatcher {
     
-    protected static Dispatcher inst;
-    
     final public UserController user;
     final public CategoryController category;
     final public GarageSaleController garage_sale;
     final public RatingController rating;
     
-    protected Dispatcher(JFrame f) {
-        user = new UserController(this, f);
-        category = new CategoryController(this, f);
-        garage_sale = new GarageSaleController(this, f);
-        rating = new RatingController(this, f);
+    public Dispatcher(JFrame f) {
+        user = new UserController(this);
+        category = new CategoryController(this);
+        garage_sale = new GarageSaleController(this);
+        rating = new RatingController(this);
     }
+    
+    //protected static Dispatcher inst;
     
     /**
      * Get the dispatcher instance.
      * @return
      */
-    static public Dispatcher getInstance(JFrame f) {
+    /*static public Dispatcher getInstance(JFrame f) {
         if(inst != null)
             return inst;
         
         return inst = new Dispatcher(f);
-    }    
+    }*/   
 }
