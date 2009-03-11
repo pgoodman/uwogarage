@@ -26,7 +26,11 @@ public class UWOGarage {
             public void run() {
                 frame("UWO Garage", new D<JFrame>() {
                     public void call(JFrame f) {
-                        Dispatcher.getInstance(f).user.login();
+                        
+                        View.setFrame(f);
+                        
+                        Dispatcher d = new Dispatcher();
+                        d.user.login();
                     }
                 });
             }

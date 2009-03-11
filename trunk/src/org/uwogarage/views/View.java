@@ -2,6 +2,7 @@ package org.uwogarage.views;
 
 import javax.swing.JFrame;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.SimpleGui.content;
 
 /**
  * View class, represents a single component within the interface. Extends
@@ -12,6 +13,19 @@ import org.uwogarage.util.functional.D;
  * @version $Id$
  */
 abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
+    
+    static protected JFrame f;
+    
+    /**
+     * Set the program frame.
+     */
+    public void setFrame(JFrame frame) {
+        if(null == frame) {
+            throw new NullPointerException("Frame is required.");
+        }
+        f = frame;
+    }
+    
     /**
      * Show a given view. A View method is given a delegate responder that
      * expects an argument of a certain type. This is so that the controller can
@@ -29,6 +43,21 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
      * controller gave the view so that it can handle the object. I.e. control
      * stays with the controller.
      */
-    public void view(JFrame f, D<T> responder) { }
-    public void view(JFrame f) { }
+    public void view(D<T> responder) { }
+    public void view() { }
+    
+    /**
+     * Replace all current content in the program frame with a new view.
+     * @param responder
+     */
+    public void replaceView(D<T> responder) {
+        content.remove(f);
+        view(responder);
+        f.validate();
+    }
+    public void replaceView() {
+        content.remove(f);
+        view();
+        f.validate();
+    }
 }

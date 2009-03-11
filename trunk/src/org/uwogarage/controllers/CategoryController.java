@@ -16,8 +16,8 @@ import org.uwogarage.Dispatcher;
 
 public class CategoryController extends Controller<String> {
 
-    public CategoryController(Dispatcher d, JFrame f) {
-        super(d, f);
+    public CategoryController(Dispatcher d) {
+        super(d);
     }
 
     public void add() {
