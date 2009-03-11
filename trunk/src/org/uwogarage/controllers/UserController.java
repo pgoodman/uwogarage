@@ -1,6 +1,5 @@
 package org.uwogarage.controllers;
 
-import javax.swing.JFrame;
 import org.uwogarage.Dispatcher;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;

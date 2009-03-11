@@ -1,27 +1,30 @@
 package org.uwogarage.models;
 
+import org.uwogarage.util.Immutable;
+
 /**
  * The CategoryModel class represents a category in the Garage Sale system
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
-public class CategoryModel implements Model {
-	// instance variables ***************************
+public class CategoryModel implements Model, Immutable {
+    
 	private String name; // the category's name
 
 	/**
-	 * Constructor for CategoryModel, inserts the name of the category
+	 * Constructor, inserts the name of the category
 	 */
-	public RatingModel(String name)
-	{
+	public CategoryModel(String n) {
+	    name = n;
 	}
 	
-	// ACCESSOR METHODS ***************************
 	/**
-	 * This method returns the name of the category
+	 * Get the category name.
 	 * @return this category's name
 	 */
-	public int getName() {}
+	public String getName() {
+	    return name;
+	}
 }

@@ -8,18 +8,22 @@ package org.uwogarage.models;
  */
 
 public class UserModel implements Model {
-	// instance variables ***************************
-	String first_name;		// the user's first name
-	String last_name;       // the user's last name
-	String pass;            // the user's pass
-	String user_id;         // the user's id
-	String phone;           // the user's phone
-	double start_lat;       // the user's default latitude
-	double start_long;      // the user's default longitude
-	int start_zoom;         // the user's default zoom level
-	RatingModel[] ratings;  // the user's ratings
-	GarageSaleModel sales;  // the user's sales
-	int average_rating;     // the user's average rating
+    
+	protected String first_name,		// the user's first name
+	                 last_name,       // the user's last name
+	                 pass,            // the user's pass
+	                 user_id,         // the user's id
+	                 phone;           // the user's phone
+	
+	protected double start_lat,       // the user's default latitude
+	                 start_lng;      // the user's default longitude
+	
+	protected int start_zoom,         // the user's default zoom level
+	              average_rating;     // the user's average rating
+	
+	
+	protected ModelCollection<RatingModel> ratings;  // the user's ratings
+	protected ModelCollection<GarageSaleModel> sales;  // the user's sales
 
 	/**
 	 * Constructor for UserModel
@@ -28,57 +32,78 @@ public class UserModel implements Model {
 	{
 	}
 	
-	// ACCESSOR METHODS ***************************
 	/**
 	 * This method will return the user's full name
 	 * @return the user's full name.
 	 */
-	public String getFullName() {}
+	public String getFullName() {
+	    return first_name +" "+ last_name;
+	}
 	
 	/**
 	 * This method will return the user's phone number
 	 * @return the user's phone number
 	 */
-	public String getPhoneNumber() {}
+	public String getPhoneNumber() {
+	    return phone;
+	}
 	
 	/**
 	 * This method will return the user's default latitude and longitude
 	 * @return a tuple containing the user's latitude and longitude
 	 */
-	public Tuple<Integer,Integer> getDefaultLatLng() {}
+	public double[] getDefaultLatLng() {
+	    return new double[] {start_lat, start_lng};
+	}
 
 	/**
 	 * This method will return the user's default zoom level
 	 * @return the user's default zoom level
 	 */
-	public int getDefaultZoom() {}
+	public int getDefaultZoom() {
+	    return start_zoom;
+	}
 	
-	// MUTATOR METHODS ***************************
 	/**
 	 * This method sets the user's first name
 	 * @param firstName the user's first name
 	 */
-	public void setFirstName(String firstName) {}
+	public void setFirstName(String firstName) {
+	    first_name = firstName;
+	}
+	
 	/**
 	 * This method sets the user's last name
 	 * @param lastLame the user's last name
 	 */
-	public void setLastName(String lastName) {}
+	public void setLastName(String lastName) {
+	    last_name = lastName;
+	}
+	
 	/**
 	 * This method sets the user's phone number
 	 * @param phoneNumber the user's phone number
 	 */
-	public void setPhoneNumber(String phoneNumber) {}
+	public void setPhoneNumber(String phoneNumber) {
+	    phone = phoneNumber;
+	}
+	
 	/**
 	 * This method sets the user's default latitude and longitude
 	 * @param lng the user's longitude
 	 * @param lng the user's latitude
 	 */
-	public void setDefaultLatLng(int lat, int lng) {}
+	public void setDefaultLatLng(double lat, double lng) {
+	    start_lat = lat;
+	    start_lng = lng;
+	}
+	
 	/**
 	 * This method sets the user's default zoom level
 	 * @param level the user's default level
 	 */
-	public void setDefaultZoom(int level) {}
+	public void setDefaultZoom(int level) {
+	    start_zoom = level;
+	}
 	
 }

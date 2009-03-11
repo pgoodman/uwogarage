@@ -1,7 +1,6 @@
 package org.uwogarage.models;
 
 import java.util.Date;
-
 import org.uwogarage.util.Location;
 
 /**
@@ -15,61 +14,85 @@ public class GarageSaleModel implements Model {
 
 	Location location;      // the garage sale's location
 	int rating;             // the garage sale's rating
-	String[] categories; // the garage sale's category
+	ModelCollection<CategoryModel> categories; // the garage sale's category
 	Date date;              // the garage sale's date
 	String note;            // the garage sale's note
 	
 	/**
 	 * Constructor for GarageSaleModel
 	 */
-	public GarageSaleModel()
-	{
+	public GarageSaleModel() {
+	    
 	}
 
 	/**
 	 * This method returns the garage sale's categories
 	 * @return the garage sale's categories
 	 */
-	CategoryModel getCategories() {}
+	ModelCollection<CategoryModel> getCategories() {
+	    return categories;
+	}
+	
 	/**
 	 * This method returns the garage sale's location
 	 * @return the garage sale's location
 	 */
-	Location getLocation() {}
+	public Location getLocation() {
+	    return location;
+	}
+	
 	/**
 	 * This method returns the garage sale's date
 	 * @return the garage sale's date
 	 */
-	Date getDate() {}
+	public Date getDate() {
+	    return date;
+	}
 	/**
 	 * This method returns the garage sale's note
 	 * @return the garage sale's note
 	 */
-	String getNote() {}
+	public String getNote() {
+	    return note;
+	}
 	
 	/**
 	 * This method sets the garage sale's location
 	 * @param loc the garage sale's new default location
 	 */
-	void setLocation(Location loc) {}
+	void setLocation(Location loc) {
+	    location = loc;
+	}
+	
 	/**
 	 * This method sets the garage sale's date
 	 * @param date the garage sale's date
 	 */
-	void setDate(Date date) {}
+	void setDate(Date d) {
+	    date = d;
+	}
+	
 	/**
 	 * This method sets the garage sale's note
 	 * @param note the garage sale's note
 	 */
-	void setNote(String note) {}
+	void setNote(String n) {
+	    note = n;
+	}
+	
 	/**
 	 * This method adds a category to the garage sale
 	 * @param cat the category to be added
 	 */
-	void addCategory(CategoryModel cat) {}
+	void addCategory(CategoryModel cat) {
+	    categories.add(cat);
+	}
+	
 	/**
 	 * This method removes a category from the garage sale
 	 * @param cat the category to be removed
 	 */
-	void removeCategory(CategoryModel cat) {}
+	void removeCategory(CategoryModel cat) {
+	    categories.remove(cat);
+	}
 }
