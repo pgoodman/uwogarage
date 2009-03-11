@@ -1,5 +1,6 @@
 package org.uwogarage.controllers;
 
+import javax.swing.JFrame;
 import org.uwogarage.Dispatcher;
 import org.uwogarage.models.RatingModel;
 
@@ -12,10 +13,13 @@ import org.uwogarage.models.RatingModel;
  */
 public class RatingController extends Controller<RatingModel> {
 
-    public RatingController(Dispatcher d) {
-        super(d);
+    public RatingController(Dispatcher d, JFrame f) {
+        super(d, f);
     }
-
+    
+    /**
+     * Show the view to rate a garage sale.
+     */
     public void add() {
         // TODO Auto-generated method stub
         

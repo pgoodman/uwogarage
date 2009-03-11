@@ -1,7 +1,12 @@
 package org.uwogarage.controllers;
 
 import java.util.Collection;
+
+import javax.swing.JFrame;
 import org.uwogarage.Dispatcher;
+import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.SimpleGui.content;
+import org.uwogarage.views.View;
 
 /**
  * The Controller class responds to calls from a View and manipulates the 
@@ -19,12 +24,16 @@ abstract public class Controller<T> {
 	// give the controller the ability to call the other controllers
 	protected Dispatcher dispatch;
 	
+	// the application frame
+	protected JFrame f;
+	
 	/**
 	 * Constructor, bring in the dispatcher.
 	 * @param d
 	 */
-	public Controller(Dispatcher d) {
+	public Controller(Dispatcher d, JFrame frame) {
 	    dispatch = d;
+	    f = frame;
 	}
 	
 	/**
@@ -58,5 +67,19 @@ abstract public class Controller<T> {
 	 */
 	protected boolean remove(T model) {
 	    return models.remove(model);
+	}
+	
+	/**
+	 * Show a view.
+	 */
+	protected <M> void view(View<M> v, D<M> responder) {
+	    content.remove(f);
+	    v.view(f, responder);
+	    f.validate();
+	}
+	protected void view(View<T> v) {
+	    content.remove(f);
+        v.view(f);
+        f.validate();
 	}
 }

@@ -13,7 +13,6 @@ import org.uwogarage.util.functional.D;
  * @version $Id$
  */
 public class LoginView extends View<UserModel> {
-    
     public void view(JFrame f, D<UserModel> responder) {
         
         final JTextField user_name = text_field(),

@@ -186,7 +186,7 @@ abstract public class SimpleGui {
         public static <T extends JComponent> void remove(Container parent, T child) {
             content_get_pane(parent).remove(child);
         }
-        public static void content_remove(Container parent) {
+        public static void remove(Container parent) {
             content_get_pane(parent).removeAll();
         }
     }

@@ -1,7 +1,10 @@
 package org.uwogarage.controllers;
 
+import javax.swing.JFrame;
 import org.uwogarage.Dispatcher;
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.functional.D;
+import org.uwogarage.views.LoginView;
 
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -12,46 +15,54 @@ import org.uwogarage.models.UserModel;
  */
 public class UserController extends Controller<UserModel> {
 	
-	public UserController(Dispatcher d) {
-        super(d);
-        // TODO Auto-generated constructor stub
+	public UserController(Dispatcher d, JFrame f) {
+        super(d, f);
     }
 	
     /**
-	 * This method displays the appropriate view after user validation
-	 * @param b whether or not the user is valid
+	 * Show the login view.
 	 */
-	public void validateUser(boolean b) {}
+	public void login() {
+	    view(new LoginView(), new D<UserModel>() {
+            public void call(UserModel arg1) {
+                // TODO Check if login info is correct and if so show something
+                //      different.
+            }	        
+	    });
+	}
 	
 	/**
-	 * This method displays the view for updating a user's password and then 
-	 * updates the UserModel
+	 * Validate a user's login information.
+	 */
+	protected boolean loginInfoIsValid() {
+	    return false;
+	}
+	
+	/**
+	 * Display the view for updating a user's password and then updates the 
+	 * UserModel
 	 */
 	public void updatePassword() {}
 	
 	/**
-	 * This method allows access to the appropriate mode for the current user
+	 * Display the view to add a user.
 	 */
-	public void allowAccess() {}
-	
-	/**
-	 * This method denies access to the appropriate mode for the current user
-	 */
-	public void denyAccess() {}
-
     public void add() {
         // TODO Auto-generated method stub
-        
     }
-
+    
+    /**
+     * Display the view to edit a user.
+     */
     public void edit(UserModel model) {
         // TODO Auto-generated method stub
         
     }
     
+    /**
+     * Update a particular user model.
+     */
     protected void update(UserModel model) {
         // TODO Auto-generated method stub
-        
     }
-	
 }
