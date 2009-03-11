@@ -1,7 +1,5 @@
 package org.uwogarage.controllers;
 
-import javax.swing.JFrame;
-import org.uwogarage.Dispatcher;
 import org.uwogarage.models.GarageSaleModel;
 
 /**
@@ -13,10 +11,6 @@ import org.uwogarage.models.GarageSaleModel;
  */
 
 public class GarageSaleController extends Controller<GarageSaleModel> {
-	
-	public GarageSaleController(Dispatcher d) {
-        super(d);
-    }
 
     /**
 	 * This method displays the appropriate view to rate a garage sale, 

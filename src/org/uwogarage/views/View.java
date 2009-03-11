@@ -1,7 +1,7 @@
 package org.uwogarage.views;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import org.uwogarage.util.functional.D;
 
 /**
  * View class, represents a single component within the interface. Extends
@@ -42,21 +42,18 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
      * controller gave the view so that it can handle the object. I.e. control
      * stays with the controller.
      */
-    public void view(D<T> responder) { }
-    public void view() { }
+    //public JComponent view(D<T> responder) { return null; }
+    //public JComponent view() { return null; }
     
     /**
      * Replace all current content in the program frame with a new view.
      * @param responder
      */
-    public void replaceView(D<T> responder) {
-        content.remove(f);
-        view(responder);
-        f.validate();
-    }
-    public void replaceView() {
-        content.remove(f);
-        view();
-        f.validate();
+    static public void replace(JComponent c) {
+        if(null != f) {
+            content.remove(f);
+            content.add(f, c);
+            f.validate();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.uwogarage.views;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.uwogarage.models.ModelSet;
@@ -16,24 +17,18 @@ import org.uwogarage.util.functional.P;
  */
 public class LoginView extends View<UserModel> {
     
-    protected ModelSet<UserModel> users;
-    
-    public LoginView(ModelSet<UserModel> u) {
-        users = u;
-    }
-    
     /**
      * View the login form. Takes in a delegate from the controller that actually
      * performs the log in operation.
      */
-    public void view(final D<UserModel> responder) {
+    static public JPanel view(final ModelSet<UserModel> users, final D<UserModel> responder) {
         
         // text fields, need them for later ;)
-        final JTextField user_id = text_field(4, new AlphaNumDocument()),
-                         password = text_field(3, new AlphaDocument());
+        final JTextField user_id = field.text(4, new AlphaNumDocument(4)),
+                         password = field.pass(3, new AlphaDocument(3));
         
         // create the form
-        content.add(f, grid(                
+        return grid(
             grid.cell(label("User ID:"))
                 .pos(0, 0)
                 .anchor(0, 1, 0, 0)
@@ -69,12 +64,15 @@ public class LoginView extends View<UserModel> {
                     if(null != u) {
                         responder.call(u);
                         
-                    // invalid user info
+                    // invalid user info, alter the user and clear the form
+                    // values
                     } else {
-                        alert(f, "Invalid User ID / Password combination.");
+                        dialog.alert(f, "Invalid User ID / Password combination.");
+                        user_id.setText("");
+                        password.setText("");
                     }
                 }
             })).pos(0, 2).anchor(1, 1, 1, 1).margin(0, 0, 10, 0)
-        ));
+        );
     }
 }

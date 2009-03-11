@@ -1,9 +1,10 @@
 package org.uwogarage.controllers;
 
-import org.uwogarage.Dispatcher;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.LoginView;
+import org.uwogarage.views.UpdatePasswordView;
+import org.uwogarage.views.View;
 
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -14,36 +15,36 @@ import org.uwogarage.views.LoginView;
  */
 public class UserController extends Controller<UserModel> {
 	
-	public UserController(Dispatcher d) {
-        super(d);
-    }
-	
     /**
 	 * Show the login view.
 	 */
     public void login() {
-        (new LoginView(models)).replaceView(new D<UserModel>() {
+        
+        View.replace(LoginView.view(models, new D<UserModel>() {
 	        public void call(UserModel user) {
-                // TODO The login info is correct, using this info, set some stuff
-                //      and move on.
 	            
-	            System.out.println("Called responder, log them in.");
+	            // set the user as the current user that is logged in, thus
+	            // making it available to all controllers
+	            logged_user = user;
+	            
+	            // this is either the first time logging in or the admin reset
+	            // this user's password, show the view to change passwords
+                if(user.resetPassword()) {
+                    updatePassword();
+                } else {
+                    
+                }
             }
-        });
+        }));
     }
-	
-	/**
-	 * Validate a user's login information.
-	 */
-	protected boolean loginInfoIsValid() {
-	    return false;
-	}
 	
 	/**
 	 * Display the view for updating a user's password and then updates the 
 	 * UserModel
 	 */
-	public void updatePassword() {}
+	public void updatePassword() {
+	    View.replace(UpdatePasswordView.view(logged_user));
+	}
 	
 	/**
 	 * Display the view to add a user.
