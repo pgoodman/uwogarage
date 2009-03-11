@@ -20,6 +20,7 @@ import org.uwogarage.util.functional.*;
  * through their return value.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 abstract public class SimpleGui {
     
