@@ -1,52 +1,62 @@
 package org.uwogarage.controllers;
 
+import java.util.Collection;
+import org.uwogarage.Dispatcher;
+
 /**
- * The Controller class responds to calls from a View and manipulates the appropriate models 
- * in the datastore
+ * The Controller class responds to calls from a View and manipulates the 
+ * appropriate models in the data store
  *
  * @author Nate Smith
- * @version Version 0.1
+ * @version $Id$
  */
 
-public class Controller<T> {
-	// instance variables ***************************
-	private Collection<T> models;	// A collection of models this controller 
-									// can manipulate
-
+abstract public class Controller<T> {
+    
+    // A collection of models this controller can manipulate
+	protected Collection<T> models;
+	
+	// give the controller the ability to call the other controllers
+	protected Dispatcher dispatch;
+	
 	/**
-	 * Constructor for Controller
+	 * Constructor, bring in the dispatcher.
+	 * @param d
 	 */
-	public Controller()
-	{
+	public Controller(Dispatcher d) {
+	    dispatch = d;
 	}
 	
-	// CONTROLLER ACTIONS ***************************
 	/**
-	 * This displays the add view for a model
+	 * This displays the add view for a model.
 	 */
-	public void add() {}
+	abstract public void add();
+	
 	/**
-	 * This method loads a model with a specified id and it's respective edit 
-	 * view.
-	 * @param model_id the id of the model to edit
+	 * This method shows the view to edit a given model.
 	 */
-	public void edit(int model_id) {}
+	abstract public void edit(T model);
+	
 	/**
-	 * This method inserts a new model into the datastore
+     * This method updates a model in the data store
+     * @param f a function to manipulate the object
+     */
+    abstract protected void update(T model);
+	
+	/**
+	 * This method inserts a new model into the data tore
 	 */
-	private void insert(G<T> generator) {}
+	protected void insert(T model) {
+	    if(!models.contains(model)) {
+	        models.add(model);
+	    }
+	}
+	
 	/**
-	 * This method updates a model in the datastore
-	 * @param f a function to manipulate the object
-	 */
-	private void update(F<T,I> f) {}
-	/**
-	 * This method removes a model from the datastore
+	 * This method removes a model from the data store
 	 * @param model the model to be removed
 	 */
-	private void remove(T model) {}
-	/**
-	 * This method filters the objects in the collection
-	 */
-	public void filter() {}
+	protected boolean remove(T model) {
+	    return models.remove(model);
+	}
 }

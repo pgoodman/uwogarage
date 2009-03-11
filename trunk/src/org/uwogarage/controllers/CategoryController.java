@@ -1,5 +1,8 @@
 package org.uwogarage.controllers;
 
+import org.uwogarage.Dispatcher;
+import org.uwogarage.models.CategoryModel;
+
 /**
  * The CategoryController class responds to calls from a View and manipulates  
  * in CategoryModels in the datastore
@@ -9,13 +12,24 @@ package org.uwogarage.controllers;
  */
 
 
-public class CategoryController extends Controller {
+public class CategoryController extends Controller<CategoryModel> {
 
-	/**
-	 * Constructor for RatingController
-	 */
-	public CategoryController()
-	{
-		
-	}
+    public CategoryController(Dispatcher d) {
+        super(d);
+    }
+
+    public void add() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void edit(CategoryModel model) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    protected void update(CategoryModel model) {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -7,12 +7,15 @@ import org.uwogarage.util.functional.D;
 /**
  * View showing the main menu.
  * @author petergoodman
- *
+ * @version $Id$
  */
 public class MenuView extends View<Object> {
+    
+    public MenuView(JFrame frame) {
+        super(frame);
+    }
 
-    public void view(JFrame f, D<Object> responder) {
-        
+    public void view() {
         menu(f,
             menu.dd("File",
                 menu.item("Quit", new D<JMenuItem>() {

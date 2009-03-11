@@ -1,5 +1,8 @@
 package org.uwogarage.controllers;
 
+import org.uwogarage.Dispatcher;
+import org.uwogarage.models.GarageSaleModel;
+
 /**
  * The GarageSaleController class responds to calls from a View and manipulates  
  * in GarageSaleModels in the datastore
@@ -8,16 +11,13 @@ package org.uwogarage.controllers;
  * @version Version 0.1
  */
 
-public class GarageSaleController extends Controller {
+public class GarageSaleController extends Controller<GarageSaleModel> {
 	
-	/**
-	 * Constructor for GarageSaleController
-	 */
-	public GarageSaleController()
-	{
-	}
-	
-	/**
+	public GarageSaleController(Dispatcher d) {
+        super(d);
+    }
+
+    /**
 	 * This method displays the appropriate view to rate a garage sale, 
 	 * processes the input, and stores the rating
 	 */
@@ -34,4 +34,19 @@ public class GarageSaleController extends Controller {
 	 * processes the input, and stores the rating
 	 */
 	public void bulkDelete() {}
+
+    public void add() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void edit(GarageSaleModel model) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    protected void update(GarageSaleModel model) {
+        // TODO Auto-generated method stub
+        
+    }
 }

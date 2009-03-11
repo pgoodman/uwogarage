@@ -7,7 +7,11 @@ import javax.swing.JTextField;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 
-
+/**
+ * 
+ * @author petergoodman
+ * @version $Id$
+ */
 public class LoginView extends View<UserModel> {
     
     public void view(JFrame f, D<UserModel> responder) {

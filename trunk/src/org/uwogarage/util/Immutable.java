@@ -5,6 +5,7 @@ package org.uwogarage.util;
  * class cannot be altered.
  * 
  * @author petergoodman
+ * @version $Id$
  */
 public interface Immutable {
     

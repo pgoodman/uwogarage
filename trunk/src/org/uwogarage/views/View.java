@@ -9,9 +9,19 @@ import org.uwogarage.util.functional.D;
  * the class everywhere.
  * 
  * @author Peter Goodman
- *
+ * @version $Id$
  */
 abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
+    
+    protected JFrame f;
+    
+    /**
+     * Constructor, bring in the frame.
+     * @param frame
+     */
+    public View(JFrame frame) {
+        f = frame;
+    }
     
     /**
      * Show a given view. A View method is given a delegate responder that
@@ -24,6 +34,12 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
      * have views return an object of a specific type. This, however, would be
      * very cumbersome as it would require all views to be in some way or another
      * Modal and that would really be annoying to work with.
+     * 
+     * Thus, instead of returning an object of generic type T, a view is given a
+     * delegate and passes its object of type T directly to delegate that the
+     * controller gave the view so that it can handle the object. I.e. control
+     * stays with the controller.
      */
-    abstract public void view(JFrame f, D<T> responder);
+    public void view(D<T> responder) { }
+    public void view() { }
 }
