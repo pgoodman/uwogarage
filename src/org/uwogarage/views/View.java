@@ -49,7 +49,7 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
      * Replace all current content in the program frame with a new view.
      * @param responder
      */
-    static public void replace(JComponent c) {
+    static public void show(JComponent c) {
         if(null != f) {
             content.remove(f);
             content.add(f, c);

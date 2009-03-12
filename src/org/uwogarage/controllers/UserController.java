@@ -2,6 +2,7 @@ package org.uwogarage.controllers;
 
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.LoginView;
 import org.uwogarage.views.UpdatePasswordView;
 import org.uwogarage.views.View;
@@ -10,7 +11,6 @@ import org.uwogarage.views.View;
  * The UserController class responds to calls from a View and manipulates  
  * in UserModels in the data store
  *
- * @author Nate Smith
  * @version $Id$
  */
 public class UserController extends Controller<UserModel> {
@@ -19,8 +19,7 @@ public class UserController extends Controller<UserModel> {
 	 * Show the login view.
 	 */
     public void login() {
-        
-        View.replace(LoginView.view(models, new D<UserModel>() {
+        View.show(LoginView.view(models, new D<UserModel>() {
 	        public void call(UserModel user) {
 	            
 	            // set the user as the current user that is logged in, thus
@@ -29,8 +28,11 @@ public class UserController extends Controller<UserModel> {
 	            
 	            // this is either the first time logging in or the admin reset
 	            // this user's password, show the view to change passwords
-                if(user.resetPassword()) {
+                if(user.hasDefaultPass()) {
                     updatePassword();
+                
+                // no password reset required, show the now logged in user the
+                // main menu
                 } else {
                     
                 }
@@ -43,7 +45,13 @@ public class UserController extends Controller<UserModel> {
 	 * UserModel
 	 */
 	public void updatePassword() {
-	    View.replace(UpdatePasswordView.view(logged_user));
+	    View.show(UpdatePasswordView.view(logged_user, new F0() {
+	        
+	        // the password has been updated, go back to the main menu
+	        public void call() {
+	            
+	        }
+	    }));
 	}
 	
 	/**

@@ -12,7 +12,6 @@ import org.uwogarage.util.functional.P;
 
 /**
  * Login View, shows a login form and attempts to validate the input.
- * @author Peter Goodman
  * @version $Id$
  */
 public class LoginView extends View<UserModel> {
@@ -56,7 +55,7 @@ public class LoginView extends View<UserModel> {
                     UserModel u = users.filterOne(new P<UserModel>() {
                         public boolean call(UserModel u) {
                             return u.getId().equals(user_id.getText()) 
-                                && u.getPass().equals(password.getText());
+                                && u.getPassword().equals(password.getText());
                         }
                     });
                     
