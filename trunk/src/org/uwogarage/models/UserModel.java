@@ -41,13 +41,22 @@ public class UserModel implements Model {
     }
 	
 	/**
-	 * This method will return the user's full name.
+	 * This method will return the user's first name.
 	 * 
 	 * @return the user's full name.
 	 */
-	public String getFullName() {
-	    return first_name +" "+ last_name;
+	public String getFirstName() {
+	    return first_name;
 	}
+	
+	/**
+     * This method will return the user's last name.
+     * 
+     * @return the user's full name.
+     */
+    public String getLastName() {
+        return last_name;
+    }
 	
 	/**
 	 * This method will return the user's phone number.
@@ -59,13 +68,18 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * This method will return the user's default latitude and longitude.
-	 * 
-	 * @return a tuple containing the user's latitude and longitude
+	 * Get the user's default latitude.
 	 */
-	public double[] getDefaultLatLng() {
-	    return new double[] {start_lat, start_lng};
+	public double getDefaultLat() {
+	    return start_lat;
 	}
+	
+	/**
+     * Get the user's default longitude.
+     */
+    public double getDefaultLng() {
+        return start_lng;
+    }
 
 	/**
 	 * This method will return the user's default zoom level
@@ -85,9 +99,26 @@ public class UserModel implements Model {
 	}
 	
 	/**
+	 * Set the user id.
+	 */
+	public boolean setUserId(String p) {
+	    if(!p.matches("[0-9a-zA-Z]{4}")) {
+            return false;
+        }
+        
+        user_id = p;
+        return true;
+	}
+	
+	/**
 	 * Set the password. Returns false if the password is incorrectly formatted.
 	 */
 	public boolean setPassword(String p) {
+	    
+	    if(null == p) {
+	        p = "aaa";
+	        reset_pass = true;
+	    }
 	    
 	    if(!p.matches("[a-zA-Z]{3}")) {
 	        return false;
@@ -104,7 +135,7 @@ public class UserModel implements Model {
 	 * @param n The user's first name
 	 */
 	public boolean setFirstName(String n) {
-	    if(!n.matches("[a-zA-Z]{1, 20}")) {
+	    if(!n.matches("[a-zA-Z]{1,20}")) {
 	        return false;
 	    }
 	    
@@ -119,7 +150,7 @@ public class UserModel implements Model {
 	 * @param n The user's last name
 	 */
 	public boolean setLastName(String n) {
-	    if(!n.matches("[a-zA-Z-]{1, 20}")) {
+	    if(!n.matches("[a-zA-Z-]{1,20}")) {
             return false;
         }
         
