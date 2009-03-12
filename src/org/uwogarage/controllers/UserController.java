@@ -46,7 +46,7 @@ public class UserController extends Controller<UserModel> {
                 // no password reset required, show the now logged in user the
                 // main menu
                 } else {
-                    // TODO Go to some sort of main menu
+                    d.garage_sale.controlPanel();
                 }
             }
         }));
@@ -61,15 +61,8 @@ public class UserController extends Controller<UserModel> {
             
             // the password has been updated, go back to the main menu
             public void call() {
-                // TODO Go to some sort of main menu
+                d.garage_sale.controlPanel();
             }
         }));
     }
-    
-    /**
-     * Display the main user menu.
-     */
-    public void userMain() {
-        View.show(UserHome.view(logged_user));
-    }
-}
+}     

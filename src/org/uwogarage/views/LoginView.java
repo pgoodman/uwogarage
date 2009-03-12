@@ -17,6 +17,8 @@ import org.uwogarage.util.functional.P;
  */
 public class LoginView extends View {
     
+    static int login_attempts = 0;
+    
     /**
      * View the login form. Takes in a delegate from the controller that actually
      * performs the log in operation.
@@ -53,7 +55,16 @@ public class LoginView extends View {
                         // invalid user info, alter the user and clear the form
                         // values
                         } else {
-                            dialog.alert(f, "Invalid User ID / Password combination.");
+                            
+                            dialog.alert(f, 
+                                "Invalid User ID / Password combination. You "+
+                                "have "+(3 - ++login_attempts) +" attempt(s) left."
+                            );
+                            
+                            if(login_attempts == 3) {
+                                System.exit(0);
+                            }
+                            
                             user_id.setText("");
                             password.setText("");
                         }
