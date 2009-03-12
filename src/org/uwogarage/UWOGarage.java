@@ -1,6 +1,5 @@
 package org.uwogarage;
 
-import static org.uwogarage.util.gui.SimpleGui.frame;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
@@ -21,19 +20,26 @@ public class UWOGarage {
 	 */
 	public static void main(String[] args) {
 		
-	    // TODO: recognize command line -admin arg
+	    // TODO Recognize command line -admin arg
 	    
+	    // a nice OS X setting :D
 	    if(System.getProperty("os.name").toLowerCase().startsWith("mac")) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
 	    
+	    // instantiate all of the controllers and make them available to eachother
+	    // through this dispatcher instance
+	    final Dispatcher dispatch_to = new Dispatcher();
+	    
+	    // run the GUI
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                frame("UWO Garage", new D<JFrame>() {
+                
+                // create the program frame that the entire program will run in
+                View.programFrame("UWO Garage", new D<JFrame>() {
                     public void call(JFrame f) {
-                        View.setFrame(f);
-                        final Dispatcher d = new Dispatcher();
                         
+                        // create the main program menu for our application
                         menu(f,
                             menu.dd("File",
                                 menu.item("Quit", new D<JMenuItem>() {
@@ -48,7 +54,8 @@ public class UWOGarage {
                             )
                         );
                         
-                        d.user.login();
+                        // call the login action of the user controller
+                        dispatch_to.user.login();
                     }
                 });
             }
