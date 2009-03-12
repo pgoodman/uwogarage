@@ -52,6 +52,7 @@ public class UpdatePasswordView extends View {
                             dialog.alert(f, 
                                 "The old password that you have supplied is incorrect."
                             );
+                            old_password.setText("");
                         
                         // old password is correct, attempt to set the new one
                         } else if(!user.setPassword(new_pass)) {
@@ -59,6 +60,7 @@ public class UpdatePasswordView extends View {
                                 "Your new password must be three characters "+
                                 "long and contain alphabetical characters."
                             );
+                            new_password.setText("");
                         
                         // continue on
                         } else {

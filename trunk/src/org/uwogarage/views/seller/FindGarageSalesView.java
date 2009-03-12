@@ -10,10 +10,10 @@ import org.uwogarage.views.View;
 /**
  * @version $Id$
  */
-public class BulkAddGarageSaleView extends View {
+public class FindGarageSalesView extends View {
     static public JPanel view(D<ModelSet<GarageSaleModel>> responder) {
         return grid(
-            
+                    
         );
     }
 }

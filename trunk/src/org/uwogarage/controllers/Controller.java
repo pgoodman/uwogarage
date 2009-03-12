@@ -18,7 +18,7 @@ abstract public class Controller<T> {
     protected ModelSet<T> models;
     
     // give the controller the ability to call the other controllers
-    static protected Dispatcher dispatcher;
+    static protected Dispatcher d;
     
     // the currently logged in user
     static protected UserModel logged_user;
@@ -31,7 +31,7 @@ abstract public class Controller<T> {
         models = new ModelSet<T>();
     }
     
-    static public void setDispatcher(Dispatcher d) {
-        dispatcher = d;
+    static public void setDispatcher(Dispatcher dispatcher) {
+        d = dispatcher;
     }
 }
