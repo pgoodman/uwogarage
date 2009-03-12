@@ -16,7 +16,11 @@ public class CategoryModel implements Model, Immutable {
 	/**
 	 * Constructor, inserts the name of the category
 	 */
-	public CategoryModel(String n) {
+	public CategoryModel(String n) throws Exception {
+	    if(!n.matches("[a-zA-Z0-9 ]{1,50}")) {
+	        throw new Exception();
+	    }
+	    
 	    name = n;
 	}
 	

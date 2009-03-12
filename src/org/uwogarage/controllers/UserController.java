@@ -34,7 +34,7 @@ public class UserController extends Controller<UserModel> {
                 // no password reset required, show the now logged in user the
                 // main menu
                 } else {
-                    // TODO
+                    // TODO Go to some sort of main menu
                 }
             }
         }));
@@ -49,30 +49,8 @@ public class UserController extends Controller<UserModel> {
 	        
 	        // the password has been updated, go back to the main menu
 	        public void call() {
-	            // TODO
+	            // TODO Go to some sort of main menu
 	        }
 	    }));
 	}
-	
-	/**
-	 * Display the view to add a user.
-	 */
-    public void add() {
-        // TODO Auto-generated method stub
-    }
-    
-    /**
-     * Display the view to edit a user.
-     */
-    public void edit(UserModel model) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    /**
-     * Update a particular user model.
-     */
-    protected void update(UserModel model) {
-        // TODO Auto-generated method stub
-    }
 }
