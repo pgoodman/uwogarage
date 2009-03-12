@@ -200,7 +200,6 @@ abstract public class SimpleGui {
     }
     public static <T extends Container> T grid(T pane, GridCell ... cells) {
         Container c = content.get_pane(pane);
-        
         c.setLayout(new GridBagLayout());
         
         for(GridCell cell : cells) {
@@ -210,12 +209,35 @@ abstract public class SimpleGui {
         
         return pane;
     }
-    public static JPanel grid(GridCell[] cells_first, GridCell ... cells_rest) {
+    /*public static JPanel grid(GridCell[] cells_first, GridCell ... cells_rest) {
         JPanel pane = grid(cells_first);
         
         for(GridCell cell : cells_rest) {
             if(null != cell)
                 pane.add(cell.first(), cell.second());
+        }
+        
+        return pane;
+    }*/
+    
+    /**
+     * Add the rows of a grid in and automatically set the cell positions.
+     */
+    public static JPanel grid(GridCell[] ... rows) {
+        int y = 0,
+            x;
+        
+        JPanel pane = new JPanel();
+        Container c = content.get_pane(pane);
+        c.setLayout(new GridBagLayout());
+        
+        for(GridCell[] row : rows) {
+            x = 0;
+            for(GridCell cell : row) {
+                cell.pos(x++, y);
+                c.add(cell.first(), cell.second());
+            }
+            y++;
         }
         
         return pane;
@@ -244,6 +266,36 @@ abstract public class SimpleGui {
             c.gridwidth = width;
             c.gridheight = height;
             return new GridCell(item, c);
+        }
+        
+        /**
+         * Return an array of grid cells, i.e. all the cells on a particular
+         * row. Grid rows make it easy to deal with things such as forms where
+         * rows are common occurring and where it would be tedious to have to
+         * manually modify the cell positions when we want to insert new rows
+         * of cells above existing ones.
+         * 
+         * @param cells
+         * @return
+         */
+        public static GridCell[] row(GridCell ... cells) {
+            return cells;
+        }
+    }
+    
+    public static class form {
+        
+        /**
+         * Create a simple two-column form grid layout.
+         * @param a
+         * @param b
+         * @return
+         */
+        public static GridCell[] row(JComponent a, JComponent b) {
+            return new GridCell[] {
+                grid.cell(a).anchor(0, 1, 0, 0).margin(10, 10, 0, 10),
+                grid.cell(b).anchor(0, 0, 0, 1).margin(10, 10, 0, 0)
+            };
         }
     }
     

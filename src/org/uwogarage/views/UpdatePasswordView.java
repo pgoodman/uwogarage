@@ -15,7 +15,7 @@ import org.uwogarage.util.functional.F0;
  * 
  * @version $Id$
  */
-public class UpdatePasswordView extends View<UserModel> {
+public class UpdatePasswordView extends View {
     
     static public JPanel view(final UserModel user, final F0 responder) {
         

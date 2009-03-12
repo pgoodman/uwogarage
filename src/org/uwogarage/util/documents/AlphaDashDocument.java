@@ -7,16 +7,16 @@ package org.uwogarage.util.documents;
  * @author Peter Goodman
  * @version $Id$
  */
-public class WordDocument extends PredicateDocument {
+public class AlphaDashDocument extends PredicateDocument {
     
     private static final long serialVersionUID = 1L;
 
-    public WordDocument() { }
-    public WordDocument(int ml) {
+    public AlphaDashDocument() { }
+    public AlphaDashDocument(int ml) {
         max_length = ml;
     }
     
     protected boolean charIsValid(char ch) {
-        return (ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'z') || ch == ' ';
+        return (ch >= 'A' && ch <= 'z') || ch == '-';
     }
 }

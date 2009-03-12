@@ -8,6 +8,7 @@ import javax.swing.text.*;
  * text fields that only accept numeric input.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 abstract public class PredicateDocument extends PlainDocument {
     

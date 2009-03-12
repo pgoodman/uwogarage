@@ -1,5 +1,7 @@
 package org.uwogarage;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
@@ -31,6 +33,9 @@ public class UWOGarage {
 	    // through this dispatcher instance
 	    final Dispatcher dispatch_to = new Dispatcher();
 	    
+	    // minimum dimensions for the program
+	    final Dimension min_dimensions = new Dimension(500, 500);
+	    
 	    // run the GUI
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -38,6 +43,10 @@ public class UWOGarage {
                 // create the program frame that the entire program will run in
                 View.programFrame("UWO Garage", new D<JFrame>() {
                     public void call(JFrame f) {
+                        
+                        // set the program frame dimensions
+                        f.setMinimumSize(min_dimensions);
+                        f.setPreferredSize(min_dimensions);
                         
                         // create the main program menu for our application
                         menu(f,

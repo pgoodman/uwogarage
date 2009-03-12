@@ -14,7 +14,7 @@ import org.uwogarage.util.gui.SimpleGui;
  * @author Peter Goodman
  * @version $Id$
  */
-abstract public class View<T> extends SimpleGui {
+abstract public class View extends SimpleGui {
     
     /**
      * The program frame.

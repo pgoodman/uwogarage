@@ -6,6 +6,6 @@ import org.uwogarage.views.View;
 /**
  * @version $Id$
  */
-public class AddGarageSaleView extends View<GarageSaleModel>{
+public class AddGarageSaleView extends View {
     
 }
