@@ -168,7 +168,7 @@ public class UserModel implements Model {
 	 * @param level the user's default level
 	 */
 	public boolean setDefaultZoom(int level) {
-	    if(level < 1 || level > 23)
+	    if(level < 4 || level > 23)
 	        return false;
 	    
 	    start_zoom = level;

@@ -5,6 +5,7 @@ package org.uwogarage.util.documents;
  * text fields that only accept numeric input.
  * 
  * @author Peter Goodman
+ * @version $Id$
  */
 public class NumDocument extends PredicateDocument {
     

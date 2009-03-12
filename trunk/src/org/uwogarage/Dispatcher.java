@@ -1,7 +1,5 @@
 package org.uwogarage;
 
-import javax.swing.JFrame;
-
 import org.uwogarage.controllers.*;
 
 /**
