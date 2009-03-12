@@ -3,6 +3,9 @@ package org.uwogarage.views;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.SimpleGui;
+
 /**
  * View class, represents a single component within the interface. Extends
  * SimpleGui, mostly out of laziness, as I am not interested in static importing
@@ -11,19 +14,9 @@ import javax.swing.JFrame;
  * @author Peter Goodman
  * @version $Id$
  */
-abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
+abstract public class View<T> extends SimpleGui {
     
     static protected JFrame f;
-    
-    /**
-     * Set the program frame.
-     */
-    public static void setFrame(JFrame frame) {
-        if(null == frame) {
-            throw new NullPointerException("Frame is required.");
-        }
-        f = frame;
-    }
     
     /**
      * Show a given view. A View method is given a delegate responder that
@@ -55,5 +48,24 @@ abstract public class View<T> extends org.uwogarage.util.gui.SimpleGui {
             content.add(f, c);
             f.validate();
         }
+    }
+    
+    /**
+     * Create the main frame of the program. This is important as it makes the 
+     * main program frame instance available to all views.
+     */
+    public static JFrame programFrame(String title) {
+        return programFrame(title, null);
+    }
+    public static JFrame programFrame(String title, final D<JFrame> init) {
+        return SimpleGui.frame(title, new D<JFrame>() {
+            public void call(JFrame program_frame) {
+                f = program_frame;
+                
+                if(null != init) {
+                    init.call(program_frame);
+                }
+            }
+        });
     }
 }
