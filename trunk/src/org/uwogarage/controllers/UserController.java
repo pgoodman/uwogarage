@@ -18,8 +18,8 @@ public class UserController extends Controller<UserModel> {
     public UserController() {
         
         UserModel test_user = new UserModel();
-        test_user.setFirstName("Peter");
-        test_user.setLastName("Goodman");
+        test_user.setFirstName("Test");
+        test_user.setLastName("User");
         test_user.setUserId("aaaa");
         test_user.setPassword("aaa");
         test_user.setPhoneNumber("5199330204");
@@ -64,5 +64,12 @@ public class UserController extends Controller<UserModel> {
                 // TODO Go to some sort of main menu
             }
         }));
+    }
+    
+    /**
+     * Display the main user menu.
+     */
+    public void userMain() {
+        View.show(UserHome.view(logged_user));
     }
 }
