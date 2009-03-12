@@ -9,14 +9,14 @@ import org.uwogarage.views.View;
 import static org.uwogarage.util.gui.SimpleGui.*;
 
 /**
- * The main program.
+ * UWO Garage Sale program.
  * 
  * @version $Id$
  */
 public class UWOGarage {
     
 	/**
-	 * @param args
+	 * Run the program.
 	 */
 	public static void main(String[] args) {
 		

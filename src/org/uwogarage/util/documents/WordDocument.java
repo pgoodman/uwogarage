@@ -6,16 +6,16 @@ package org.uwogarage.util.documents;
  * 
  * @author Peter Goodman
  */
-public class AlphaNumDocument extends PredicateDocument {
+public class WordDocument extends PredicateDocument {
     
     private static final long serialVersionUID = 1L;
 
-    public AlphaNumDocument() { }
-    public AlphaNumDocument(int ml) {
+    public WordDocument() { }
+    public WordDocument(int ml) {
         max_length = ml;
     }
     
     protected boolean charIsValid(char ch) {
-        return (ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'z');
+        return (ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'z') || ch == ' ';
     }
 }
