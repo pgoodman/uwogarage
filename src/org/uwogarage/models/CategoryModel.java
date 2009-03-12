@@ -1,7 +1,5 @@
 package org.uwogarage.models;
 
-import org.uwogarage.util.Immutable;
-
 /**
  * The CategoryModel class represents a category in the Garage Sale system
  *
@@ -9,7 +7,7 @@ import org.uwogarage.util.Immutable;
  * @version $Id$
  */
 
-public class CategoryModel implements Model, Immutable {
+public class CategoryModel implements Model {
     
 	private String name; // the category's name
 

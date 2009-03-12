@@ -7,7 +7,7 @@ package org.uwogarage.util;
  * @version $Id$
  */
 
-public class Location implements Immutable {
+public class Location {
     
 	// instance variables ***************************
 	WayPoint way_point; // the location's way point
