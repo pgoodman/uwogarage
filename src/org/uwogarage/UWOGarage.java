@@ -42,6 +42,7 @@ public class UWOGarage {
                                     }
                                 })
                             ),
+                            menu.dd("Theme"),
                             menu.dd("Help",
                                 menu.item("Help Contents")
                             )
