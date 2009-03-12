@@ -35,17 +35,4 @@ abstract public class F<I,O> {
             }
         };
     }
-    
-    /**
-     * Transform a function that takes a pair into a function of two arguments.
-     * De-structuring the Tuple argument is convenient because it then means we
-     * can curry either of the elements of the tuple.
-     */
-    static public <A,B,C> F2<A,B,C> destructure(final F<Tuple<A,B>,C> fn) {
-        return new F2<A,B,C>() {
-            public C call(A a, B b) {
-                return fn.call(new Tuple<A,B>(a, b));
-            }
-        };
-    }
 }

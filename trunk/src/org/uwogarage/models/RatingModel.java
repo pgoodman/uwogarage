@@ -1,7 +1,5 @@
 package org.uwogarage.models;
 
-import org.uwogarage.util.Immutable;
-
 /**
  * The RatingModel class represents a rating in the Garage Sale system
  *
@@ -9,7 +7,7 @@ import org.uwogarage.util.Immutable;
  * @version $Id$
  */
 
-public class RatingModel implements Model, Immutable {
+public class RatingModel implements Model {
     
     protected int rating = 0;               // the value of this rating
 	protected UserModel user;			// the user owns this rating

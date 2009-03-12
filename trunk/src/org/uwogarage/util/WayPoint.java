@@ -7,10 +7,10 @@ package org.uwogarage.util;
  * @version $Id$
  */
 
-public class WayPoint implements Immutable {
+public class WayPoint {
     
-	double latitude;		// the way point's latitude
-	double longitude;		// the way point's longitude
+	double latitude,		// the way point's latitude
+	       longitude;		// the way point's longitude
 
 	/**
 	 * Constructor for Location, sets the latitude and longitude
