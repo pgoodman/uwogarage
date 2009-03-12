@@ -34,7 +34,7 @@ public class UserController extends Controller<UserModel> {
                 // no password reset required, show the now logged in user the
                 // main menu
                 } else {
-                    
+                    // TODO
                 }
             }
         }));
@@ -49,7 +49,7 @@ public class UserController extends Controller<UserModel> {
 	        
 	        // the password has been updated, go back to the main menu
 	        public void call() {
-	            
+	            // TODO
 	        }
 	    }));
 	}

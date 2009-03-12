@@ -19,7 +19,7 @@ public class UpdatePasswordView extends View<UserModel> {
     
     static public JPanel view(final UserModel user, final F0 responder) {
         
-        String msg = (
+        String hello_message = (
             "The administrative user has reset your password. Please validate "+
             "your current password and insert a new one."
         );
@@ -29,7 +29,7 @@ public class UpdatePasswordView extends View<UserModel> {
                          new_password = field.pass(4, new AlphaDocument(3));
         
         return grid(
-            grid.cell(2, label(msg))
+            grid.cell(2, label(hello_message))
                 .pos(0, 0)
                 .margin(10, 10, 10, 10),
             
