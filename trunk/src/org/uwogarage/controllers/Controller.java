@@ -34,20 +34,4 @@ abstract public class Controller<T> {
 	static public void setDispatcher(Dispatcher d) {
 	    dispatcher = d;
 	}
-	
-	/**
-	 * This displays the add view for a model.
-	 */
-	abstract public void add();
-	
-	/**
-	 * This method shows the view to edit a given model.
-	 */
-	abstract public void edit(T model);
-	
-	/**
-     * This method updates a model in the data store
-     * @param f a function to manipulate the object
-     */
-    abstract protected void update(T model);
 }
