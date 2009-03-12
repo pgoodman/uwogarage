@@ -15,23 +15,23 @@ import org.uwogarage.models.UserModel;
 abstract public class Controller<T> {
     
     // A collection of models this controller can manipulate
-	protected ModelSet<T> models;
-	
-	// give the controller the ability to call the other controllers
-	static protected Dispatcher dispatcher;
-	
-	// the currently logged in user
-	static protected UserModel logged_user;
-	
-	/**
-	 * Constructor, bring in the dispatcher.
-	 * @param d
-	 */
-	public Controller() {
-	    models = new ModelSet<T>();
-	}
-	
-	static public void setDispatcher(Dispatcher d) {
-	    dispatcher = d;
-	}
+    protected ModelSet<T> models;
+    
+    // give the controller the ability to call the other controllers
+    static protected Dispatcher dispatcher;
+    
+    // the currently logged in user
+    static protected UserModel logged_user;
+    
+    /**
+     * Constructor, bring in the dispatcher.
+     * @param d
+     */
+    public Controller() {
+        models = new ModelSet<T>();
+    }
+    
+    static public void setDispatcher(Dispatcher d) {
+        dispatcher = d;
+    }
 }

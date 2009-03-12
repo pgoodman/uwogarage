@@ -12,6 +12,7 @@ import org.uwogarage.util.functional.P;
 
 /**
  * Login View, shows a login form and attempts to validate the input.
+ * 
  * @version $Id$
  */
 public class LoginView extends View {
@@ -29,8 +30,10 @@ public class LoginView extends View {
         // create the form
         return grid(
             grid.row(grid.cell(2, label("Log In")).margin(10, 10, 0, 10)),
-            form.row(label("User ID:"), user_id),
+            
+            form.row(label("User ID:"),  user_id),
             form.row(label("Password:"), password),
+            
             grid.row(    
                 grid.cell(2, button("Login", new D<JButton>() {
                     public void call(JButton b) {
@@ -55,7 +58,7 @@ public class LoginView extends View {
                             password.setText("");
                         }
                     }
-                })).anchor(1, 1, 1, 1).margin(10, 10, 10, 10)
+                })).margin(10, 10, 10, 10)
             )
         );
     }
