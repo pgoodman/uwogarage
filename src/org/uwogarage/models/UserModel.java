@@ -19,12 +19,18 @@ public class UserModel implements Model {
 	
 	protected boolean reset_pass = true; // was the user's password was reset
 	
-	protected int start_zoom,         // the user's default zoom level
-	              average_rating;     // the user's average rating
-	
+	protected int start_zoom;         // the user's default zoom level
 	
 	protected ModelSet<RatingModel> ratings; // the user's ratings
 	protected ModelSet<GarageSaleModel> sales; // the user's sales
+	
+	/**
+	 * Constructor, instantiate the models to their defaults.
+	 */
+	public UserModel() {
+	    ratings = new ModelSet<RatingModel>();
+	    sales = new ModelSet<GarageSaleModel>();
+	}
 	
 	/**
 	 * Get the user ID.
@@ -88,6 +94,25 @@ public class UserModel implements Model {
 	 */
 	public int getDefaultZoom() {
 	    return start_zoom;
+	}
+	
+	/**
+	 * Get the user's average garage sale rating. This calculates it on the spot
+	 * from the user's garage sales.
+	 */
+	public float getRating() {
+	    int rating_sum = 0;
+	    int num_ratings = 0;
+	    
+	    for(GarageSaleModel sale : sales) {
+	        if(!sale.isRated())
+	            continue;
+	        
+	        rating_sum += sale.getRating();
+	        ++num_ratings;
+	    }
+	    
+	    return num_ratings > 0 ? (rating_sum / num_ratings) : 0;
 	}
 	
 	/**

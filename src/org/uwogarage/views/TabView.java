@@ -14,7 +14,7 @@ abstract public class TabView extends View {
         if(null != t) {
             t.removeAll();
             t.add(c);
-            //t.validate();
+            t.validate();
         }
     }
 }
