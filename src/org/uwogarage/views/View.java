@@ -1,5 +1,7 @@
 package org.uwogarage.views;
 
+import java.util.Stack;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -37,10 +39,10 @@ abstract public class View extends SimpleGui {
      * Create the main frame of the program. This is important as it makes the 
      * main program frame instance available to all views.
      */
-    public static JFrame programFrame(String title) {
+    static public JFrame programFrame(String title) {
         return programFrame(title, null);
     }
-    public static JFrame programFrame(String title, final D<JFrame> init) {
+    static public JFrame programFrame(String title, final D<JFrame> init) {
         return SimpleGui.frame(title, new D<JFrame>() {
             public void call(JFrame program_frame) {
                 f = program_frame;

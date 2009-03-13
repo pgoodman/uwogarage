@@ -24,8 +24,8 @@ public class AddUserView extends View {
     /**
      * Show the form to add a user.
      * 
-     * @param user_exists A predicate that checks whether or not a supplied user
-     *                    id is unique.
+     * @param id_is_unique A predicate that checks whether or not a supplied user
+     *                     id is unique.
      * @param responder
      * @return
      */
