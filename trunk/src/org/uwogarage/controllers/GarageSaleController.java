@@ -1,7 +1,7 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.models.GarageSaleModel;
-import org.uwogarage.views.UserControlPanel;
+import org.uwogarage.views.UserControlPanelView;
 import org.uwogarage.views.View;
 
 /**
@@ -18,7 +18,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * Display the main user control panel.
      */
     public void controlPanel() {
-        View.show(UserControlPanel.view(logged_user, models));
+        View.show(UserControlPanelView.view(logged_user, models));
     }
     
     /**
