@@ -33,7 +33,7 @@ public class UserControlPanelView extends View {
         
         final JTabbedPane pane = new JTabbedPane();
         
-        // set up the default dummy tabs
+        // set up the default tabs with empty panels
         pane.addTab("Stats", new JPanel());
         pane.addTab("Add Sale", new JPanel());
         pane.addTab("Bulk Add", new JPanel());
