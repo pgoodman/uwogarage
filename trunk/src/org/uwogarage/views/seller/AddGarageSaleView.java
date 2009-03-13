@@ -12,7 +12,7 @@ import org.uwogarage.views.View;
 public class AddGarageSaleView extends View {
     static public JPanel view(D<GarageSaleModel> responder) {
         return grid(
-            
+            grid.cell(label("Add Garage Sale"))
         );
     }
 }

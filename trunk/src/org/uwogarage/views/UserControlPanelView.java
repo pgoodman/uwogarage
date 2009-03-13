@@ -14,24 +14,45 @@ import org.uwogarage.util.functional.F0;
  * @version $Id$
  */
 public class UserControlPanelView extends View {
+
     
+    /**
+     * Show the User Control Panel view.
+     * 
+     * @param user
+     * @param stats
+     * @param add_sale
+     * @param bulk_add
+     * @param my_sales
+     * @param search
+     * @return
+     */
     static public JPanel view(final UserModel user,
-                final F0 control_panel, final F0 add_sale, final F0 bulk_add,
+                final F0 stats, final F0 add_sale, final F0 bulk_add,
                 final F0 my_sales, final F0 search) {
         
         final JTabbedPane pane = new JTabbedPane();
-        JPanel tab_content = TabView.programTab();
         
-        pane.add("Control Panel", tab_content);
-        pane.add("Add Sale", tab_content);
-        pane.add("Bulk Add", tab_content);
-        pane.add("My Sales", tab_content);
-        pane.add("Search", tab_content);
+        // set up the default dummy tabs
+        pane.addTab("Stats", new JPanel());
+        pane.addTab("Add Sale", new JPanel());
+        pane.addTab("Bulk Add", new JPanel());
+        pane.addTab("My Sales", new JPanel());
+        pane.addTab("Search", new JPanel());
         
+        // create the change listener that will refresh the content of each tab
+        // per state change
         pane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
+                
+                // change the current tab accessible through the TabView
+                TabView.setProgramTab(
+                    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
+                );
+                
+                // call the various responders
                 switch(pane.getSelectedIndex()) {
-                    case 0: control_panel.call(); break;
+                    case 0: stats.call(); break;
                     case 1: add_sale.call(); break;
                     case 2: bulk_add.call(); break;
                     case 3: my_sales.call(); break;
@@ -40,6 +61,12 @@ public class UserControlPanelView extends View {
             }
         });
         
+        // load up the basic control panel view, need to do 2 calls to force a
+        // state change.. ugh.
+        pane.setSelectedIndex(1);
+        pane.setSelectedIndex(0);
+        
+        // return the new view
         return grid(
             grid.cell(label("Welcome, "+ user.getFirstName() +" "+ user.getLastName()))
                 .pos(0, 0)

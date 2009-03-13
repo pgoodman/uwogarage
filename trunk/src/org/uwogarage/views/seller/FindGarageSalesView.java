@@ -13,7 +13,7 @@ import org.uwogarage.views.View;
 public class FindGarageSalesView extends View {
     static public JPanel view(D<ModelSet<GarageSaleModel>> responder) {
         return grid(
-                    
+            grid.cell(label("Search for Garage Sales"))
         );
     }
 }
