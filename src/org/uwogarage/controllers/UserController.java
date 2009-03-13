@@ -4,7 +4,10 @@ import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.LoginView;
+import org.uwogarage.views.TabView;
 import org.uwogarage.views.UpdatePasswordView;
+import org.uwogarage.views.UserControlPanelView;
+import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
 
 /**
@@ -46,7 +49,7 @@ public class UserController extends Controller<UserModel> {
                 // no password reset required, show the now logged in user the
                 // main menu
                 } else {
-                    d.garage_sale.controlPanel();
+                    controlPanel();
                 }
             }
         }));
@@ -61,8 +64,28 @@ public class UserController extends Controller<UserModel> {
             
             // the password has been updated, go back to the main menu
             public void call() {
-                d.garage_sale.controlPanel();
+                controlPanel();
             }
         }));
     }
-}     
+    
+    /**
+     * Display the main user control panel.
+     */
+    public void controlPanel() {
+        View.show(UserControlPanelView.view(logged_user,
+            new F0() { public void call() { stats(); } },
+            new F0() { public void call() { d.garage_sale.add(); } },
+            new F0() { public void call() { d.garage_sale.bulkAdd(); } },
+            new F0() { public void call() { d.garage_sale.manage(); } },
+            new F0() { public void call() { } }
+        ));
+    }
+    
+    /**
+     * Show this user some information/statistics about themself.
+     */
+    public void stats() {
+        TabView.show(UserInfoView.view(logged_user));
+    }
+}

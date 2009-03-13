@@ -1,7 +1,5 @@
 package org.uwogarage.views;
 
-import java.util.Stack;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 

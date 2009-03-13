@@ -1,11 +1,20 @@
 package org.uwogarage.views;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 abstract public class TabView extends View {
     static protected JPanel t;
     
-    static public JPanel programTab() {
-        return t = new JPanel();
+    static public void setProgramTab(JPanel c) {
+        t = c;
+    }
+    
+    static public void show(JComponent c) {
+        if(null != t) {
+            t.removeAll();
+            t.add(c);
+            //t.validate();
+        }
     }
 }
