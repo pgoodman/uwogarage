@@ -25,7 +25,7 @@ public class UserController extends Controller<UserModel> {
         test_user.setLastName("User");
         test_user.setUserId("aaaa");
         test_user.setPassword("aaa");
-        test_user.setPhoneNumber("5199330204");
+        test_user.setPhoneNumber("519", "933", "0204");
         
         models.add(test_user);
     }

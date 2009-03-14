@@ -12,7 +12,7 @@ public class UserModel implements Model {
 	                 last_name,       // the user's last name
 	                 pass = "aaa",    // the user's pass, default 'aaa'
 	                 user_id,         // the user's id
-	                 phone;           // the user's phone
+	                 phone[];         // the user's phone
 	
 	protected double start_lat,       // the user's default latitude
 	                 start_lng;       // the user's default longitude
@@ -69,7 +69,7 @@ public class UserModel implements Model {
 	 * 
 	 * @return the user's phone number
 	 */
-	public String getPhoneNumber() {
+	public String[] getPhoneNumber() {
 	    return phone;
 	}
 	
@@ -189,12 +189,12 @@ public class UserModel implements Model {
 	 * 
 	 * @param phoneNumber the user's phone number
 	 */
-	public boolean setPhoneNumber(String n) {
-	    if(!n.matches("[0-9]{10}")) {
+	public boolean setPhoneNumber(String area, String first, String rest) {
+	    if(!(area+first+rest).matches("[0-9]{10}")) {
 	        return false;
 	    }
 	    
-	    phone = n;
+	    phone = new String[] {area, first, rest};
 	    return true;
 	}
 	

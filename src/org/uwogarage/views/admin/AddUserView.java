@@ -11,7 +11,7 @@ import org.uwogarage.models.UserModel;
 import org.uwogarage.util.documents.*;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
-import org.uwogarage.views.MapZoomSlider;
+import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 
 /**
@@ -21,6 +21,59 @@ import org.uwogarage.views.View;
  */
 public class AddUserView extends View {
     
+    // create the text fields
+    final JTextField user_id = field.text(4, new AlphaNumDocument(4)),
+                     password = field.text(3, new AlphaDocument(3)),
+                     first_name = field.text(20, new AlphaDocument(20)),
+                     last_name = field.text(20, new AlphaDashDocument(20)),
+                     phone_area = field.text(3, new NumDocument(3)),
+                     phone_first = field.text(3, new NumDocument(3)),
+                     phone_rest = field.text(4, new NumDocument(4)),
+                     start_lat = field.text(10, new RealNumDocument(10)),
+                     start_lng = field.text(10, new RealNumDocument(10));
+    
+    // the slider to choose the start zoom level
+    final JSlider start_zoom = Slider.view(4, 23, 4, null);
+    
+    /**
+     * Collect the common input errors to adding and editing users.
+     * 
+     * @param user
+     * @param errors
+     */
+    protected void collectInputErrors(UserModel user, LinkedList<String> errors) {
+        
+        if(!user.setPassword(password.getText()))
+            errors.add("The password must be 3 characters long.");
+        
+        if(!user.setFirstName(first_name.getText())) {
+            errors.add(
+                "The first name must be between 1 and 20 "+
+                "characters long."
+            );
+        }
+        
+        if(!user.setLastName(last_name.getText())) {
+            errors.add(
+                "The last name must be between 1 and 20 "+
+                "characters long."
+            );
+        }
+        
+        if(!user.setPhoneNumber(phone_area.getText(), phone_first.getText(), phone_rest.getText()))
+            errors.add("The phone number must be 10 digits long.");
+        
+        if(!user.setDefaultLatLng(start_lat.getText(), start_lng.getText())) {
+            errors.add(
+                "The start latitude or longitude are incorrectly "+
+                "formatted."
+            );
+        }
+        
+        if(!user.setDefaultZoom(start_zoom.getValue()))
+            errors.add("The start zoom is out of range.");
+    }
+    
     /**
      * Show the form to add a user.
      * 
@@ -29,19 +82,10 @@ public class AddUserView extends View {
      * @param responder
      * @return
      */
-    static public JPanel view(final P<String> id_is_unique, final D<UserModel> responder) {
-        
-        // create the text fields
-        final JTextField user_id = field.text(4, new AlphaNumDocument(4)),
-                         password = field.text(3, new AlphaDocument(3)),
-                         first_name = field.text(20, new AlphaDocument(20)),
-                         last_name = field.text(20, new AlphaDashDocument(20)),
-                         phone_num = field.text(10, new NumDocument(10)),
-                         start_lat = field.text(10, new RealNumDocument(10)),
-                         start_lng = field.text(10, new RealNumDocument(10));
+    public JPanel view(final P<String> id_is_unique, final D<UserModel> responder) {
         
         // the slider to choose the start zoom level
-        final JSlider start_zoom = MapZoomSlider.view();
+        final JSlider start_zoom = Slider.view(4, 23, 4, null);
         
         // set the default password to the form
         password.setText("aaa");
@@ -56,7 +100,13 @@ public class AddUserView extends View {
             form.row(label("Password:"),        password),
             form.row(label("First Name:"),      first_name),
             form.row(label("Last Name:"),       last_name),
-            form.row(label("Phone Number:"),    phone_num),
+            form.row(label("Phone Number:"),    grid(
+                grid.cell(phone_area),
+                grid.cell(label("-")),
+                grid.cell(phone_first),
+                grid.cell(label("-")),
+                grid.cell(phone_rest)
+            )),
             form.row(label("Start Latitude:"),  start_lat),
             form.row(label("Start Longitude:"), start_lng),
             form.row(label("Start Zoom Level"), start_zoom),
@@ -74,35 +124,8 @@ public class AddUserView extends View {
                         else if(!user.setUserId(user_id.getText()))
                             errors.add("The user id must be 4 characters long.");
                         
-                        if(!user.setPassword(password.getText()))
-                            errors.add("The password must be 3 characters long.");
-                        
-                        if(!user.setFirstName(first_name.getText())) {
-                            errors.add(
-                                "The first name must be between 1 and 20 "+
-                                "characters long."
-                            );
-                        }
-                        
-                        if(!user.setLastName(last_name.getText())) {
-                            errors.add(
-                                "The last name must be between 1 and 20 "+
-                                "characters long."
-                            );
-                        }
-                        
-                        if(!user.setPhoneNumber(phone_num.getText()))
-                            errors.add("The phone number must be 10 characters long.");
-                        
-                        if(!user.setDefaultLatLng(start_lat.getText(), start_lng.getText())) {
-                            errors.add(
-                                "The start latitude or longitude are incorrectly "+
-                                "formatted."
-                            );
-                        }
-                        
-                        if(!user.setDefaultZoom(start_zoom.getValue()))
-                            errors.add("The start zoom is out of range.");
+                        // collect common input errors
+                        collectInputErrors(user, errors);
                         
                         // there are errors, report them
                         if(!errors.isEmpty()) {
