@@ -231,4 +231,17 @@ public class UserModel implements Model {
 	    return true;
 	}
 	
+	/**
+	 * Add a garage sale to the one's that this user has created.
+	 */
+	public void addGarageSale(GarageSaleModel sale) {
+	    sales.add(sale);
+	}
+	
+	/**
+	 * Add a rating to the one's that this use has created.
+	 */
+	public void addRating(RatingModel rating) {
+	    ratings.add(rating);
+	}
 }

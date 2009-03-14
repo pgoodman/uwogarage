@@ -3,6 +3,8 @@ package org.uwogarage.util;
 /**
  * The Location class represents a location in the Garage Sale system
  *
+ * TODO Test for invalid/out-of-range coordinates.
+ *
  * @author Nate Smith
  * @version $Id$
  */

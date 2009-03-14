@@ -6,7 +6,6 @@ import org.uwogarage.util.Location;
 /**
  * The GarageSaleModel class represents a garage sale in the Garage Sale system
  *
- * @author Nate Smith
  * @version $Id$
  */
 
@@ -23,15 +22,19 @@ public class GarageSaleModel implements Model {
 	/**
 	 * Constructor for GarageSaleModel
 	 */
-	public GarageSaleModel() {
+	public GarageSaleModel(Location loc, Date d, String note) throws Exception {
+	    categories = new ModelSet<CategoryModel>();
 	    
+	    if(!(setLocation(loc) && setDate(d) && setNote(note))) {
+	        throw new Exception("Invalid location, date, or note.");
+	    }
 	}
 
 	/**
 	 * This method returns the garage sale's categories
 	 * @return the garage sale's categories
 	 */
-	ModelSet<CategoryModel> getCategories() {
+	public ModelSet<CategoryModel> getCategories() {
 	    return categories;
 	}
 	
@@ -83,24 +86,41 @@ public class GarageSaleModel implements Model {
 	 * This method sets the garage sale's location
 	 * @param loc the garage sale's new default location
 	 */
-	void setLocation(Location loc) {
+	public boolean setLocation(Location loc) {
+	    if(null == loc)
+	        return false;
+	    
 	    location = loc;
+	    return true;
 	}
 	
 	/**
 	 * This method sets the garage sale's date
 	 * @param date the garage sale's date
 	 */
-	void setDate(Date d) {
+	public boolean setDate(Date d) {
+	    
+	    // don't allow a garage sale to be created in the past
+	    if(null == d || d.before(new Date()))
+	        return false;
+	    
 	    date = d;
+	    return true;
 	}
 	
 	/**
 	 * This method sets the garage sale's note
 	 * @param note the garage sale's note
 	 */
-	void setNote(String n) {
+	public boolean setNote(String n) {
+	    n = (null == n) ? "" : n;
+	    
+	    if(n.length() > 200)
+	        return false;
+	    
 	    note = n;
+	    
+	    return true;
 	}
 	
 	/**
