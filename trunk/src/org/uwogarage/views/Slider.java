@@ -15,25 +15,23 @@ import org.uwogarage.util.functional.D;
  * @author Peter Goodman
  * @version $Id$
  */
-public class MapZoomSlider extends View {
+public class Slider extends View {
     
     /**
      * Create a map slider.
      * @return
      */
-    static public JSlider view() {
-        return view(null);
-    }
-    static public JSlider view(final D<JSlider> on_slide) {
+    static public JSlider view(int min, int max, int initial, final D<JSlider> on_slide) {
         
-        final JSlider slider = new JSlider(JSlider.HORIZONTAL, 4, 23, 4);
+        final JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, initial);
         Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>(2);
         
-        slider.setMinorTickSpacing(10);
+        slider.setMinorTickSpacing(1);
         slider.setPaintLabels(true);
+        slider.setSnapToTicks(true);
         
-        labels.put(new Integer(4), label("-"));
-        labels.put(new Integer(23), label("+"));
+        labels.put(new Integer(min), label("-"));
+        labels.put(new Integer(max), label("+"));
         
         slider.setLabelTable(labels);
         
