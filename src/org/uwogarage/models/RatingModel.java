@@ -9,7 +9,7 @@ package org.uwogarage.models;
 
 public class RatingModel implements Model {
     
-    protected int rating = 0;               // the value of this rating
+    protected int rating;               // the value of this rating
 	protected UserModel user;			// the user owns this rating
 	protected GarageSaleModel sale;   // the sale that this rating belongs to
 
@@ -18,7 +18,7 @@ public class RatingModel implements Model {
 	 * sale and user
 	 */
 	public RatingModel(int r, UserModel u, GarageSaleModel s) {
-	    rating = r;
+	    rating = Math.abs(r) % 6; // make sure it's range 0 to 5
 	    user = u;
 	    sale = s;
 	}
