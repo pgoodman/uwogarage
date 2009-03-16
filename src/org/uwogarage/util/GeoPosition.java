@@ -1,23 +1,24 @@
 package org.uwogarage.util;
 
 /**
- * The WayPoint class represents a way point in the Garage Sale system
+ * A coordinate in the real world, composed of a latitude and a longitude.
+ * 
+ * !!! This is temporary until the GeoPosition of JXMapViewer replaces it.
  *
- * @author Nate Smith
  * @version $Id$
  */
 
-public class WayPoint {
+public class GeoPosition {
     
-	double latitude,		// the way point's latitude
-	       longitude;		// the way point's longitude
+	private double latitude = 0D, // the way point's latitude
+	               longitude = 0D; // the way point's longitude
 
 	/**
 	 * Constructor for Location, sets the latitude and longitude
 	 * @param lat the way point's latitude
 	 * @param lng the way point's longitude
 	 */
-	public WayPoint(double lat, double lng) {
+	public GeoPosition(double lat, double lng) {
 	    latitude = lat;
 	    longitude = lng;
 	}
@@ -26,7 +27,7 @@ public class WayPoint {
 	 * This method returns the latitude of this way point
 	 * @return the way point's latitude
 	 */
-	public double getLat() {
+	public double getLatitude() {
 	    return latitude;
 	}
 
@@ -34,7 +35,7 @@ public class WayPoint {
 	 * This method returns the longitude of this way point
 	 * @return the way point's longitude
 	 */
-	public double getLng() {
+	public double getLongitude() {
 	    return longitude;
 	}
 }

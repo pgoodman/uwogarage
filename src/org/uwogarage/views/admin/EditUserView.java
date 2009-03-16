@@ -7,11 +7,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 
 /**
- * View to add a user to the system.
+ * View to edit an existing user of the system.
  * 
  * @version $Id$
  */
@@ -27,12 +28,13 @@ public class EditUserView extends AddUserView {
      */
     public JPanel view(final UserModel user, final F0 responder) {
         
+        String[] phone = user.getPhoneNumber();
+        GeoPosition user_pos = user.getGeoPosition();
+        
         // is the user's password being reset?
         final JCheckBox reset_pass = new JCheckBox();
         
         // set all of the default values
-        String[] phone = user.getPhoneNumber();
-        
         reset_pass.setSelected(user.hasDefaultPass());
         start_zoom.setValue(user.getDefaultZoom());
         first_name.setText(user.getFirstName());
@@ -40,8 +42,8 @@ public class EditUserView extends AddUserView {
         phone_area.setText(phone[0]);
         phone_first.setText(phone[1]);
         phone_rest.setText(phone[2]);
-        start_lat.setText(String.valueOf(user.getDefaultLat()));
-        start_lat.setText(String.valueOf(user.getDefaultLng()));
+        start_lat.setText(String.valueOf(user_pos.getLatitude()));
+        start_lat.setText(String.valueOf(user_pos.getLongitude()));
         
         // create the form
         return grid(
@@ -63,6 +65,7 @@ public class EditUserView extends AddUserView {
             form.row(label("Start Longitude:"), start_lng),
             form.row(label("Start Zoom Level"), start_zoom),
             
+            // deal with form submission
             grid.row(
                 grid.cell(2, button("Update", new D<JButton>() {
                     public void call(JButton b) {
@@ -70,7 +73,8 @@ public class EditUserView extends AddUserView {
                         LinkedList<String> errors = new LinkedList<String>();
                         UserModel user = new UserModel();
                         
-                        // collect the input errors common to adding a user
+                        // collect the input errors common to adding/editing a 
+                        // user
                         collectInputErrors(user, errors);
                         
                         // there are errors, report them

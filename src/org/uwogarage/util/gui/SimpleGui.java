@@ -66,6 +66,16 @@ abstract public class SimpleGui {
     }
     
     /**
+     * Create a fieldset panel and put some content in it.
+     */
+    public static JPanel fieldset(String label, JComponent content) {
+        JPanel pane = new JPanel();
+        pane.setBorder(BorderFactory.createTitledBorder(label));
+        pane.add(content);
+        return pane;
+    }
+    
+    /**
      * Create a simple button.
      */
     public static JButton button() {
@@ -316,24 +326,6 @@ abstract public class SimpleGui {
         return new JLabel();
     }
     
-    
-    
-    /**
-     * Create a prompt.
-     */
-    public static String question(Component parent, String question) {
-        try {
-            return JOptionPane.showInputDialog(
-                parent,
-                question,
-                "",
-                JOptionPane.QUESTION_MESSAGE
-            );
-        } catch(HeadlessException e) {
-            return "";
-        }
-    }
-    
     /**
      * Create a custom dialog box. The dialog takes a function of one argument
      * that can further initialize the dialog box and also must return what is
@@ -370,6 +362,35 @@ abstract public class SimpleGui {
          */
         public static void alert(JFrame frame, String message) {
             JOptionPane.showMessageDialog(frame, message);
+        }
+        
+        /**
+         * Create a question prompt.
+         */
+        public static String question(Component parent, String question) {
+            try {
+                return JOptionPane.showInputDialog(
+                    parent,
+                    question,
+                    "",
+                    JOptionPane.QUESTION_MESSAGE
+                );
+            } catch(HeadlessException e) {
+                return "";
+            }
+        }
+        
+        /**
+         * Creates a modal confirmation box.
+         */
+        public static boolean confirm(JFrame f, String question) {
+            return (0 == JOptionPane.showConfirmDialog(
+                f,
+                question,
+                "Please Confirm",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            ));
         }
     }
     

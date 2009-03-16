@@ -73,7 +73,7 @@ public class UserControlPanelView extends View {
                 .pos(0, 0)
                 .margin(10, 10, 10, 10),
             
-            grid.cell(pane).pos(0, 1).fill(1, 1)
+            grid.cell(pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
         );
     }
 }

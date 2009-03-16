@@ -1,6 +1,10 @@
 package org.uwogarage.models;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.Location;
 
 /**
@@ -12,23 +16,13 @@ import org.uwogarage.util.Location;
 public class GarageSaleModel implements Model {
 
     ModelSet<CategoryModel> categories; // the garage sale's category
-	Location location;      // the garage sale's location
-	Date date;              // the garage sale's date
-	String note;            // the garage sale's note
+	Location location; // the garage sale's location
+	Date date; // the garage sale's date
+	String note = ""; // the garage sale's note
+	GeoPosition position; // the location's geo position
 	
-	int rating_sum = 0;     // the sum of the ratings for this garage sale
-	int num_ratings = 0;    // the number of ratings cast
-	
-	/**
-	 * Constructor for GarageSaleModel
-	 */
-	public GarageSaleModel(Location loc, Date d, String note) throws Exception {
-	    categories = new ModelSet<CategoryModel>();
-	    
-	    if(!(setLocation(loc) && setDate(d) && setNote(note))) {
-	        throw new Exception("Invalid location, date, or note.");
-	    }
-	}
+	int rating_sum = 0, // the sum of the ratings for this garage sale
+	    num_ratings = 0; // the number of ratings cast
 
 	/**
 	 * This method returns the garage sale's categories
@@ -95,17 +89,33 @@ public class GarageSaleModel implements Model {
 	}
 	
 	/**
-	 * This method sets the garage sale's date
-	 * @param date the garage sale's date
+	 * Set the date of the garage sale. Expects a date stored in a string formatted
+	 * in the following way: yyyy MM dd hh mm a z. Date parsing is done using
+	 * SimpleDateFormat.
+	 * 
+	 * @param date
 	 */
 	public boolean setDate(Date d) {
 	    
-	    // don't allow a garage sale to be created in the past
-	    if(null == d || d.before(new Date()))
+	    // get the start of today :D
+	    Calendar today = Calendar.getInstance();
+	    today.set(Calendar.HOUR, 0);
+	    today.set(Calendar.MINUTE, 0);
+	    
+	    if(null == d || d.before(today.getTime()))
 	        return false;
 	    
 	    date = d;
 	    return true;
+	}
+	public boolean setDate(String s) {
+	    try {
+	        return setDate(
+	            (new SimpleDateFormat("yyyy MM dd hh mm a z")).parse(s)
+	        );
+	    } catch(Exception e) {
+	        return false;
+	    }
 	}
 	
 	/**
@@ -124,18 +134,32 @@ public class GarageSaleModel implements Model {
 	}
 	
 	/**
-	 * This method adds a category to the garage sale
-	 * @param cat the category to be added
-	 */
-	void addCategory(CategoryModel cat) {
-	    categories.add(cat);
-	}
-	
-	/**
-	 * This method removes a category from the garage sale
-	 * @param cat the category to be removed
-	 */
-	void removeCategory(CategoryModel cat) {
-	    categories.remove(cat);
-	}
+     * Set the user's default latitude and longitude, returns false if either of 
+     * the latitude or longitude are incorrectly formatted.
+     * 
+     * @param lng the user's longitude
+     * @param lng the user's latitude
+     */
+    public boolean setGeoPosition(String lat, String lng) {
+        String regex = "-?([0-9]{1,3})\\.([0-9]{3,6})";
+        
+        if(!lat.matches(regex) || !lng.matches(regex)) {
+            return false;
+        }
+        
+        position = new GeoPosition(
+            Double.parseDouble(lat),
+            Double.parseDouble(lng)
+        );
+        
+        return true;
+    }
+    
+    /**
+     * Set the categories of this garage sale.
+     * @param cs
+     */
+    public void setCategories(ModelSet<CategoryModel> cs) {
+        categories = cs;
+    }
 }
