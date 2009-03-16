@@ -17,6 +17,6 @@ public class RealNumDocument extends PredicateDocument {
     }
     
     protected boolean charIsValid(char ch) {
-        return (ch >= '0' && ch <= '9') || ch == '.';
+        return (ch >= '0' && ch <= '9') || ch == '.' || ch == '-';
     }
 }

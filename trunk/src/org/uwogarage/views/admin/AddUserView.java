@@ -63,7 +63,7 @@ public class AddUserView extends View {
         if(!user.setPhoneNumber(phone_area.getText(), phone_first.getText(), phone_rest.getText()))
             errors.add("The phone number must be 10 digits long.");
         
-        if(!user.setDefaultLatLng(start_lat.getText(), start_lng.getText())) {
+        if(!user.setGeoPosition(start_lat.getText(), start_lng.getText())) {
             errors.add(
                 "The start latitude or longitude are incorrectly "+
                 "formatted."
@@ -96,31 +96,35 @@ public class AddUserView extends View {
                 grid.cell(label("Add User")).margin(10, 10, 0, 10)
             ),
             
-            form.row(label("User ID:"),         user_id),
-            form.row(label("Password:"),        password),
-            form.row(label("First Name:"),      first_name),
-            form.row(label("Last Name:"),       last_name),
-            form.row(label("Phone Number:"),    grid(
+            form.row(label("User ID:"), user_id),
+            form.row(label("Password:"), password),
+            form.row(label("First Name:"), first_name),
+            form.row(label("Last Name:"), last_name),
+            form.row(label("Phone Number:"), grid(
                 grid.cell(phone_area),
                 grid.cell(label("-")),
                 grid.cell(phone_first),
                 grid.cell(label("-")),
                 grid.cell(phone_rest)
             )),
-            form.row(label("Start Latitude:"),  start_lat),
+            form.row(label("Start Latitude:"), start_lat),
             form.row(label("Start Longitude:"), start_lng),
             form.row(label("Start Zoom Level"), start_zoom),
             
+            // deal with form submission
             grid.row(
                 grid.cell(2, button("Add", new D<JButton>() {
                     public void call(JButton b) {
                         
+                        // create a new user model and use it to validate the
+                        // input, also collect errors in a list
                         LinkedList<String> errors = new LinkedList<String>();
                         UserModel user = new UserModel();
                         
+                        // check the user id
                         if(!id_is_unique.call(user_id.getText()))
                             errors.add("The user id must be unique.");
-                        
+
                         else if(!user.setUserId(user_id.getText()))
                             errors.add("The user id must be 4 characters long.");
                         
@@ -129,7 +133,7 @@ public class AddUserView extends View {
                         
                         // there are errors, report them
                         if(!errors.isEmpty()) {
-                            String error_str = "The following errors occurred:";
+                            String error_str = "The following errors occurred:\n";
                             for(String error : errors)
                                 error_str += "\n"+ error;
                             

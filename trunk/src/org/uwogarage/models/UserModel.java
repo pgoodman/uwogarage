@@ -1,5 +1,7 @@
 package org.uwogarage.models;
 
+import org.uwogarage.util.GeoPosition;
+
 /**
  * The UserModel class represents a user in the Garage Sale system
  *
@@ -8,29 +10,23 @@ package org.uwogarage.models;
 
 public class UserModel implements Model {
     
-	protected String first_name,      // the user's first name
-	                 last_name,       // the user's last name
-	                 pass = "aaa",    // the user's pass, default 'aaa'
-	                 user_id,         // the user's id
-	                 phone[];         // the user's phone
+	protected String first_name = "", // the user's first name
+	                 last_name = "", // the user's last name
+	                 pass = "aaa", // the user's pass, default 'aaa'
+	                 user_id = "", // the user's id
+	                 phone[] = {"", "", ""}; // the user's phone
 	
-	protected double start_lat,       // the user's default latitude
-	                 start_lng;       // the user's default longitude
+	protected GeoPosition start_location;
 	
 	protected boolean reset_pass = true; // was the user's password was reset
 	
-	protected int start_zoom;         // the user's default zoom level
+	protected int start_zoom = 4; // the user's default zoom level
 	
-	protected ModelSet<RatingModel> ratings; // the user's ratings
-	protected ModelSet<GarageSaleModel> sales; // the user's sales
+	// the user's ratings
+	protected ModelSet<RatingModel> ratings = new ModelSet<RatingModel>();
 	
-	/**
-	 * Constructor, instantiate the models to their defaults.
-	 */
-	public UserModel() {
-	    ratings = new ModelSet<RatingModel>();
-	    sales = new ModelSet<GarageSaleModel>();
-	}
+	// the user's sales
+	protected ModelSet<GarageSaleModel> sales = new ModelSet<GarageSaleModel>();
 	
 	/**
 	 * Get the user ID.
@@ -76,16 +72,9 @@ public class UserModel implements Model {
 	/**
 	 * Get the user's default latitude.
 	 */
-	public double getDefaultLat() {
-	    return start_lat;
+	public GeoPosition getGeoPosition() {
+	    return start_location;
 	}
-	
-	/**
-     * Get the user's default longitude.
-     */
-    public double getDefaultLng() {
-        return start_lng;
-    }
 
 	/**
 	 * This method will return the user's default zoom level
@@ -194,7 +183,10 @@ public class UserModel implements Model {
 	        return false;
 	    }
 	    
-	    phone = new String[] {area, first, rest};
+	    phone[0] = area;
+	    phone[1] = first;
+	    phone[2] = rest;
+	    
 	    return true;
 	}
 	
@@ -205,15 +197,18 @@ public class UserModel implements Model {
 	 * @param lng the user's longitude
 	 * @param lng the user's latitude
 	 */
-	public boolean setDefaultLatLng(String lat, String lng) {
+	public boolean setGeoPosition(String lat, String lng) {
 	    String regex = "-?([0-9]{1,3})\\.([0-9]{3,6})";
 	    
 	    if(!lat.matches(regex) || !lng.matches(regex)) {
 	        return false;
 	    }
 	    
-	    start_lat = Double.parseDouble(lat);
-	    start_lng = Double.parseDouble(lng);
+	    start_location = new GeoPosition(
+            Double.parseDouble(lat),
+            Double.parseDouble(lng)
+	    );
+	    
 	    return true;
 	}
 	

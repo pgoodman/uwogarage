@@ -3,13 +3,12 @@ package org.uwogarage.models;
 /**
  * The CategoryModel class represents a category in the Garage Sale system
  *
- * @author Nate Smith
  * @version $Id$
  */
 
 public class CategoryModel implements Model {
     
-	private String name; // the category's name
+	private String name = ""; // the category's name
 
 	/**
 	 * Constructor, inserts the name of the category

@@ -4,10 +4,12 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.SimpleGui.menu;
 import org.uwogarage.views.View;
+
 import static org.uwogarage.util.gui.SimpleGui.*;
 
 /**
@@ -34,7 +36,7 @@ public class UWOGarage {
 	    final Dispatcher dispatch_to = new Dispatcher();
 	    
 	    // minimum dimensions for the program
-	    final Dimension min_dimensions = new Dimension(500, 500);
+	    final Dimension min_dimensions = new Dimension(750, 750);
 	    
 	    // run the GUI
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -42,7 +44,7 @@ public class UWOGarage {
                 
                 // create the program frame that the entire program will run in
                 View.programFrame("UWO Garage", new D<JFrame>() {
-                    public void call(JFrame f) {
+                    public void call(final JFrame f) {
                         
                         // set the program frame dimensions
                         f.setMinimumSize(min_dimensions);
@@ -57,7 +59,29 @@ public class UWOGarage {
                                     }
                                 })
                             ),
-                            menu.dd("Theme"),
+                            menu.dd("Theme",
+                                menu.item("Default", new D<JMenuItem>() {
+                                    public void call(JMenuItem item) {
+                                        laf.theme(f, 
+                                            UIManager.getSystemLookAndFeelClassName()
+                                        );
+                                    }
+                                }),
+                                menu.item("Motif", new D<JMenuItem>() {
+                                    public void call(JMenuItem item) {
+                                        laf.theme(f,
+                                            "com.sun.java.swing.plaf.motif.MotifLookAndFeel"
+                                        );
+                                    }
+                                }),
+                                menu.item("Ocean", new D<JMenuItem>() {
+                                    public void call(JMenuItem item) {
+                                        laf.theme(f,
+                                            UIManager.getCrossPlatformLookAndFeelClassName()
+                                        );
+                                    }
+                                })
+                            ),
                             menu.dd("Help",
                                 menu.item("Help Contents")
                             )

@@ -31,6 +31,13 @@ public class UserController extends Controller<UserModel> {
     }
     
     /**
+     * Add a user.
+     */
+    public void add() {
+        
+    }
+    
+    /**
      * Show the login view.
      */
     public void login() {
@@ -83,7 +90,7 @@ public class UserController extends Controller<UserModel> {
     }
     
     /**
-     * Show this user some information/statistics about themself.
+     * Show this user some information/statistics about their activity.
      */
     public void stats() {
         TabView.show(UserInfoView.view(logged_user));

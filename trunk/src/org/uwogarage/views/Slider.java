@@ -35,7 +35,7 @@ public class Slider extends View {
         
         slider.setLabelTable(labels);
         
-        // add in the on_slide state change callback
+        // add in the on_slide state change delegate
         if(null != on_slide) {
             slider.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
