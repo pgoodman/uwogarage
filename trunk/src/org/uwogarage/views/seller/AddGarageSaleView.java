@@ -17,6 +17,7 @@ import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.Location;
+import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.AnyDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
@@ -57,27 +58,6 @@ public class AddGarageSaleView extends View {
     
     // set up the provinces list
     JComboBox province = new JComboBox(Location.PROVINCE_CODES);
-    
-    /**
-     * Left pad a string with zeros.
-     * @param input
-     * @param total_length
-     * @return
-     */
-    private String zeroPad(String input, int total_length) {
-        
-        if(input.length() >= total_length)
-            return input;
-        
-        StringBuffer ret = new StringBuffer(total_length);
-        
-        for(int i = 0; i < total_length - input.length(); ++i)
-            ret.append('0');
-        
-        ret.append(input);
-        
-        return ret.toString();
-    }
     
     /**
      * This pre-processes some of the form fields to put them in mostly valid 
@@ -126,8 +106,8 @@ public class AddGarageSaleView extends View {
         if(h < 1) h = 1;
         
         // set the month, day
-        hour.setText(zeroPad(String.valueOf(h), 2));
-        minute.setText(zeroPad(String.valueOf(min), 2));
+        hour.setText(StringUtil.padLeft(String.valueOf(h), '0', 2));
+        minute.setText(StringUtil.padLeft(String.valueOf(min), '0', 2));
         
         // use the Calendar class to perform the proper equivalence transformations
         // for us on year/month/day
@@ -137,8 +117,8 @@ public class AddGarageSaleView extends View {
         
         // pad or fill in values for the left out fields
         year.setText(String.valueOf(then.get(Calendar.YEAR)));
-        month.setText(zeroPad(String.valueOf(then.get(Calendar.MONTH)), 2));
-        day.setText(zeroPad(String.valueOf(then.get(Calendar.DAY_OF_MONTH)), 2));
+        month.setText(StringUtil.padLeft(String.valueOf(then.get(Calendar.MONTH)), '0', 2));
+        day.setText(StringUtil.padLeft(String.valueOf(then.get(Calendar.DAY_OF_MONTH)), '0', 2));
     }
     
     /**
@@ -276,15 +256,15 @@ public class AddGarageSaleView extends View {
                             
                             // this creates a large date string that will be parsed
                             // to 
-                            String sale_date = (
-                                year.getText() +" "+
-                                month.getText() +" "+
-                                day.getText() +" "+
-                                String.valueOf(Integer.parseInt(hour.getText())-1) 
-                                +" "+ minute.getText() +" "+
-                                (time_am.isSelected() ? "AM " : "PM ") +
+                            String sale_date = (StringUtil.join(' ',
+                                year.getText(),
+                                month.getText(),
+                                day.getText(),
+                                String.valueOf(Integer.parseInt(hour.getText())-1), 
+                                minute.getText(),
+                                (time_am.isSelected() ? "AM" : "PM"),
                                 Location.PROVINCE_TIME_ZONE_CODES.get(prov)
-                            );
+                            ));
                             
                             // make sure the date parses and is sometime that is 
                             // either now or in the future
@@ -319,11 +299,10 @@ public class AddGarageSaleView extends View {
                         
                         // there are errors, report them
                         if(!errors.isEmpty()) {
-                            String error_str = "The following errors occurred:\n";
-                            for(String error : errors)
-                                error_str += "\n"+ error;
-                            
-                            dialog.alert(f, error_str);
+                            dialog.alert(f,
+                                "The following errors occurred:\n\n"+
+                                StringUtil.join('\n', errors)
+                            );
                         
                         // done, no errors left :D
                         } else {

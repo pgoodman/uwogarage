@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.GeoPosition;
+import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 
@@ -79,11 +80,10 @@ public class EditUserView extends AddUserView {
                         
                         // there are errors, report them
                         if(!errors.isEmpty()) {
-                            String error_str = "The following errors occurred:";
-                            for(String error : errors)
-                                error_str += "\n"+ error;
-                            
-                            dialog.alert(f, error_str);
+                            dialog.alert(f,
+                                "The following errors occurred:\n\n"+
+                                StringUtil.join('\n', errors)
+                            );
                         
                         // no errors, user has been updated so respond
                         } else {

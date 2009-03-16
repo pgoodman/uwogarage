@@ -8,6 +8,7 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.*;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
@@ -133,11 +134,10 @@ public class AddUserView extends View {
                         
                         // there are errors, report them
                         if(!errors.isEmpty()) {
-                            String error_str = "The following errors occurred:\n";
-                            for(String error : errors)
-                                error_str += "\n"+ error;
-                            
-                            dialog.alert(f, error_str);
+                            dialog.alert(f,
+                                "The following errors occurred:\n\n"+
+                                StringUtil.join('\n', errors)
+                            );
                         
                         // no errors, yay, add the user in
                         } else {
