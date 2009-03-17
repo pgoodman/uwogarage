@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.AnyDocument;
@@ -23,7 +24,7 @@ import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
-import org.uwogarage.views.CategoryListView;
+import org.uwogarage.views.ListCategoriesView;
 import org.uwogarage.views.View;
 
 
@@ -179,7 +180,7 @@ public class AddGarageSaleView extends View {
                 grid.cell(
                     all_categories.isEmpty() 
                     ? label("There are no categories to choose from.")
-                    : CategoryListView.view(
+                    : ListCategoriesView.view(
                           all_categories, 
                           selected_categories,
                           categories
@@ -238,8 +239,7 @@ public class AddGarageSaleView extends View {
                    stre = street.getText(),
                    citi = city.getText();
             
-            // this creates a large date string that will be parsed
-            // to 
+            // create a parse-able string version of the date this
             String sale_date = (StringUtil.join(' ',
                 year.getText(),
                 month.getText(),
@@ -284,7 +284,7 @@ public class AddGarageSaleView extends View {
         // there are errors, report them
         if(!errors.isEmpty()) {
             dialog.alert(f,
-                "The following errors occurred:\n\n"+
+                "Some fields were not saved because of the following errors:\n\n"+
                 StringUtil.join('\n', errors)
             );
         
@@ -300,7 +300,7 @@ public class AddGarageSaleView extends View {
      * @param responder
      * @return
      */
-    public JPanel view(ModelSet<CategoryModel> all_categories, final D<GarageSaleModel> responder) {
+    public JPanel view(final UserModel user, ModelSet<CategoryModel> all_categories, final D<GarageSaleModel> responder) {
         
         // lay out the form
         return grid(
@@ -321,7 +321,7 @@ public class AddGarageSaleView extends View {
             grid.row(
                 grid.cell(button("Add", new D<JButton>() {
                     public void call(JButton b) {
-                        processInput(new GarageSaleModel(), responder);
+                        processInput(new GarageSaleModel(user), responder);
                     }
                 }))
             )

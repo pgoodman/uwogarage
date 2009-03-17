@@ -36,14 +36,18 @@ public class EditGarageSaleView extends AddGarageSaleView {
         GeoPosition pos = sale.getGeoPosition();
         Calendar time = sale.getTime();
         
+        // TODO get this right
+        int hours = time.get(Calendar.HOUR);
+        if(0 == hours) hours = 12; else --hours;
+        
         // set the default values
         street.setText(loc.getStreet());
         city.setText(loc.getCity());
         year.setText(String.valueOf(time.get(Calendar.YEAR)));
         month.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.YEAR)), '0', 2));
-        day.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.YEAR)), '0', 2));
-        hour.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.YEAR)), '0', 2));
-        minute.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.YEAR)), '0', 2));
+        day.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.DAY_OF_MONTH)), '0', 2));
+        hour.setText(StringUtil.padLeft(String.valueOf(hours), '0', 2));
+        minute.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.MINUTE)), '0', 2));
         time_am.setSelected(time.get(Calendar.AM_PM) == Calendar.AM);
         time_pm.setSelected(time.get(Calendar.AM_PM) == Calendar.PM);
         note.setText(sale.getNote());

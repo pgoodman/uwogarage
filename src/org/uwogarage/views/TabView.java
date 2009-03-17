@@ -13,6 +13,7 @@ abstract public class TabView extends View {
     static public void show(JComponent c) {
         if(null != t) {
             t.removeAll();
+            t.validate();
             t.add(c);
             t.validate();
         }

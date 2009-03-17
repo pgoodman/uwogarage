@@ -15,7 +15,7 @@ import org.uwogarage.util.gui.GridCell;
  * 
  * @version $Id$
  */
-public class CategoryListView extends View {
+public class ListCategoriesView extends View {
     
     /**
      * Create a check box list of the categories and store the clicked ones in 

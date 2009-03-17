@@ -14,7 +14,6 @@ import org.uwogarage.util.functional.F0;
  * @version $Id$
  */
 public class UserControlPanelView extends View {
-
     
     /**
      * Show the User Control Panel view.
@@ -28,8 +27,8 @@ public class UserControlPanelView extends View {
      * @return
      */
     static public JPanel view(final UserModel user,
-                final F0 my_info, final F0 add_sale, final F0 bulk_add,
-                final F0 my_sales, final F0 search) {
+                final F0 my_info, final F0 my_sales, final F0 add_sale, 
+                final F0 bulk_add, final F0 search) {
         
         final JTabbedPane pane = new JTabbedPane();
         
