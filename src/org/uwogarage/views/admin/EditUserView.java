@@ -72,7 +72,6 @@ public class EditUserView extends AddUserView {
                     public void call(JButton b) {
                         
                         LinkedList<String> errors = new LinkedList<String>();
-                        UserModel user = new UserModel();
                         
                         // collect the input errors common to adding/editing a 
                         // user

@@ -15,11 +15,15 @@ import org.uwogarage.util.functional.D;
 
 
 /**
+ * View to edit a garage sale.
+ * 
+ * @author Peter Goodman
  * @version $Id$
  */
 public class EditGarageSaleView extends AddGarageSaleView {
+    
     /**
-     * View a garage sale.
+     * Show the form to edit a garage sale.
      * 
      * @param responder
      * @return

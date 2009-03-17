@@ -65,8 +65,8 @@ public class AddGarageSaleView extends View {
      * of the more tedious error checking on some of the more complex fields.
      * 
      * Calendar was used to do equivalences on the month/day/year but not the
-     * hour/minutes as it deals with hours from 0-12 instead of 1-12, which is a
-     * bit annoying for humans to think about.
+     * hour/minutes as it deals with hours from 0-12 instead of 1-12 (or 0-11 
+     * for that matter), which is annoying.
      * 
      * Thus, somewhat unfortunately, the hour/min equivalences don't affect
      * the y/m/d values.
@@ -97,7 +97,7 @@ public class AddGarageSaleView extends View {
         if(h > 12) {
             int res = (int)(h / 12) & 1;            
             time_am.setSelected(1 == res);
-            time_pm.setSelected(1 == res);
+            time_pm.setSelected(0 == res);
             ++h;
         }
         
@@ -295,7 +295,7 @@ public class AddGarageSaleView extends View {
     }
     
     /**
-     * View a garage sale.
+     * Show the form to add a garage sale.
      * 
      * @param responder
      * @return
