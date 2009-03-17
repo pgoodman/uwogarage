@@ -144,6 +144,10 @@ public class AddGarageSaleView extends View {
      * @return
      */
     protected GridCell[] dateAndTimeSection() {
+        
+        time_buttons.add(time_am);
+        time_buttons.add(time_pm);
+        
         return grid.row(
             grid.cell(fieldset("Date/Time", grid(
                 form.row(label("Date (yyyy/mm/dd):"), grid(
@@ -167,7 +171,8 @@ public class AddGarageSaleView extends View {
     /**
      * Create the categories section of the form.
      */
-    protected GridCell[] categoriesSection(ModelSet<CategoryModel> all_categories, ModelSet<CategoryModel> return_categories) {
+    protected GridCell[] categoriesSection(ModelSet<CategoryModel> all_categories, 
+                                           ModelSet<CategoryModel> selected_categories) {
         
         return grid.row(
             grid.cell(fieldset("Categories", grid(
@@ -176,7 +181,8 @@ public class AddGarageSaleView extends View {
                     ? label("There are no categories to choose from.")
                     : CategoryListView.view(
                           all_categories, 
-                          return_categories
+                          selected_categories,
+                          categories
                       )
                  )
             ))).margin(20, 10, 10, 10).anchor(0, 0, 0, 1).fill(1, 1)
@@ -203,6 +209,92 @@ public class AddGarageSaleView extends View {
     }
     
     /**
+     * Perform the error checking common to adding and editing a garage sale.
+     * @param responder
+     */
+    protected void processInput(GarageSaleModel sale, final D<GarageSaleModel> responder) {
+        
+        preProcessInput();
+        
+        // confirmation message to let the user know that some
+        // of their input might have been adjusted / reformmated
+        String confirm_msg = (
+            "The date and time fields may have automatically been "+
+            "given equivalent but corrected default values. Are "+
+            "all fields correct?"
+        );
+        
+        // we confirm because of the pre-processing done to the
+        // form to weed out some error checking
+        if(!dialog.confirm(f, confirm_msg))
+            return;
+        
+        // list of errors that might have built up
+        LinkedList<String> errors = new LinkedList<String>();
+        
+        try {
+            
+            String prov = (String) province.getSelectedItem(),
+                   stre = street.getText(),
+                   citi = city.getText();
+            
+            // this creates a large date string that will be parsed
+            // to 
+            String sale_date = (StringUtil.join(' ',
+                year.getText(),
+                month.getText(),
+                day.getText(),
+                String.valueOf(Integer.parseInt(hour.getText())-1), 
+                minute.getText(),
+                (time_am.isSelected() ? "AM" : "PM"),
+                Location.PROVINCE_TIME_ZONE_CODES.get(prov)
+            ));
+            
+            // make sure the date parses and is sometime that is 
+            // either now or in the future
+            if(!sale.setTime(sale_date)) {
+                errors.add(
+                    "Please make sure that you have supplied "+
+                    "valid future date and time for your garage "+
+                    "sale."
+                );
+            }
+            
+            if(stre.length() == 0)
+                errors.add("Your street address cannot be left blank.");
+            
+            if(citi.length() == 0)
+                errors.add("Your city cannot be left blank.");
+            
+            if(!sale.setGeoPosition(lat.getText(), lng.getText())) {
+                errors.add(
+                    "Please insert valid geographic position "+
+                    "coordinates."
+                );
+            }
+                                        
+            sale.setLocation(new Location(stre, prov, citi));
+            sale.setNote(note.getText());
+            sale.setCategories(categories);
+            
+        } catch(Exception e) {
+            errors.add("Invalid province selected.");
+        }
+        
+        // there are errors, report them
+        if(!errors.isEmpty()) {
+            dialog.alert(f,
+                "The following errors occurred:\n\n"+
+                StringUtil.join('\n', errors)
+            );
+        
+        // done, no errors left :D
+        } else {
+            responder.call(sale);
+        }
+    }
+    
+    /**
      * View a garage sale.
      * 
      * @param responder
@@ -210,104 +302,26 @@ public class AddGarageSaleView extends View {
      */
     public JPanel view(ModelSet<CategoryModel> all_categories, final D<GarageSaleModel> responder) {
         
-        time_buttons.add(time_am);
-        time_buttons.add(time_pm);
-        
         // lay out the form
         return grid(
             grid.row(
                 grid.cell(label("Add Garage Sale")).margin(10, 10, 10, 10)
             ),
             
+            // build the sections of the form
             addressSection(),
             dateAndTimeSection(),
-            categoriesSection(all_categories, categories),
+            categoriesSection(
+                all_categories, // listing categories
+                new ModelSet<CategoryModel>() // empty set of selected categories
+            ),
             extraInfoSection(),
             
+            // submit button
             grid.row(
                 grid.cell(button("Add", new D<JButton>() {
                     public void call(JButton b) {
-                        
-                        preProcessInput();
-                        
-                        // confirmation message to let the user know that some
-                        // of their input might have been adjusted / reformmated
-                        String confirm_msg = (
-                            "The date and time fields may have automatically been "+
-                            "given equivalent but corrected default values. Are "+
-                            "all fields correct?"
-                        );
-                        
-                        // we confirm because of the pre-processing done to the
-                        // form to weed out some error checking
-                        if(!dialog.confirm(f, confirm_msg))
-                            return;
-                        
-                        // the sale that we are attempting to create and also a
-                        // list of errors that might have built up
-                        GarageSaleModel sale = new GarageSaleModel();
-                        LinkedList<String> errors = new LinkedList<String>();
-                        
-                        try {
-                            
-                            String prov = (String) province.getSelectedItem(),
-                                   stre = street.getText(),
-                                   citi = city.getText();
-                            
-                            // this creates a large date string that will be parsed
-                            // to 
-                            String sale_date = (StringUtil.join(' ',
-                                year.getText(),
-                                month.getText(),
-                                day.getText(),
-                                String.valueOf(Integer.parseInt(hour.getText())-1), 
-                                minute.getText(),
-                                (time_am.isSelected() ? "AM" : "PM"),
-                                Location.PROVINCE_TIME_ZONE_CODES.get(prov)
-                            ));
-                            
-                            // make sure the date parses and is sometime that is 
-                            // either now or in the future
-                            if(!sale.setDate(sale_date)) {
-                                errors.add(
-                                    "Please make sure that you have supplied "+
-                                    "valid future date and time for your garage "+
-                                    "sale."
-                                );
-                            }
-                            
-                            if(stre.length() == 0)
-                                errors.add("Your street address cannot be left blank.");
-                            
-                            if(citi.length() == 0)
-                                errors.add("Your city cannot be left blank.");
-                            
-                            if(!sale.setGeoPosition(lat.getText(), lng.getText())) {
-                                errors.add(
-                                    "Please insert valid geographic position "+
-                                    "coordinates."
-                                );
-                            }
-                                                        
-                            sale.setLocation(new Location(stre, prov, citi));
-                            sale.setNote(note.getText());
-                            sale.setCategories(categories);
-                            
-                        } catch(Exception e) {
-                            errors.add("Invalid province selected.");
-                        }
-                        
-                        // there are errors, report them
-                        if(!errors.isEmpty()) {
-                            dialog.alert(f,
-                                "The following errors occurred:\n\n"+
-                                StringUtil.join('\n', errors)
-                            );
-                        
-                        // done, no errors left :D
-                        } else {
-                            responder.call(sale);
-                        }
+                        processInput(new GarageSaleModel(), responder);
                     }
                 }))
             )

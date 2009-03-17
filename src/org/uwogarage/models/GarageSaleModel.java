@@ -17,7 +17,7 @@ public class GarageSaleModel implements Model {
 
     ModelSet<CategoryModel> categories; // the garage sale's category
 	Location location; // the garage sale's location
-	Date date; // the garage sale's date
+	Calendar time; // the garage sale's date
 	String note = ""; // the garage sale's note
 	GeoPosition position; // the location's geo position
 	
@@ -41,11 +41,18 @@ public class GarageSaleModel implements Model {
 	}
 	
 	/**
+	 * Get the sale's geo position
+	 */
+	public GeoPosition getGeoPosition() {
+	    return position;
+	}
+	
+	/**
 	 * This method returns the garage sale's date
 	 * @return the garage sale's date
 	 */
-	public Date getDate() {
-	    return date;
+	public Calendar getTime() {
+	    return time;
 	}
 	
 	/**
@@ -95,7 +102,14 @@ public class GarageSaleModel implements Model {
 	 * 
 	 * @param date
 	 */
-	public boolean setDate(Date d) {
+	public boolean setTime(Calendar c) {
+	    if(null == c)
+	        return false;
+	    
+	    time = c;
+	    return true;
+	}
+	public boolean setTime(Date d) {
 	    
 	    // get the start of today :D
 	    Calendar today = Calendar.getInstance();
@@ -105,12 +119,15 @@ public class GarageSaleModel implements Model {
 	    if(null == d || d.before(today.getTime()))
 	        return false;
 	    
-	    date = d;
+	    // overwrite the time
+	    today.setTime(d);
+	    
+	    time = today;
 	    return true;
 	}
-	public boolean setDate(String s) {
+	public boolean setTime(String s) {
 	    try {
-	        return setDate(
+	        return setTime(
 	            (new SimpleDateFormat("yyyy MM dd hh mm a z")).parse(s)
 	        );
 	    } catch(Exception e) {
