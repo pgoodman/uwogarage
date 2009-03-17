@@ -105,6 +105,13 @@ public class UserModel implements Model {
 	}
 	
 	/**
+	 * Get this user's garage sales.
+	 */
+	public ModelSet<GarageSaleModel> getGarageSales() {
+	    return sales;
+	}
+	
+	/**
 	 * Check if the user's password should be changed, i.e. the user was just
 	 * created or the user's password was just reset by the administrator.
 	 */

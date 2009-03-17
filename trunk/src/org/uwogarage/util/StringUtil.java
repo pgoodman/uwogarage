@@ -1,5 +1,6 @@
 package org.uwogarage.util;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -33,39 +34,59 @@ abstract public class StringUtil {
     }
     
     /**
-     * Join an array of strings by a single char.
+     * Well-behaved string join using variadic argument list.
      * 
      * @param join
      * @param strs
      * @return
      */
-    static public String join(char join, String ... strs) {
+    static public String join(char join, String first, String ... rest) {
         
-        if(strs.length == 0)
-            return "";
-        
-        int i = 0, 
+        int i = first.length(), 
             length = 0;
         
         // get the total length of the string
-        for(; i < strs.length; length += strs[i++].length());
+        for(; i < rest.length; length += rest[i++].length())
+            ;
         
-        StringBuffer ret = new StringBuffer(length + (strs.length - 1));
+        // note: length + (rest.length - 1) + 1, removed redundancy :D
+        StringBuffer ret = new StringBuffer(length + rest.length);
         
-        ret.append(strs[0]);
-        for(i = 1; i < strs.length; ret.append(join), ret.append(strs[i++]));
+        ret.append(first);
+        for(String r : rest) {
+            ret.append(join);
+            ret.append(r);
+        }
         
         return ret.toString();
     }
-    static public String join(char join, Collection<String> strs) {
-        if(strs.size() == 0)
+    
+    /**
+     * String joins using collections.
+     * 
+     * @param join
+     * @param strs
+     * @return
+     */
+    static public String join(char join, String[] strs) {
+        if(null == strs || strs.length == 0)
             return "";
         
-        String[] str_array = new String[strs.size()];
-        int i = 0;
-        for(String str : strs)
-            str_array[i++] = str;
+        return join(join, Arrays.asList(strs));
+    }
+    static public String join(char join, Collection<String> strs) {
+        if(null == strs || strs.size() == 0)
+            return "";
         
-        return join(join, str_array);
+        StringBuffer ret = new StringBuffer();
+        boolean do_join = false;
+        
+        for(String r : strs) {
+            if(do_join) ret.append(join);
+            ret.append(r);
+            do_join = true;
+        }
+        
+        return ret.toString();
     }
 }

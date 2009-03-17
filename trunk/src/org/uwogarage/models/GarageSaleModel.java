@@ -14,16 +14,23 @@ import org.uwogarage.util.Location;
  */
 
 public class GarageSaleModel implements Model {
-
-    ModelSet<CategoryModel> categories; // the garage sale's category
+    
+    final UserModel user; // the user that created this garage sale
+    final Calendar time; // the garage sale's date and time information
+    ModelSet<CategoryModel> categories; // the garage sale's categories
 	Location location; // the garage sale's location
-	Calendar time; // the garage sale's date
-	String note = ""; // the garage sale's note
 	GeoPosition position; // the location's geo position
+	String note = ""; // the garage sale's note
 	
 	int rating_sum = 0, // the sum of the ratings for this garage sale
 	    num_ratings = 0; // the number of ratings cast
-
+	
+	public GarageSaleModel(UserModel u) {
+	    user = u;
+	    categories = new ModelSet<CategoryModel>();
+	    time = Calendar.getInstance();
+	}
+	
 	/**
 	 * This method returns the garage sale's categories
 	 * @return the garage sale's categories
@@ -72,6 +79,13 @@ public class GarageSaleModel implements Model {
 	}
 	
 	/**
+	 * Get the user that owns this model.
+	 */
+	public UserModel getUser() {
+	    return user;
+	}
+	
+	/**
 	 * Check if this garage sale has been rated yet.
 	 * @return
 	 */
@@ -106,7 +120,7 @@ public class GarageSaleModel implements Model {
 	    if(null == c)
 	        return false;
 	    
-	    time = c;
+	    time.setTime(c.getTime());
 	    return true;
 	}
 	public boolean setTime(Date d) {
@@ -120,9 +134,7 @@ public class GarageSaleModel implements Model {
 	        return false;
 	    
 	    // overwrite the time
-	    today.setTime(d);
-	    
-	    time = today;
+	    time.setTime(d);
 	    return true;
 	}
 	public boolean setTime(String s) {

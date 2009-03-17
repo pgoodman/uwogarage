@@ -80,7 +80,8 @@ public class EditUserView extends AddUserView {
                         // there are errors, report them
                         if(!errors.isEmpty()) {
                             dialog.alert(f,
-                                "The following errors occurred:\n\n"+
+                                "Some fields were not saved because of the "+
+                                "following errors:\n\n"+
                                 StringUtil.join('\n', errors)
                             );
                         
