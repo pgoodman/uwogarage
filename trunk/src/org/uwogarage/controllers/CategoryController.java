@@ -12,6 +12,13 @@ import org.uwogarage.views.admin.AddCategoryView;
  */
 public class CategoryController extends Controller<CategoryModel> {
     
+    public CategoryController() {
+        try {
+            models.add(new CategoryModel("Test Category 1"));
+            models.add(new CategoryModel("Test Category 2"));
+        } catch(Exception e) { }
+    }
+    
     /**
      * Show the form to add a category, then perform the insert when the form is
      * submitted successfully.

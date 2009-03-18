@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
-import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
@@ -33,7 +32,7 @@ public class EditGarageSaleView extends AddGarageSaleView {
                     final D<GarageSaleModel> responder) {
         
         Location loc = sale.getLocation();
-        GeoPosition pos = sale.getGeoPosition();
+        String[] pos = sale.getGuiGeoPosition();
         Calendar time = sale.getTime();
         
         // TODO get this right
@@ -52,10 +51,8 @@ public class EditGarageSaleView extends AddGarageSaleView {
         time_pm.setSelected(time.get(Calendar.AM_PM) == Calendar.PM);
         note.setText(sale.getNote());
         province.setSelectedItem(loc.getProvince());
-        
-        // TODO make sure that these end up being formatted correctly
-        lat.setText(String.valueOf(pos.getLatitude()));
-        lng.setText(String.valueOf(pos.getLongitude()));
+        lat.setText(pos[0]);
+        lng.setText(pos[1]);
         
         // lay out the form
         return grid(
