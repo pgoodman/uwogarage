@@ -28,8 +28,8 @@ public class ListCategoriesView extends View {
     static public JPanel view(ModelSet<CategoryModel> in_categories,
                         final ModelSet<CategoryModel> selected_categories,
                         final ModelSet<CategoryModel> responder_categories) {
-        GridCell[] category_boxes = new GridCell[in_categories.size()];
-        
+        GridCell[][] category_boxes = new GridCell[in_categories.size()][];
+        int i = 0;
         ButtonGroup group = new ButtonGroup();
         
         for(final CategoryModel category : in_categories) {
@@ -50,6 +50,8 @@ public class ListCategoriesView extends View {
                         responder_categories.remove(category);
                 }
             });
+            
+            category_boxes[i++] = grid.row(grid.cell(box));
         }
         
         return grid(category_boxes);

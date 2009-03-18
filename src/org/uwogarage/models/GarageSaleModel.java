@@ -20,7 +20,8 @@ public class GarageSaleModel implements Model {
     ModelSet<CategoryModel> categories; // the garage sale's categories
 	Location location; // the garage sale's location
 	GeoPosition position; // the location's geo position
-	String note = ""; // the garage sale's note
+	String note = "", // the garage sale's note
+	       positions[]; // this is out of laziness
 	
 	int rating_sum = 0, // the sum of the ratings for this garage sale
 	    num_ratings = 0; // the number of ratings cast
@@ -52,6 +53,9 @@ public class GarageSaleModel implements Model {
 	 */
 	public GeoPosition getGeoPosition() {
 	    return position;
+	}
+	public String[] getGuiGeoPosition() {
+	    return positions;
 	}
 	
 	/**
@@ -176,6 +180,10 @@ public class GarageSaleModel implements Model {
             return false;
         }
         
+        // lazy version for GUI :P
+        positions = new String[] {lat, lng};
+        
+        // version for API
         position = new GeoPosition(
             Double.parseDouble(lat),
             Double.parseDouble(lng)
