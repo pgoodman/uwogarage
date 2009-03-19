@@ -49,7 +49,7 @@ public class ListCategoriesView extends View {
                 }
             });
             
-            category_boxes[i++] = grid.row(grid.cell(box));
+            category_boxes[i++] = grid.row(grid.cell(box).anchor(1, 0, 0, 1));
         }
         
         return grid(category_boxes);

@@ -1,15 +1,14 @@
 package org.uwogarage.views.seller;
 
-import java.awt.Color;
 import java.util.Calendar;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -47,7 +46,12 @@ public class AddGarageSaleView extends View {
                          lat = field.text(11, new RealNumDocument(11)),
                          lng = field.text(11, new RealNumDocument(11));
     
-    protected JTextArea note = new JTextArea(new AnyDocument(200));
+    protected JTextArea note = new JTextArea(
+        new AnyDocument(200),
+        "",
+        5,
+        20
+    );
     
     // set up the time AM/PM fields
     protected JRadioButton time_am = new JRadioButton("am", true),
@@ -78,9 +82,9 @@ public class AddGarageSaleView extends View {
         int curr_year = then.get(Calendar.YEAR);
             
         // get the integer values for month/day
-        int y = Math.abs(0 == year.getText().length() ? curr_year : Integer.parseInt(year.getText())),
-            d = Math.abs(0 == day.getText().length() ? then.get(Calendar.DAY_OF_MONTH) : Integer.parseInt(day.getText())),
-            m = Math.abs(0 == month.getText().length() ? then.get(Calendar.MONTH)+1 : Integer.parseInt(month.getText()));
+        int y = Math.abs(0 == year.getText().length() ? curr_year : Integer.parseInt(year.getText(), 10)),
+            d = Math.abs(0 == day.getText().length() ? then.get(Calendar.DAY_OF_MONTH)+1 : Integer.parseInt(day.getText(), 10)),
+            m = Math.abs(0 == month.getText().length() ? then.get(Calendar.MONTH)+1 : Integer.parseInt(month.getText(), 10));
         
         // perform equivalence transformations on the year/month/day
         if(y < curr_year) y = curr_year;
@@ -88,17 +92,17 @@ public class AddGarageSaleView extends View {
         if(d < 1) d = 1;
         
         // get the integer values for hours/minutes
-        int h = Math.abs((0 == hour.getText().length()) ? 1 : Integer.parseInt(hour.getText())),
-            min = Math.abs((0 == minute.getText().length()) ? 0 : Integer.parseInt(minute.getText()));
+        int h = Math.abs((0 == hour.getText().length()) ? 1 : Integer.parseInt(hour.getText(), 10)),
+            min = Math.abs((0 == minute.getText().length()) ? 0 : Integer.parseInt(minute.getText(), 10));
         
         // perform equivalence transformations on the input given for 
         // hours/minutes. The times are equivalent as the hours/minutes are added
         // correctly, and the am/pm is adjusted accordingly.
-        if(min > 60) h += (int)(min / 60);
+        if(min > 59) h += (int)(min / 60);
         if(h > 12) {
             int res = (int)(h / 12) & 1;            
-            time_am.setSelected(1 == res);
-            time_pm.setSelected(0 == res);
+            time_am.setSelected(0 == res);
+            time_pm.setSelected(1 == res);
             ++h;
         }
         
@@ -127,16 +131,14 @@ public class AddGarageSaleView extends View {
      * 
      * @return
      */
-    protected GridCell[] addressSection() {
-        return grid.row(
-            grid.cell(fieldset("Address", grid(
-                form.row(label("Address:"), street),
-                form.row(label("City:"), city),
-                form.row(label("Province:"), province),
-                form.row(label("Latitude:"), lat),
-                form.row(label("Longitude:"), lng)
-            ))).margin(0, 10, 10, 10).anchor(0, 0, 0, 1).fill(1, 1)
-        );
+    protected GridCell addressSection() {
+        return grid.cell(fieldset("Address", grid(
+            form.row(label("Address:"), street),
+            form.row(label("City:"), city),
+            form.row(label("Province:"), province),
+            form.row(label("Latitude:"), lat),
+            form.row(label("Longitude:"), lng)
+        ))).margin(10, 10, 10, 10).anchor(1, 0, 0, 1).fill(1, 1);
     }
     
     /**
@@ -144,50 +146,46 @@ public class AddGarageSaleView extends View {
      * 
      * @return
      */
-    protected GridCell[] dateAndTimeSection() {
+    protected GridCell dateAndTimeSection() {
         
         time_buttons.add(time_am);
         time_buttons.add(time_pm);
         
-        return grid.row(
-            grid.cell(fieldset("Date/Time", grid(
-                form.row(label("Date (yyyy/mm/dd):"), grid(
-                    grid.cell(year),
-                    grid.cell(label(" / ")),
-                    grid.cell(month),
-                    grid.cell(label(" / ")),
-                    grid.cell(day)
-                )),
-                form.row(label("Time:"), grid(
-                    grid.cell(hour),
-                    grid.cell(label(" : ")),
-                    grid.cell(minute),
-                    grid.cell(time_am),
-                    grid.cell(time_pm)
-                ))
-            ))).margin(20, 10, 10, 10).anchor(0, 0, 0, 1).fill(1, 1)
-        );
+        return grid.cell(fieldset("Date/Time", grid(
+            form.row(label("Date (yyyy/mm/dd):"), grid(
+                grid.cell(year),
+                grid.cell(label(" / ")),
+                grid.cell(month),
+                grid.cell(label(" / ")),
+                grid.cell(day)
+            )),
+            form.row(label("Time (hh:mm):"), grid(
+                grid.cell(hour),
+                grid.cell(label(" : ")),
+                grid.cell(minute),
+                grid.cell(time_am),
+                grid.cell(time_pm)
+            ))
+        ))).margin(10, 10, 10, 10).anchor(1, 0, 0, 1).fill(1, 1);
     }
     
     /**
      * Create the categories section of the form.
      */
-    protected GridCell[] categoriesSection(ModelSet<CategoryModel> all_categories, 
+    protected GridCell categoriesSection(ModelSet<CategoryModel> all_categories, 
                                            ModelSet<CategoryModel> selected_categories) {
         
-        return grid.row(
-            grid.cell(fieldset("Categories", grid(
-                grid.cell(
-                    all_categories.isEmpty() 
-                    ? label("There are no categories to choose from.")
-                    : ListCategoriesView.view(
-                          all_categories, 
-                          selected_categories,
-                          categories
-                      )
-                 )
-            ))).margin(20, 10, 10, 10).anchor(0, 0, 0, 1).fill(1, 1)
-        );
+        return grid.cell(fieldset("Categories", grid(
+            grid.cell(
+                all_categories.isEmpty() 
+                ? label("There are no categories to choose from.")
+                : ListCategoriesView.view(
+                      all_categories, 
+                      selected_categories,
+                      categories
+                  )
+             )
+        ))).margin(10, 10, 10, 10).anchor(1, 0, 0, 1).fill(1, 1);
     }
     
     /**
@@ -195,18 +193,15 @@ public class AddGarageSaleView extends View {
      * 
      * @return
      */
-    protected GridCell[] extraInfoSection() {
+    protected GridCell extraInfoSection() {
         
-        note.setColumns(20);
-        note.setRows(1);
         note.setLineWrap(true);
-        note.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         
-        return grid.row(
-            grid.cell(fieldset("Extra Information (not required)", grid(
-                form.row(label("Note:"), note)
-            ))).margin(20, 10, 10, 10).anchor(0, 0, 0, 1).fill(1, 1)
-        );
+        JScrollPane note_area = new JScrollPane(note);
+        
+        return grid.cell(fieldset("Extra Information (not required)", grid(
+            form.row(label("Note:"), note_area)
+        ))).margin(10, 10, 10, 10).anchor(1, 0, 0, 1).fill(1, 1);
     }
     
     /**
@@ -240,13 +235,17 @@ public class AddGarageSaleView extends View {
                    citi = city.getText();
             
             // create a parse-able string version of the date this
+            int time_hour = Integer.parseInt(hour.getText(), 10);
             String sale_date = (StringUtil.join(' ',
                 year.getText(),
                 month.getText(),
                 day.getText(),
-                String.valueOf(Integer.parseInt(hour.getText())-1), 
+                StringUtil.padLeft(
+                    String.valueOf(time_am.isSelected() ? time_hour : time_hour+12),
+                    '0',
+                    2
+                ),
                 minute.getText(),
-                (time_am.isSelected() ? "AM" : "PM"),
                 Location.PROVINCE_TIME_ZONE_CODES.get(prov)
             ));
             
@@ -272,9 +271,15 @@ public class AddGarageSaleView extends View {
                     "coordinates."
                 );
             }
+            
+            if(!sale.setNote(note.getText())) {
+                errors.add(
+                    "Please limit the length of your note to 200 characters."
+                );
+            }
                                         
             sale.setLocation(new Location(stre, prov, citi));
-            sale.setNote(note.getText());
+            
             sale.setCategories(categories);
             
         } catch(Exception e) {
@@ -305,21 +310,25 @@ public class AddGarageSaleView extends View {
         // lay out the form
         return grid(
             grid.row(
-                grid.cell(label("Add Garage Sale")).margin(10, 10, 10, 10)
+                grid.cell(2, label("Add Garage Sale")).margin(10, 10, 10, 10)
             ),
             
             // build the sections of the form
-            addressSection(),
-            dateAndTimeSection(),
-            categoriesSection(
-                all_categories, // listing categories
-                new ModelSet<CategoryModel>() // empty set of selected categories
+            grid.row(
+                addressSection(),
+                dateAndTimeSection()
             ),
-            extraInfoSection(),
+            grid.row(
+                categoriesSection(
+                    all_categories, // listing categories
+                    new ModelSet<CategoryModel>() // empty set of selected categories
+                ),
+                extraInfoSection()
+            ),
             
             // submit button
             grid.row(
-                grid.cell(button("Add", new D<JButton>() {
+                grid.cell(2, button("Add", new D<JButton>() {
                     public void call(JButton b) {
                         processInput(new GarageSaleModel(user), responder);
                     }

@@ -34,7 +34,14 @@ public class UserController extends Controller<UserModel> {
      * Add a user.
      */
     public void add() {
-        
+        // TODO
+    }
+    
+    /**
+     * Edit a user.
+     */
+    public void edit(UserModel user) {
+        // TODO
     }
     
     /**

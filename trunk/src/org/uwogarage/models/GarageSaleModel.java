@@ -1,7 +1,7 @@
 package org.uwogarage.models;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 
 import org.uwogarage.util.GeoPosition;
@@ -16,7 +16,7 @@ import org.uwogarage.util.Location;
 public class GarageSaleModel implements Model {
     
     final UserModel user; // the user that created this garage sale
-    final Calendar time; // the garage sale's date and time information
+    final GregorianCalendar time; // the garage sale's date and time information
     ModelSet<CategoryModel> categories; // the garage sale's categories
 	Location location; // the garage sale's location
 	GeoPosition position; // the location's geo position
@@ -29,7 +29,7 @@ public class GarageSaleModel implements Model {
 	public GarageSaleModel(UserModel u) {
 	    user = u;
 	    categories = new ModelSet<CategoryModel>();
-	    time = Calendar.getInstance();
+	    time = new GregorianCalendar();
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class GarageSaleModel implements Model {
 	 * This method returns the garage sale's date
 	 * @return the garage sale's date
 	 */
-	public Calendar getTime() {
+	public GregorianCalendar getTime() {
 	    return time;
 	}
 	
@@ -120,7 +120,7 @@ public class GarageSaleModel implements Model {
 	 * 
 	 * @param date
 	 */
-	public boolean setTime(Calendar c) {
+	public boolean setTime(GregorianCalendar c) {
 	    if(null == c)
 	        return false;
 	    
@@ -130,9 +130,9 @@ public class GarageSaleModel implements Model {
 	public boolean setTime(Date d) {
 	    
 	    // get the start of today :D
-	    Calendar today = Calendar.getInstance();
-	    today.set(Calendar.HOUR, 0);
-	    today.set(Calendar.MINUTE, 0);
+	    GregorianCalendar today = new GregorianCalendar();
+	    today.set(GregorianCalendar.HOUR, 0);
+	    today.set(GregorianCalendar.MINUTE, 0);
 	    
 	    if(null == d || d.before(today.getTime()))
 	        return false;
@@ -143,8 +143,9 @@ public class GarageSaleModel implements Model {
 	}
 	public boolean setTime(String s) {
 	    try {
+	        System.out.println(s);
 	        return setTime(
-	            (new SimpleDateFormat("yyyy MM dd hh mm a z")).parse(s)
+	            (new SimpleDateFormat("yyyy MM dd kk mm")).parse(s)
 	        );
 	    } catch(Exception e) {
 	        return false;

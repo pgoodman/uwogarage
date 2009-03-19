@@ -38,6 +38,7 @@ public class UserControlPanelView extends View {
         pane.addTab("Add Sale", new JPanel());
         pane.addTab("Bulk Add", new JPanel());
         pane.addTab("Search", new JPanel());
+        pane.addTab("All Sales", new JPanel());
         
         // create the change listener that will refresh the content of each tab
         // per state change
@@ -57,6 +58,7 @@ public class UserControlPanelView extends View {
                     case 2: add_sale.call(); break;
                     case 3: bulk_add.call(); break;
                     case 4: search.call(); break;
+                    case 5: break;
                 }
             }
         });

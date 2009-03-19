@@ -1,5 +1,6 @@
 package org.uwogarage.controllers;
 
+import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.RatingModel;
 
 /**
@@ -10,22 +11,20 @@ import org.uwogarage.models.RatingModel;
  * @version $Id$
  */
 public class RatingController extends Controller<RatingModel> {
-
+    
     /**
      * Show the view to rate a garage sale.
      */
-    public void add() {
+    public void add(GarageSaleModel sale, int rating) {
+        // TODO Auto-generated method stub
+    }
+
+    public void edit(RatingModel rating) {
         // TODO Auto-generated method stub
         
     }
-
-    public void edit(RatingModel model) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    protected void update(RatingModel model) {
-        // TODO Auto-generated method stub
+    
+    public void delete(RatingModel rating) {
         
     }
 }

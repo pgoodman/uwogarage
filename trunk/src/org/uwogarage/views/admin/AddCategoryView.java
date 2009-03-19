@@ -6,7 +6,7 @@ import javax.swing.JTextField;
 
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.ModelSet;
-import org.uwogarage.util.documents.WordDocument;
+import org.uwogarage.util.documents.AnyDocument;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
 import org.uwogarage.views.View;
@@ -19,7 +19,7 @@ public class AddCategoryView extends View {
     static public JPanel view(final ModelSet<CategoryModel> categories, final D<CategoryModel> responder) {
         
         // category name text field
-        final JTextField cat_name = field.text(50, new WordDocument(50));
+        final JTextField cat_name = field.text(50, new AnyDocument(50));
         
         // the predicate to filter out any categories, so that we can make sure
         // that the category being added is unique
