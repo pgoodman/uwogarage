@@ -30,11 +30,9 @@ public class ListCategoriesView extends View {
                         final ModelSet<CategoryModel> responder_categories) {
         GridCell[][] category_boxes = new GridCell[in_categories.size()][];
         int i = 0;
-        ButtonGroup group = new ButtonGroup();
         
         for(final CategoryModel category : in_categories) {
             final JCheckBox box = new JCheckBox(category.getName());
-            group.add(box);
             
             // select it
             if(selected_categories.contains(category))
