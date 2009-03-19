@@ -14,7 +14,7 @@ public class CategoryModel implements Model {
 	 * Constructor, inserts the name of the category
 	 */
 	public CategoryModel(String n) throws Exception {
-	    if(!n.matches("[a-zA-Z0-9 ]{1,50}")) {
+	    if(!n.matches(".{1,50}")) {
 	        throw new Exception();
 	    }
 	    

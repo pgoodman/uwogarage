@@ -3,7 +3,6 @@ package org.uwogarage.util.gui;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import org.uwogarage.util.functional.Tuple;
 
 /**
  * GridCell:
@@ -15,18 +14,22 @@ import org.uwogarage.util.functional.Tuple;
  * @author Peter Goodman
  * @version $Id$
  */
-public class GridCell extends Tuple<Component,GridBagConstraints> {
-
-    public GridCell(Component a, GridBagConstraints b) {
-        super(a, b);
+public class GridCell {
+    
+    final public Component first;
+    final public GridBagConstraints second;
+    
+    public GridCell(Component aa, GridBagConstraints bb) {
+        first = aa;
+        second = bb;
     }
     
     /**
      * Internal padding of a grid cell.
      */
     public GridCell padding(int x, int y) {
-        b.ipadx = x;
-        b.ipady = y;
+        second.ipadx = x;
+        second.ipady = y;
         return this;
     }
     
@@ -34,7 +37,7 @@ public class GridCell extends Tuple<Component,GridBagConstraints> {
      * External padding of a grid cell.
      */
     public GridCell margin(int top, int right, int bottom, int left) {
-        b.insets = new Insets(top, left, bottom, right);
+        second.insets = new Insets(top, left, bottom, right);
         return this;
     }
     
@@ -42,8 +45,8 @@ public class GridCell extends Tuple<Component,GridBagConstraints> {
      * Top-left position in grid.
      */
     public GridCell pos(int x, int y) {
-        b.gridx = x;
-        b.gridy = y;
+        second.gridx = x;
+        second.gridy = y;
         return this;
     }
     
@@ -51,8 +54,8 @@ public class GridCell extends Tuple<Component,GridBagConstraints> {
      * Set the row (x) and column (y) weights.
      */
     public GridCell weight(double x, double y) {
-        b.weightx = x;
-        b.weighty = y;
+        second.weightx = x;
+        second.weighty = y;
         return this;
     }
     
@@ -73,14 +76,14 @@ public class GridCell extends Tuple<Component,GridBagConstraints> {
         else if(v == 1)
             f = GridBagConstraints.VERTICAL;
         
-        b.fill = f;
+        second.fill = f;
         
         // set the weights
         if (f == GridBagConstraints.HORIZONTAL || f == GridBagConstraints.BOTH) 
-            b.weightx = 1.0;
+            second.weightx = 1.0;
         
         if (f == GridBagConstraints.VERTICAL || f == GridBagConstraints.BOTH)
-            b.weighty = 1.0;
+            second.weighty = 1.0;
         
         return this;
     }
@@ -101,23 +104,23 @@ public class GridCell extends Tuple<Component,GridBagConstraints> {
         
         // now, figure out where to anchor this grid cell
         if(n+e+s+w == 4)
-            b.anchor = GridBagConstraints.CENTER;
+            second.anchor = GridBagConstraints.CENTER;
         else if(n+e == 2)
-            b.anchor = GridBagConstraints.NORTHEAST;
+            second.anchor = GridBagConstraints.NORTHEAST;
         else if(n+w == 2)
-            b.anchor = GridBagConstraints.NORTHWEST;
+            second.anchor = GridBagConstraints.NORTHWEST;
         else if(s+e == 2)
-            b.anchor = GridBagConstraints.SOUTHEAST;
+            second.anchor = GridBagConstraints.SOUTHEAST;
         else if(s+w == 2)
-            b.anchor = GridBagConstraints.SOUTHWEST;
+            second.anchor = GridBagConstraints.SOUTHWEST;
         else if(n == 1)
-            b.anchor = GridBagConstraints.NORTH;
+            second.anchor = GridBagConstraints.NORTH;
         else if(e == 1)
-            b.anchor = GridBagConstraints.EAST;
+            second.anchor = GridBagConstraints.EAST;
         else if(s == 1)
-            b.anchor = GridBagConstraints.SOUTH;
+            second.anchor = GridBagConstraints.SOUTH;
         else if(w == 1)
-            b.anchor = GridBagConstraints.WEST;
+            second.anchor = GridBagConstraints.WEST;
         
         return this;
     }

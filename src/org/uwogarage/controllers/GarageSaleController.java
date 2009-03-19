@@ -1,6 +1,7 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.models.GarageSaleModel;
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.ListGarageSalesView;
@@ -17,11 +18,6 @@ import org.uwogarage.views.seller.EditGarageSaleView;
 
 public class GarageSaleController extends Controller<GarageSaleModel> {
 
-    /**
-     * This method displays the appropriate view to rate a garage sale, 
-     * processes the input, and stores the rating
-     */
-    public void rate() {}
     
     /**
      * This method displays the appropriate view to bulk add garage sales, 
@@ -60,7 +56,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     }
     
     public void delete(GarageSaleModel sale) {
-        
+        // TODO
     }
     
     /**
@@ -107,7 +103,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         // TODO
     }
     
-    public void list() {
+    public void list(ModelSet<GarageSaleModel> categories) {
         // TODO
     }
 }

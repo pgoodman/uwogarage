@@ -36,7 +36,7 @@ public class UWOGarage {
 	    final Dispatcher dispatch_to = new Dispatcher();
 	    
 	    // minimum dimensions for the program
-	    final Dimension min_dimensions = new Dimension(750, 750);
+	    final Dimension min_dimensions = new Dimension(800, 550);
 	    
 	    // run the GUI
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

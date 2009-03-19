@@ -43,7 +43,7 @@ public class EditGarageSaleView extends AddGarageSaleView {
         street.setText(loc.getStreet());
         city.setText(loc.getCity());
         year.setText(String.valueOf(time.get(Calendar.YEAR)));
-        month.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.YEAR)), '0', 2));
+        month.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.MONTH)), '0', 2));
         day.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.DAY_OF_MONTH)), '0', 2));
         hour.setText(StringUtil.padLeft(String.valueOf(hours), '0', 2));
         minute.setText(StringUtil.padLeft(String.valueOf(time.get(Calendar.MINUTE)), '0', 2));
@@ -57,18 +57,22 @@ public class EditGarageSaleView extends AddGarageSaleView {
         // lay out the form
         return grid(
             grid.row(
-                grid.cell(label("Edit Garage Sale")).margin(10, 10, 10, 10)
+                grid.cell(2, label("Edit Garage Sale")).margin(10, 10, 10, 10)
             ),
             
             // build the sections of the form
-            addressSection(),
-            dateAndTimeSection(),
-            categoriesSection(all_categories, sale.getCategories()),
-            extraInfoSection(),
+            grid.row(
+                addressSection(),
+                dateAndTimeSection()
+            ),
+            grid.row(
+                categoriesSection(all_categories, sale.getCategories()),
+                extraInfoSection()
+            ),
             
             // submit button
             grid.row(
-                grid.cell(button("Update", new D<JButton>() {
+                grid.cell(2, button("Update", new D<JButton>() {
                     public void call(JButton b) {
                         processInput(sale, responder);
                     }

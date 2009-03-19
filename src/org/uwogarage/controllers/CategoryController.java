@@ -14,8 +14,11 @@ public class CategoryController extends Controller<CategoryModel> {
     
     public CategoryController() {
         try {
-            models.add(new CategoryModel("Test Category 1"));
-            models.add(new CategoryModel("Test Category 2"));
+            models.add(new CategoryModel("Antiques"));
+            models.add(new CategoryModel("Art"));
+            models.add(new CategoryModel("Collectables"));
+            models.add(new CategoryModel("Children's Clothing/Toys"));
+            models.add(new CategoryModel("Furniture"));
         } catch(Exception e) { }
     }
     
@@ -33,11 +36,16 @@ public class CategoryController extends Controller<CategoryModel> {
                 models.add(category);
                 
                 // TODO Return to main admin menu or do something
-                
             }
         }));
     }
     
     // leave unimplemented
     public void edit(String model) { }
+    
+    public void delete(CategoryModel cat) {
+        models.remove(cat);
+        
+        // TODO do something now
+    }
 }

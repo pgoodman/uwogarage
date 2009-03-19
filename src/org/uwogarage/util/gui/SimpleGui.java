@@ -214,7 +214,7 @@ abstract public class SimpleGui {
         
         for(GridCell cell : cells) {
             if(null != cell)
-                c.add(cell.first(), cell.second());
+                c.add(cell.first, cell.second);
         }
         
         return pane;
@@ -245,7 +245,7 @@ abstract public class SimpleGui {
             x = 0;
             for(GridCell cell : row) {
                 cell.pos(x++, y);
-                c.add(cell.first(), cell.second());
+                c.add(cell.first, cell.second);
             }
             y++;
         }
