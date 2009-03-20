@@ -31,6 +31,9 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         TabView.show((new AddGarageSaleView()).view(
             logged_user,
             d.category.getModels(),
+            
+            // pass a delegate to the view that takes in the garage sale to be
+            // added
             new D<GarageSaleModel>() {
                 public void call(GarageSaleModel sale) {
                     logged_user.addGarageSale(sale);
@@ -45,10 +48,11 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         TabView.show((new EditGarageSaleView()).view(
                 sale,
                 d.category.getModels(),
+                
+                // pass a delegate to the view that takes in the updated garage
+                // sale
                 new D<GarageSaleModel>() {
                     public void call(GarageSaleModel sale) {
-                        logged_user.addGarageSale(sale);
-                        models.add(sale);
                         view(sale);
                     }
                 }

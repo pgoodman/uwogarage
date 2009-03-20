@@ -1,9 +1,14 @@
 package org.uwogarage.views;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.JButton;
 
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.Location;
+import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
 
@@ -52,12 +57,33 @@ public class GarageSaleListItemView extends View {
             }
         });
         
+        Calendar date = sale.getTime();
+        
+        // disable the edit feature on a garage sale that has already happened
+        if(date.getTime().before(Calendar.getInstance().getTime()))
+            edit_button.setEnabled(false);
+        
+        int hour = date.get(Calendar.HOUR);
+        if(hour == 0) hour = 12;
+        
         // create this list item
         return grid.row(
             grid.cell(label(sale.getLocation().getStreet()))
                 .margin(10, 10, 0, 10),
-            grid.cell(label(sale.getTime().getTime().toString()))
-                .margin(10, 10, 0, 0),
+                
+            // the date the sale is happening on
+            grid.cell(label(
+                date.get(Calendar.YEAR) +"/"+
+                (date.get(Calendar.MONTH)+1) +"/"+
+                date.get(Calendar.DAY_OF_MONTH) +
+                " at "+
+                hour +":"+
+                StringUtil.padLeft(String.valueOf(date.get(Calendar.MINUTE)), '0', 2) +
+                (date.get(Calendar.AM_PM) == Calendar.AM ? "am" : "pm") +" "+
+                Location.PROVINCE_TIME_ZONE_CODES.get(sale.getLocation().getProvince())
+            )).margin(10, 10, 0, 0),
+            
+            // control buttons
             grid.cell(
                 sale.getUser() == user
                 ? grid(

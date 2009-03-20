@@ -245,8 +245,8 @@ public class AddGarageSaleView extends View {
                     '0',
                     2
                 ),
-                minute.getText(),
-                Location.PROVINCE_TIME_ZONE_CODES.get(prov)
+                minute.getText()//,
+                //Location.PROVINCE_TIME_ZONE_CODES.get(prov)
             ));
             
             // make sure the date parses and is sometime that is 

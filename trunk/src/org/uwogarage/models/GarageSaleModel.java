@@ -143,7 +143,6 @@ public class GarageSaleModel implements Model {
 	}
 	public boolean setTime(String s) {
 	    try {
-	        System.out.println(s);
 	        return setTime(
 	            (new SimpleDateFormat("yyyy MM dd kk mm")).parse(s)
 	        );

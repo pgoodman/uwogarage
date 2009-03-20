@@ -48,7 +48,7 @@ public class UWOGarage {
                         
                         // set the program frame dimensions
                         f.setMinimumSize(min_dimensions);
-                        f.setPreferredSize(min_dimensions);
+                        //f.setPreferredSize(min_dimensions);
                         
                         // create the main program menu for our application
                         menu(f,
