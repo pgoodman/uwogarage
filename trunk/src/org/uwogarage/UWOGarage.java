@@ -96,7 +96,7 @@ public class UWOGarage {
             public void run() {
                 
                 // Recognize command line -admin arg
-                init(args[0].equals("-admin"));
+                init((args.length > 0) ? args[0].equals("-admin") : false);
             }
         });
 	}
