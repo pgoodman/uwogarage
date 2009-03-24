@@ -23,7 +23,7 @@ public class UWOGarage {
      * 
      * @param is_admin
      */
-    static protected void init(boolean is_admin) {
+    static protected void init(final boolean is_admin) {
         
         // a nice OS X setting :D
         if(System.getProperty("os.name").toLowerCase().startsWith("mac")) {
@@ -75,8 +75,13 @@ public class UWOGarage {
                     )
                 );
                 
-                // call the login action of the user controller
-                dispatch_to.user.login();
+                if (is_admin) {
+                	// TODO
+                }
+                else {
+                	// call the login action of the user controller
+                    dispatch_to.user.login();
+                }
             }
         });
     }
@@ -84,14 +89,14 @@ public class UWOGarage {
 	/**
 	 * Run the program.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 	    
 	    // run the GUI
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 
-                // TODO Recognize command line -admin arg
-                init(false);
+                // Recognize command line -admin arg
+                init(args[0].equals("-admin"));
             }
         });
 	}
