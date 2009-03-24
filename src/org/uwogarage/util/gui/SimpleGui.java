@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.Format;
+
 import javax.swing.*;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.text.Document;
@@ -404,6 +406,13 @@ abstract public class SimpleGui {
         }
         public static JTextField text(int columns, Document doc) {
             return new JTextField(doc, "", columns);
+        }
+        
+        // formatted text fields
+        public static JFormattedTextField text(int columns, Format fmt) {
+            JFormattedTextField field = new JFormattedTextField(fmt);
+            field.setColumns(columns);
+            return field;
         }
         
         // password text fields
