@@ -3,6 +3,7 @@ package org.uwogarage.views.admin;
 import javax.swing.JPanel;
 
 import org.uwogarage.models.CategoryModel;
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.views.View;
 
 /**
@@ -13,7 +14,7 @@ public class ListCategoriesView extends View {
         return null;
     }
     
-    static public JPanel view() {
+    static public JPanel view(ModelSet<CategoryModel> categories) {
         return null;
     }
 }

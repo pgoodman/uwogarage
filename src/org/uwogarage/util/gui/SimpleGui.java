@@ -212,42 +212,38 @@ abstract public class SimpleGui {
         Container c = content.get_pane(pane);
         c.setLayout(new GridBagLayout());
         
-        for(GridCell cell : cells) {
-            if(null != cell)
-                c.add(cell.first, cell.second);
+        if(null != cells) {
+            for(GridCell cell : cells) {
+                if(null != cell)
+                    c.add(cell.first, cell.second);
+            }
         }
         
         return pane;
     }
-    /*public static JPanel grid(GridCell[] cells_first, GridCell ... cells_rest) {
-        JPanel pane = grid(cells_first);
-        
-        for(GridCell cell : cells_rest) {
-            if(null != cell)
-                pane.add(cell.first(), cell.second());
-        }
-        
-        return pane;
-    }*/
     
     /**
      * Add the rows of a grid in and automatically set the cell positions.
      */
     public static JPanel grid(GridCell[] ... rows) {
+        return grid(new JPanel(), rows);
+    }
+    public static <T extends Container> T grid(T pane, GridCell[] ... rows) {
         int y = 0,
-            x;
-        
-        JPanel pane = new JPanel();
+        x;
+    
         Container c = content.get_pane(pane);
         c.setLayout(new GridBagLayout());
         
-        for(GridCell[] row : rows) {
-            x = 0;
-            for(GridCell cell : row) {
-                cell.pos(x++, y);
-                c.add(cell.first, cell.second);
+        if(null != rows) {
+            for(GridCell[] row : rows) {
+                x = 0;
+                for(GridCell cell : row) {
+                    cell.pos(x++, y);
+                    c.add(cell.first, cell.second);
+                }
+                y++;
             }
-            y++;
         }
         
         return pane;
