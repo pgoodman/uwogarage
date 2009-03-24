@@ -27,6 +27,7 @@ public class ListCategoriesView extends View {
     static public JPanel view(ModelSet<CategoryModel> in_categories,
                         final ModelSet<CategoryModel> selected_categories,
                         final ModelSet<CategoryModel> responder_categories) {
+        
         GridCell[][] category_boxes = new GridCell[in_categories.size()][];
         int i = 0;
         
@@ -34,7 +35,7 @@ public class ListCategoriesView extends View {
             final JCheckBox box = new JCheckBox(category.getName());
             
             // select it
-            if(selected_categories.contains(category))
+            if(null != selected_categories && selected_categories.contains(category))
                 box.setSelected(true);
             
             // add a listener to add or remove the category from the responder

@@ -1,21 +1,26 @@
 package org.uwogarage.views.buyer;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.text.SimpleDateFormat;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLayeredPane;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.uwogarage.models.CategoryModel;
+import org.uwogarage.models.ModelSet;
+import org.uwogarage.util.documents.AlphaNumDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
+import org.uwogarage.util.functional.D;
+import org.uwogarage.views.ListCategoriesView;
 import org.uwogarage.views.View;
 
 /**
@@ -33,11 +38,32 @@ public class SearchGarageSalesView extends View {
                                RATING = 4;
     
     // the criteria tab pane
-    final JLayeredPane layered_pane = new JLayeredPane();
-    final JTabbedPane tab_pane = new JTabbedPane();
+    protected JTabbedPane tab_pane = new JTabbedPane();
     
     // the search button
-    final JButton search_button = button("Search");
+    protected JButton search_button = button("Search");
+    
+    // all input fields
+    protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+    
+    protected JTextField lat = field.text(11, new RealNumDocument(11)),
+                         lng = field.text(11, new RealNumDocument(11)),
+                         radius = field.text(4, new NumDocument(4)),
+                         
+                         // user id
+                         user_id = field.text(4, new AlphaNumDocument(4));
+                         
+                         // y/m/d for search on a single day 
+    protected JFormattedTextField date = field.text(10, fmt),
+                                  start_date = field.text(10, fmt),
+                                  end_date = field.text(10, fmt);
+    
+    protected JRadioButton 
+    date_specific = new JRadioButton("... on a specific date.", true),
+    date_range = new JRadioButton("... within a date range (inclusive).", false);
+    
+    // list of selected categories
+    protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 
     
     // check boxes to enable/disable search criteria
     protected JCheckBox[] search_criteria_boxes = new JCheckBox[] {
@@ -49,13 +75,7 @@ public class SearchGarageSalesView extends View {
     };
     
     // the panels holding the search criteria options
-    protected JPanel[] search_criteria_tabs = new JPanel[] {
-        viewRadius(),
-        viewUserId(),
-        viewDate(),
-        viewCategory(),
-        viewRating()
-    };
+    protected JPanel[] search_criteria_tabs;
     
     // know if any criteria are selected
     protected int num_selected_criteria = 0;
@@ -63,7 +83,15 @@ public class SearchGarageSalesView extends View {
     /**
      * Constructor, disable all the tab content by default.
      */
-    public SearchGarageSalesView() {
+    public SearchGarageSalesView(ModelSet<CategoryModel> categories) {
+        
+        search_criteria_tabs = new JPanel[] {
+            viewRadius(),
+            viewUserId(),
+            viewDate(),
+            viewCategory(categories),
+            viewRating()
+        };
         
         // create the listener to enabled/disable the search button. It loops
         // over all the check boxes each time, and only changes the search 
@@ -92,11 +120,6 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewRadius() {
-        
-        final JTextField lat = field.text(11, new RealNumDocument(11)),
-                         lng = field.text(11, new RealNumDocument(11)),
-                         radius = field.text(4, new NumDocument(4));
-        
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales within a given radius of")
@@ -109,7 +132,7 @@ public class SearchGarageSalesView extends View {
                     grid.cell(radius).pos(0, 0),
                     grid.cell(label(" km")).pos(1, 0)
                 ))
-            )).margin(10, 9, 9, 9))
+            )).margin(10, 0, 0, 0))
         );
     }
     
@@ -121,7 +144,12 @@ public class SearchGarageSalesView extends View {
      */
     protected JPanel viewUserId() {
         return grid(
-            grid.cell(label("User ID"))
+            grid.row(grid.cell(
+                label("Use this criteria to find sales created by a given user.")
+            )),
+            grid.row(grid.cell(grid(
+                form.row(label("User ID:"), user_id)
+            )).margin(10, 0, 0, 0))
         );
     }
     
@@ -132,8 +160,24 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewDate() {
+        
+        ButtonGroup group = new ButtonGroup();
+        group.add(date_specific);
+        group.add(date_range);
+        
         return grid(
-            grid.cell(label("Date"))
+            grid.row(grid.cell(
+                label("Use this criteria to find sales...")
+            )),
+            grid.row(grid.cell(date_specific).anchor(1, 0, 0, 1).margin(10, 0, 0, 0)),
+            grid.row(grid.cell(grid(
+                form.row(label("Date (yyyy/mm/dd):"), date)
+            ))),
+            grid.row(grid.cell(date_range).anchor(1, 0, 0, 1).margin(10, 0, 0, 0)),
+            grid.row(grid.cell(grid(
+                form.row(label("Start Date (yyyy/mm/dd):"), start_date),
+                form.row(label("End Date (yyyy/mm/dd):"), end_date)
+            )))
         );
     }
     
@@ -142,9 +186,21 @@ public class SearchGarageSalesView extends View {
      * 
      * @return
      */
-    protected JPanel viewCategory() {
+    protected JPanel viewCategory(ModelSet<CategoryModel> categories) {
         return grid(
-            grid.cell(label("Category"))
+            grid.row(grid.cell(
+                label("Use this criteria to find sales that are categorized")
+            )),
+            grid.row(grid.cell(
+                label("with the checked categories.")
+            )),
+            grid.row(grid.cell(
+                ListCategoriesView.view(
+                    categories, 
+                    new ModelSet<CategoryModel>(), 
+                    selected_categories
+                )
+            ).margin(10, 0, 0, 0))
         );
     }
     
@@ -161,7 +217,7 @@ public class SearchGarageSalesView extends View {
     }
     
     public JPanel view() {
-        Dimension dims = new Dimension(400, 200);
+        Dimension dims = new Dimension(600, 250);
         
         tab_pane.setPreferredSize(dims);
         
