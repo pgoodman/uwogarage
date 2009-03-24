@@ -35,7 +35,8 @@ public class SearchGarageSalesView extends View {
                                USER_ID = 1,
                                DATE = 2,
                                CATEGORY = 3,
-                               RATING = 4;
+                               USER_RATING = 4,
+                               SALE_RATING = 5;
     
     // the criteria tab pane
     protected JTabbedPane tab_pane = new JTabbedPane();
@@ -71,7 +72,8 @@ public class SearchGarageSalesView extends View {
         new JCheckBox("User ID"),
         new JCheckBox("Date"),
         new JCheckBox("Category"),
-        new JCheckBox("Rating")
+        new JCheckBox("User Rating"),
+        new JCheckBox("Sale Rating"),
     };
     
     // the panels holding the search criteria options
@@ -90,7 +92,8 @@ public class SearchGarageSalesView extends View {
             viewUserId(),
             viewDate(),
             viewCategory(categories),
-            viewRating()
+            viewUserRating(),
+            viewSaleRating()
         };
         
         // create the listener to enabled/disable the search button. It loops
@@ -210,9 +213,18 @@ public class SearchGarageSalesView extends View {
      * 
      * @return
      */
-    protected JPanel viewRating() {
+    protected JPanel viewUserRating() {
         return grid(
-            grid.cell(label("Rating"))
+            grid.row(grid.cell(
+                label("Use this criteria to find sales ranked in various ways.")
+            ))
+        );
+    }
+    protected JPanel viewSaleRating() {
+        return grid(
+            grid.row(grid.cell(
+                label("Use this criteria to find sales ranked in various ways.")
+            ))
         );
     }
     
@@ -226,7 +238,8 @@ public class SearchGarageSalesView extends View {
         tab_pane.addTab("User ID", search_criteria_tabs[USER_ID]);
         tab_pane.addTab("Date", search_criteria_tabs[DATE]);
         tab_pane.addTab("Category", search_criteria_tabs[CATEGORY]);
-        tab_pane.addTab("Rating", search_criteria_tabs[RATING]);
+        tab_pane.addTab("User Rating", search_criteria_tabs[USER_RATING]);
+        tab_pane.addTab("Sale Rating", search_criteria_tabs[SALE_RATING]);
                 
         // create the GUI
         return grid(
@@ -240,7 +253,8 @@ public class SearchGarageSalesView extends View {
                     grid.row(grid.cell(search_criteria_boxes[USER_ID]).anchor(1, 0, 0, 1)),
                     grid.row(grid.cell(search_criteria_boxes[DATE]).anchor(1, 0, 0, 1)),
                     grid.row(grid.cell(search_criteria_boxes[CATEGORY]).anchor(1, 0, 0, 1)),
-                    grid.row(grid.cell(search_criteria_boxes[RATING]).anchor(1, 0, 0, 1))
+                    grid.row(grid.cell(search_criteria_boxes[USER_RATING]).anchor(1, 0, 0, 1)),
+                    grid.row(grid.cell(search_criteria_boxes[SALE_RATING]).anchor(1, 0, 0, 1))
                 )).margin(10, 0, 0, 0))
             ))).pos(0, 0),
             
