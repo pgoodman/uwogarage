@@ -1,14 +1,18 @@
 package org.uwogarage.controllers;
 
+import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
+import org.uwogarage.util.functional.P;
 import org.uwogarage.views.LoginView;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.UpdatePasswordView;
 import org.uwogarage.views.UserControlPanelView;
 import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
+import org.uwogarage.views.admin.AddCategoryView;
+import org.uwogarage.views.admin.AddUserView;
 
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -34,7 +38,30 @@ public class UserController extends Controller<UserModel> {
      * Add a user.
      */
     public void add() {
-        // TODO
+        View.show((new AddUserView()).view(
+            
+            new P<String>() {
+              public boolean call(String id) {
+                  for (UserModel user : models) {
+                      if (user.getId().equals(id)) {
+                          return false;
+                      }
+                  }
+                  return true;
+              }
+            },
+            
+            new D<UserModel>() {
+            public void call(UserModel user) {
+                
+                // add the newly created user in, this could have been in the
+                // view but I decided it best to put that control with the
+                // controller
+                models.add(user);
+                
+                // TODO Return to main admin menu or do something
+            }
+        }));
     }
     
     /**
