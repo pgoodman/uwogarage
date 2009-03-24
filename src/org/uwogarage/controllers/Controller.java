@@ -1,6 +1,7 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.Dispatcher;
+import org.uwogarage.models.Model;
 import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 
@@ -12,7 +13,7 @@ import org.uwogarage.models.UserModel;
  * @version $Id$
  */
 
-abstract public class Controller<T> {
+abstract public class Controller<T extends Model> {
     
     // A collection of models this controller can manipulate
     protected ModelSet<T> models = new ModelSet<T>();
