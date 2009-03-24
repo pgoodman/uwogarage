@@ -28,7 +28,7 @@ public class UserControlPanelView extends View {
      */
     static public JPanel view(final UserModel user,
                 final F0 my_info, final F0 my_sales, final F0 add_sale, 
-                final F0 bulk_add, final F0 search) {
+                final F0 bulk_add, final F0 search, final F0 view_all){
         
         final JTabbedPane pane = new JTabbedPane();
         
@@ -58,7 +58,7 @@ public class UserControlPanelView extends View {
                     case 2: add_sale.call(); break;
                     case 3: bulk_add.call(); break;
                     case 4: search.call(); break;
-                    case 5: break;
+                    case 5: view_all.call(); break;
                 }
             }
         });
