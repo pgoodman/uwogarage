@@ -40,13 +40,15 @@ abstract public class View extends SimpleGui {
     static public JFrame programFrame(String title) {
         return programFrame(title, null);
     }
-    static public JFrame programFrame(String title, final D<JFrame> init) {
+    static public JFrame programFrame(String title, final D<JFrame> init_program_frame) {
+        
         return SimpleGui.frame(title, new D<JFrame>() {
+            
             public void call(JFrame program_frame) {
                 f = program_frame;
                 
-                if(null != init) {
-                    init.call(program_frame);
+                if(null != init_program_frame) {
+                    init_program_frame.call(program_frame);
                 }
             }
         });

@@ -92,7 +92,7 @@ public class UserController extends Controller<UserModel> {
             new F0() { public void call() { d.garage_sale.manage(); } },
             new F0() { public void call() { d.garage_sale.add(); } },
             new F0() { public void call() { d.garage_sale.bulkAdd(); } },
-            new F0() { public void call() { } }
+            new F0() { public void call() { d.garage_sale.search(); } }
         ));
     }
     

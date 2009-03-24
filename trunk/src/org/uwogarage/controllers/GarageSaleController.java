@@ -6,6 +6,7 @@ import org.uwogarage.util.functional.D;
 import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.TabView;
+import org.uwogarage.views.buyer.SearchGarageSalesView;
 import org.uwogarage.views.seller.AddGarageSaleView;
 import org.uwogarage.views.seller.EditGarageSaleView;
 
@@ -104,7 +105,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     }
     
     public void search() {
-        // TODO
+        TabView.show((new SearchGarageSalesView()).view());
     }
     
     public void list(ModelSet<GarageSaleModel> categories) {
