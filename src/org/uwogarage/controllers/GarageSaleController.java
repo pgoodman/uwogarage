@@ -76,6 +76,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     /**
      * Manage the sales for this particular user.
      */
+    /*
     public void manage() {
         TabView.show(ListGarageSalesView.view(
             logged_user,
@@ -103,12 +104,39 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
             }
         ));
     }
-    
+    */
     public void search() {
         TabView.show((new SearchGarageSalesView(d.category.getModels())).view());
     }
     
     public void list(ModelSet<GarageSaleModel> categories) {
         // TODO
+    	// pass in 3 diff sets of garag
+
+    	TabView.show(ListGarageSalesView.view(
+            logged_user,
+            categories,
+            
+            // view sale
+            new D<GarageSaleModel>() {
+                public void call(GarageSaleModel sale) {
+                    view(sale);
+                }
+            },
+            
+            // edit sale
+            new D<GarageSaleModel>() {
+                public void call(GarageSaleModel sale) {
+                    edit(sale);
+                }
+            },
+            
+            // delete sale
+            new D<GarageSaleModel>() {
+                public void call(GarageSaleModel sale) {
+                    delete(sale);
+                }
+            }
+        ));
     }
 }

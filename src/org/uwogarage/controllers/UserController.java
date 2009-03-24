@@ -89,10 +89,11 @@ public class UserController extends Controller<UserModel> {
     public void controlPanel() {
         View.show(UserControlPanelView.view(logged_user,
             new F0() { public void call() { stats(); } },
-            new F0() { public void call() { d.garage_sale.manage(); } },
+            new F0() { public void call() { d.garage_sale.list(logged_user.getGarageSales()); } },
             new F0() { public void call() { d.garage_sale.add(); } },
             new F0() { public void call() { d.garage_sale.bulkAdd(); } },
-            new F0() { public void call() { d.garage_sale.search(); } }
+            new F0() { public void call() { d.garage_sale.search(); } },
+            new F0() { public void call() { d.garage_sale.list(d.garage_sale.getModels()); } }
         ));
     }
     
