@@ -55,13 +55,16 @@ public class ListCategoriesView extends View {
             category_boxes[i++] = grid.row(grid.cell(box).anchor(1, 0, 0, 1));
         }
         
-        JPanel category_list = grid(category_boxes);
-        category_list.setPreferredSize(new Dimension(300, 150));
-        
-        return new JScrollPane(
-            category_list, 
-            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        // create a scroll pane to contain the grid so that they don't screw up
+        // any other views
+        JScrollPane pane = new JScrollPane(
+            grid(category_boxes),
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
+        
+        pane.setPreferredSize(new Dimension(300, 130));
+        
+        return pane;
     }
 }
