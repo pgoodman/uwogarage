@@ -5,6 +5,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -77,7 +78,7 @@ public class UWOGarage {
         // create the program frame that the entire program will run in
         View.programFrame("UWO Garage", new D<JFrame>() {
             public void call(final JFrame f) {
-                
+            	f.setMinimumSize(new Dimension(905, 500));
                 f.addWindowListener(new WindowAdapter() {
                     public void windowClosing(WindowEvent arg0) {
                         quit_program_delegate.call(dispatch_to);
