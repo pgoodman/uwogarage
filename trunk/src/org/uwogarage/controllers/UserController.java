@@ -13,6 +13,7 @@ import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddCategoryView;
 import org.uwogarage.views.admin.AddUserView;
+import org.uwogarage.views.admin.EditUserView;
 
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -42,6 +43,7 @@ public class UserController extends Controller<UserModel> {
             
             new P<String>() {
               public boolean call(String id) {
+                  // make sure user id is unique
                   for (UserModel user : models) {
                       if (user.getId().equals(id)) {
                           return false;
@@ -68,7 +70,14 @@ public class UserController extends Controller<UserModel> {
      * Edit a user.
      */
     public void edit(UserModel user) {
-        // TODO
+        // show the edit view for the user
+        View.show((new EditUserView()).view(user,
+            new F0() { 
+                public void call() {
+                    // TODO save the user to file
+                }
+            }     
+        ));
     }
     
     /**
