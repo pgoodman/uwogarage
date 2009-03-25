@@ -25,7 +25,7 @@ public class AdminControlPanelView extends View {
      * @return
      */
     static public JPanel view(final F0 add_user, final F0 list_users, 
-    		final F0 add_category){
+    		final F0 add_category, final F0 list_category){
         
         final JTabbedPane pane = new JTabbedPane();
         
@@ -52,7 +52,7 @@ public class AdminControlPanelView extends View {
                     case 0: add_user.call(); break;
                     case 1: list_users.call(); break;
                     case 2: add_category.call(); break;
-                    
+                    case 3: list_category.call(); break;
                                      
                     //case 3: bulk_add.call(); break;
                     //case 4: search.call(); break;

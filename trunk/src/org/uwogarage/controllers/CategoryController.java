@@ -1,10 +1,12 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.models.CategoryModel;
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddCategoryView;
+import org.uwogarage.views.admin.ListCategoriesView;
 
 /**
  * Deals with the creation and manipulation of categories.
@@ -55,6 +57,8 @@ public class CategoryController extends Controller<CategoryModel> {
     }
     
     public void list() {
+    	TabView.show(ListCategoriesView.view(models));
+       		
     	
     }
 }
