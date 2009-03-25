@@ -1,7 +1,10 @@
 package org.uwogarage.views;
 
+import java.awt.Dimension;
+
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,7 +27,7 @@ public class ListCategoriesView extends View {
      * @param responder_categories
      * @return
      */
-    static public JPanel view(ModelSet<CategoryModel> in_categories,
+    static public JScrollPane view(ModelSet<CategoryModel> in_categories,
                         final ModelSet<CategoryModel> selected_categories,
                         final ModelSet<CategoryModel> responder_categories) {
         
@@ -52,6 +55,13 @@ public class ListCategoriesView extends View {
             category_boxes[i++] = grid.row(grid.cell(box).anchor(1, 0, 0, 1));
         }
         
-        return grid(category_boxes);
+        JPanel category_list = grid(category_boxes);
+        category_list.setPreferredSize(new Dimension(300, 150));
+        
+        return new JScrollPane(
+            category_list, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
     }
 }

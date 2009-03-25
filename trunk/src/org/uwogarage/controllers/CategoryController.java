@@ -19,6 +19,12 @@ public class CategoryController extends Controller<CategoryModel> {
             models.add(new CategoryModel("Collectables"));
             models.add(new CategoryModel("Children's Clothing/Toys"));
             models.add(new CategoryModel("Furniture"));
+            
+            models.add(new CategoryModel("Antiques"));
+            models.add(new CategoryModel("Art"));
+            models.add(new CategoryModel("Collectables"));
+            models.add(new CategoryModel("Children's Clothing/Toys"));
+            models.add(new CategoryModel("Furniture"));
         } catch(Exception e) { }
     }
     

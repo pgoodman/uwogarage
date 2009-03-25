@@ -75,13 +75,12 @@ public class UWOGarage {
                     )
                 );
                 
-                if (is_admin) {
-                	// TODO
-                }
-                else {
-                	// call the login action of the user controller
+                // go to the admin panel if we are an admin else call the login 
+                // action of the user controller
+                if (is_admin)
+                	dispatch_to.user.adminPanel();
+                else
                     dispatch_to.user.login();
-                }
             }
         });
     }
