@@ -19,7 +19,8 @@ import org.uwogarage.views.seller.EditGarageSaleView;
 
 public class GarageSaleController extends Controller<GarageSaleModel> {
 
-    
+    private static final long serialVersionUID = -2833369045533139215L;
+
     /**
      * This method displays the appropriate view to bulk add garage sales, 
      * processes the input, and stores the rating

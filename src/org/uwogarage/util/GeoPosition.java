@@ -12,10 +12,10 @@ import java.io.Serializable;
 
 public class GeoPosition implements Serializable {
     
-	private double latitude = 0D, // the way point's latitude
+    private static final long serialVersionUID = 1217728619553425334L;
+    
+    private double latitude = 0D, // the way point's latitude
 	               longitude = 0D; // the way point's longitude
-	
-	private static final long serialVersionUID = 8008L;
 	
 	/**
 	 * Constructor for Location, sets the latitude and longitude

@@ -14,8 +14,8 @@ import org.uwogarage.util.Location;
  */
 
 public class GarageSaleModel implements Model {
-    
-    private static final long serialVersionUID = 45535L;
+
+    private static final long serialVersionUID = 8274261212454764504L;
     
     final UserModel user; // the user that created this garage sale
     final GregorianCalendar time; // the garage sale's date and time information

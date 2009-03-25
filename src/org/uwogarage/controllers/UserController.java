@@ -21,6 +21,8 @@ import org.uwogarage.views.admin.EditUserView;
  */
 public class UserController extends Controller<UserModel> {
     
+    private static final long serialVersionUID = -1190876232059058102L;
+
     public UserController() {
         
         UserModel test_user = new UserModel();
@@ -99,7 +101,7 @@ public class UserController extends Controller<UserModel> {
                 
                 // this is either the first time logging in or the admin reset
                 // this user's password, show the view to change passwords
-                if(user.hasDefaultPass()) {
+                if(user.isUsingDefaultPass()) {
                     updatePassword();
                 
                 // no password reset required, show the now logged in user the
@@ -120,6 +122,7 @@ public class UserController extends Controller<UserModel> {
             
             // the password has been updated, go back to the main menu
             public void call() {
+                logged_user.setUsingDefaultPass(false);
                 controlPanel();
             }
         }));

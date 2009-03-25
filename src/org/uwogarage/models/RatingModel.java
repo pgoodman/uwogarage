@@ -9,7 +9,7 @@ package org.uwogarage.models;
 
 public class RatingModel implements Model {
     
-    private static final long serialVersionUID = 80081355L;
+    private static final long serialVersionUID = 3577192968414950537L;
     
     protected int rating;               // the value of this rating
 	protected UserModel user;			// the user owns this rating

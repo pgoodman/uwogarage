@@ -12,6 +12,8 @@ import org.uwogarage.models.RatingModel;
  */
 public class RatingController extends Controller<RatingModel> {
     
+    private static final long serialVersionUID = -1654586445037807445L;
+
     /**
      * Show the view to rate a garage sale.
      */

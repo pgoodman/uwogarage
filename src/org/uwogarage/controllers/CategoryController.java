@@ -11,7 +11,9 @@ import org.uwogarage.views.admin.AddCategoryView;
  * @version $Id$
  */
 public class CategoryController extends Controller<CategoryModel> {
-    
+
+    private static final long serialVersionUID = -874405642977554718L;
+
     public CategoryController() {
         try {
             models.add(new CategoryModel("Antiques"));
