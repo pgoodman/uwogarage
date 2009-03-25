@@ -24,7 +24,8 @@ public class AdminControlPanelView extends View {
      * @param search
      * @return
      */
-    static public JPanel view(){
+    static public JPanel view(final F0 add_user, final F0 list_users, 
+    		final F0 add_category){
         
         final JTabbedPane pane = new JTabbedPane();
         
@@ -47,14 +48,16 @@ public class AdminControlPanelView extends View {
                 );
                 
                 // call the various responders
-                /*switch(pane.getSelectedIndex()) {
-                    case 0: my_info.call(); break;
-                    case 1: my_sales.call(); break;
-                    case 2: add_sale.call(); break;
-                    case 3: bulk_add.call(); break;
-                    case 4: search.call(); break;
-                    case 5: view_all.call(); break;
-                }*/
+                switch(pane.getSelectedIndex()) {
+                    case 0: add_user.call(); break;
+                    case 1: list_users.call(); break;
+                    case 2: add_category.call(); break;
+                    
+                                     
+                    //case 3: bulk_add.call(); break;
+                    //case 4: search.call(); break;
+                    //case 5: view_all.call(); break;
+                }
             }
         });
         

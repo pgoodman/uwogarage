@@ -2,6 +2,7 @@ package org.uwogarage.controllers;
 
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.views.TabView;
 import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddCategoryView;
 
@@ -29,7 +30,7 @@ public class CategoryController extends Controller<CategoryModel> {
      * submitted successfully.
      */
     public void add() {
-        View.show(AddCategoryView.view(models, new D<CategoryModel>() {
+        TabView.show(AddCategoryView.view(models, new D<CategoryModel>() {
             public void call(CategoryModel category) {
                 
                 // add the newly created category in, this could have been in the
@@ -43,11 +44,17 @@ public class CategoryController extends Controller<CategoryModel> {
     }
     
     // leave unimplemented
-    public void edit(String model) { }
+    public void edit(String model) {
+    //TODO: code
+    }
     
     public void delete(CategoryModel cat) {
         models.remove(cat);
         
         // TODO do something now
+    }
+    
+    public void list() {
+    	
     }
 }
