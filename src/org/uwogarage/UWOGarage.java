@@ -95,7 +95,7 @@ public class UWOGarage {
                         })
                     ),
                     menu.dd("Theme",
-                        menu.item("Default", new D<JMenuItem>() {
+                        menu.item("System Theme", new D<JMenuItem>() {
                             public void call(JMenuItem item) {
                                 laf.theme(f, 
                                     UIManager.getSystemLookAndFeelClassName()

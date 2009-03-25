@@ -64,7 +64,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
      * @return a linked list containing all the GarageSaleModels that were created from the file
      */
     public static GarageSaleModelSet
-    loadFromFile(UserModel user, String filename) throws Exception {
+    loadFromFile(UserModel user, String file_name) throws Exception {
 
         // reset the line number
         line_num = 0;
@@ -81,7 +81,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
 
         //open the file
         try {
-            fin = new BufferedReader(new FileReader("bulk.txt"));
+            fin = new BufferedReader(new FileReader(file_name));
         } catch (Exception e) {
             return null;
         }
