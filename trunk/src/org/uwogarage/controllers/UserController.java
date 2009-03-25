@@ -40,7 +40,7 @@ public class UserController extends Controller<UserModel> {
      * Add a user.
      */
     public void add() {
-        View.show((new AddUserView()).view(
+        TabView.show((new AddUserView()).view(
             
             // predicate to check if the user id that the admin supplied already
             // exists or not
@@ -73,6 +73,15 @@ public class UserController extends Controller<UserModel> {
         ));
     }
     
+    /**
+     * List all users. From here, Admin can sort, edit, and delete users
+     */
+    public void list(){
+     	//TODO: code
+    	
+    }
+    
+        
     /**
      * Edit a user.
      */
@@ -148,7 +157,11 @@ public class UserController extends Controller<UserModel> {
     }
     
     public void adminPanel() {
-    View.show(AdminControlPanelView.view());
+    	View.show(AdminControlPanelView.view(
+    	    new F0() { public void call() { add(); }},
+    	    new F0() { public void call() { list(); }},
+    	    new F0() { public void call() { d.category.add(); }}
+    	));
     
     }
     

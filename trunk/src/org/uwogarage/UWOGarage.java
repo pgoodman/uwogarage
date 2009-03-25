@@ -78,7 +78,9 @@ public class UWOGarage {
         // create the program frame that the entire program will run in
         View.programFrame("UWO Garage", new D<JFrame>() {
             public void call(final JFrame f) {
-            	f.setMinimumSize(new Dimension(905, 500));
+            	Dimension default_size = new Dimension(905,500);
+            	f.setMinimumSize(new Dimension(default_size));
+            	f.setPreferredSize(default_size);
                 f.addWindowListener(new WindowAdapter() {
                     public void windowClosing(WindowEvent arg0) {
                         quit_program_delegate.call(dispatch_to);
