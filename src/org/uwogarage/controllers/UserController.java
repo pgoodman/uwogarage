@@ -11,6 +11,7 @@ import org.uwogarage.views.UserControlPanelView;
 import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddUserView;
+import org.uwogarage.views.admin.AdminControlPanelView;
 import org.uwogarage.views.admin.EditUserView;
  
 /**
@@ -147,10 +148,8 @@ public class UserController extends Controller<UserModel> {
     }
     
     public void adminPanel() {
-        // TODO
-        // add user
-        // edit user
-        // delete user
+    View.show(AdminControlPanelView.view());
+    
     }
     
     /**
