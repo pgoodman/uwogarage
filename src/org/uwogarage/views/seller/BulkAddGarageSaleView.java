@@ -12,6 +12,9 @@ import org.uwogarage.views.View;
  */
 public class BulkAddGarageSaleView extends View {
     static public JPanel view(D<ModelSet<GarageSaleModel>> responder) {
+        
+        JFileChooser chooser = new JFileChooser();
+        
         return grid(
             grid.cell(label("Bulk Add Garage Sales"))
         );

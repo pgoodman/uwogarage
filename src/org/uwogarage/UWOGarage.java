@@ -23,6 +23,8 @@ import static org.uwogarage.util.gui.SimpleGui.*;
  */
 public class UWOGarage {
     
+    // make a hidden (at least on UNIX) file to store the current state of the
+    // program
     static protected String fname = ".uwo-garage-db";
     
     // the delegate that is called when the game is quit. It is stored here
@@ -33,21 +35,23 @@ public class UWOGarage {
             try {
                 (new ObjectOutputStream(new FileOutputStream(fname)))
                     .writeObject(d);
-                
             } catch(Exception e) {
                 System.out.println("Error: Failed to save information to database.");
-                e.printStackTrace();
             }
                 
             System.exit(0);
         }
     };
     
+    /**
+     * Get the dispatcher that the controllers will use.
+     * 
+     * @return
+     */
     static protected Dispatcher getDispatcher() {
         try {
             return (Dispatcher) ((new ObjectInputStream(new FileInputStream(fname)))
                 .readObject());
-            
         } catch(Exception e) {
             return new Dispatcher();
         }
@@ -65,8 +69,8 @@ public class UWOGarage {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
         
-        // instantiate all of the controllers and make them available to eachother
-        // through this dispatcher instance
+        // instantiate all of the controllers and make them available to each
+        // other through this dispatcher instance
         final Dispatcher dispatch_to = getDispatcher();
         Controller.setDispatcher(dispatch_to);        
         
