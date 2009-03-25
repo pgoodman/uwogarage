@@ -12,7 +12,7 @@ import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddUserView;
 import org.uwogarage.views.admin.EditUserView;
-
+ 
 /**
  * The UserController class responds to calls from a View and manipulates  
  * in UserModels in the data store

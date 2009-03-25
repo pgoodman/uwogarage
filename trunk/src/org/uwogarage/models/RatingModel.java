@@ -33,4 +33,8 @@ public class RatingModel implements Model {
 	public int getRating() {
 	    return rating;
 	}
+	
+	public GarageSaleModel getSale() {
+		return sale;
+	}
 }
