@@ -160,7 +160,8 @@ public class UserController extends Controller<UserModel> {
     	View.show(AdminControlPanelView.view(
     	    new F0() { public void call() { add(); }},
     	    new F0() { public void call() { list(); }},
-    	    new F0() { public void call() { d.category.add(); }}
+    	    new F0() { public void call() { d.category.add(); }},
+    	    new F0() { public void call() { d.category.list(); }}
     	));
     
     }
