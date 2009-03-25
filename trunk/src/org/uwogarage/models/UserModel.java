@@ -10,9 +10,9 @@ import org.uwogarage.util.GeoPosition;
 
 public class UserModel implements Model {
     
-    private static final long serialVersionUID = 45535L;
-    
-	protected String first_name = "", // the user's first name
+    private static final long serialVersionUID = -6386361639399051382L;
+
+    protected String first_name = "", // the user's first name
 	                 last_name = "", // the user's last name
 	                 pass = "aaa", // the user's pass, default 'aaa'
 	                 user_id = "", // the user's id
@@ -117,8 +117,12 @@ public class UserModel implements Model {
 	 * Check if the user's password should be changed, i.e. the user was just
 	 * created or the user's password was just reset by the administrator.
 	 */
-	public boolean hasDefaultPass() {
+	public boolean isUsingDefaultPass() {
 	    return reset_pass;
+	}
+	
+	public void setUsingDefaultPass(boolean r) {
+	    reset_pass = r;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package org.uwogarage.controllers;
 
+import java.io.Serializable;
+
 import org.uwogarage.Dispatcher;
 import org.uwogarage.models.Model;
 import org.uwogarage.models.ModelSet;
@@ -13,16 +15,18 @@ import org.uwogarage.models.UserModel;
  * @version $Id$
  */
 
-abstract public class Controller<T extends Model> {
+abstract public class Controller<T extends Model> implements Serializable {
     
+    private static final long serialVersionUID = -1709646925689208669L;
+
     // A collection of models this controller can manipulate
     protected ModelSet<T> models = new ModelSet<T>();
     
     // give the controller the ability to call the other controllers
-    static protected Dispatcher d;
+    transient static protected Dispatcher d;
     
     // the currently logged in user
-    static protected UserModel logged_user;
+    transient static protected UserModel logged_user;
     
     /**
      * Set the controller dispatcher.

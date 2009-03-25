@@ -5,6 +5,11 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.*;
+
+import org.uwogarage.controllers.Controller;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.SimpleGui.menu;
 import org.uwogarage.views.View;
@@ -17,6 +22,36 @@ import static org.uwogarage.util.gui.SimpleGui.*;
  * @version $Id$
  */
 public class UWOGarage {
+    
+    static protected String fname = ".uwo-garage-db";
+    
+    // the delegate that is called when the game is quit. It is stored here
+    // so that both the quit menu item and the closing button can call on it.
+    static protected D<Dispatcher> quit_program_delegate = new D<Dispatcher>() {
+        public void call(Dispatcher d) {
+            
+            try {
+                (new ObjectOutputStream(new FileOutputStream(fname)))
+                    .writeObject(d);
+                
+            } catch(Exception e) {
+                System.out.println("Error: Failed to save information to database.");
+                e.printStackTrace();
+            }
+                
+            System.exit(0);
+        }
+    };
+    
+    static protected Dispatcher getDispatcher() {
+        try {
+            return (Dispatcher) ((new ObjectInputStream(new FileInputStream(fname)))
+                .readObject());
+            
+        } catch(Exception e) {
+            return new Dispatcher();
+        }
+    }
     
     /**
      * Set up the GUI.
@@ -32,18 +67,25 @@ public class UWOGarage {
         
         // instantiate all of the controllers and make them available to eachother
         // through this dispatcher instance
-        final Dispatcher dispatch_to = new Dispatcher();
-                
+        final Dispatcher dispatch_to = getDispatcher();
+        Controller.setDispatcher(dispatch_to);        
+        
         // create the program frame that the entire program will run in
         View.programFrame("UWO Garage", new D<JFrame>() {
             public void call(final JFrame f) {
+                
+                f.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent arg0) {
+                        quit_program_delegate.call(dispatch_to);
+                    }
+                });
                 
                 // create the main program menu for our application
                 menu(f,
                     menu.dd("File",
                         menu.item("Quit", new D<JMenuItem>() {
                             public void call(JMenuItem i) {
-                                System.exit(0);
+                                quit_program_delegate.call(dispatch_to);
                             }
                         })
                     ),

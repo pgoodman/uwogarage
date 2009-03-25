@@ -16,9 +16,9 @@ import org.uwogarage.util.functional.D;
 
 public class Location implements Serializable {
     
-    private static final long serialVersionUID = 31337L;
+    private static final long serialVersionUID = -5873674039555881531L;
     
-	String street; // the location's street address
+    String street; // the location's street address
 	String province; // the location's province
 	String city; // the location's city
 	

@@ -4,9 +4,17 @@ import java.io.Serializable;
 import java.util.HashSet;
 import org.uwogarage.util.functional.P;
 
+/**
+ * A set of models
+ * 
+ * @author petergoodman
+ * @version $Id$
+ * 
+ * @param <T>
+ */
 public class ModelSet<T> extends HashSet<T> implements Serializable {
     
-    private static final long serialVersionUID = 8008135L;
+    private static final long serialVersionUID = -6666978152729940262L;
 
     /**
      * Filter out specific models in the model collection.

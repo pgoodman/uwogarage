@@ -8,9 +8,9 @@ package org.uwogarage.models;
 
 public class CategoryModel implements Model {
     
-    private static final long serialVersionUID = 1337L;
+    private static final long serialVersionUID = 9061465218252412682L;
     
-	private String name = ""; // the category's name
+    private String name = ""; // the category's name
 
 	/**
 	 * Constructor, inserts the name of the category

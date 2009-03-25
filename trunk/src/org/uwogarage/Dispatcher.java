@@ -1,5 +1,7 @@
 package org.uwogarage;
 
+import java.io.Serializable;
+
 import org.uwogarage.controllers.*;
 
 /**
@@ -8,14 +10,16 @@ import org.uwogarage.controllers.*;
  * 
  * @version $Id$
  */
-final public class Dispatcher {
+final public class Dispatcher implements Serializable {
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9999999L;
+    
     
     final public UserController user = new UserController();
     final public CategoryController category = new CategoryController();
     final public GarageSaleController garage_sale = new GarageSaleController();
     final public RatingController rating = new RatingController();
-    
-    public Dispatcher() {
-        Controller.setDispatcher(this);
-    }
 }

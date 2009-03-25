@@ -230,16 +230,12 @@ public class SearchGarageSalesView extends View {
      */
     protected JPanel viewUserRating() {
         return grid(
-            grid.row(grid.cell(
-                label(
-                    "Use this criteria to find sales created by users with a "+
-                    "particular rating."
-                )
-            )),
-            grid.row(
-                grid.cell(user_rating),
-                grid.cell(user_quantifier)
-            )
+            grid.cell(label(
+                "Use this criteria to find sales created by users with a "+
+                "particular rating."
+            )).pos(0, 0),
+            grid.cell(user_rating).pos(0, 1),
+            grid.cell(user_quantifier).pos(0, 2)
         );
     }
     
@@ -250,25 +246,18 @@ public class SearchGarageSalesView extends View {
      */
     protected JPanel viewSaleRating() {
         return grid(
-            grid.row(grid.cell(
-                label(
-                    "Use this criteria to find sales with a particular rating."
-                )
-            )),
-            grid.row(
-                grid.cell(sale_rating),
-                grid.cell(sale_quantifier)
-            )
+            grid.cell(label(
+                "Use this criteria to find sales with a particular rating."
+            )).pos(0, 0),
+            grid.cell(sale_rating).pos(0, 1),
+            grid.cell(sale_quantifier).pos(0, 2)
         );
     }
     
     /**
+     * Create the view that allows the user to input search criteria and then
+     * perform a live search on the garage sales.
      * 
-     * 
-     * Create the view, takes in a function that accepts a predicate (an object
-     * built up from all of the search criteria that says whether or not a given
-     * garage sale meets the search criteria), and returns a model set of garage
-     * sales (the set of garage sales 
      * @return
      */
     public JPanel view(final ModelSet<GarageSaleModel> sales) {

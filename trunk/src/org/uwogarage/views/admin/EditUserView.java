@@ -36,7 +36,7 @@ public class EditUserView extends AddUserView {
         final JCheckBox reset_pass = new JCheckBox();
         
         // set all of the default values
-        reset_pass.setSelected(user.hasDefaultPass());
+        reset_pass.setSelected(user.isUsingDefaultPass());
         start_zoom.setValue(user.getDefaultZoom());
         first_name.setText(user.getFirstName());
         last_name.setText(user.getLastName());
