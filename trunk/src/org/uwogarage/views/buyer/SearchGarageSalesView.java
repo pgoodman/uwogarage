@@ -234,8 +234,8 @@ public class SearchGarageSalesView extends View {
                 "Use this criteria to find sales created by users with a "+
                 "particular rating."
             )).pos(0, 0),
-            grid.cell(user_rating).pos(0, 1),
-            grid.cell(user_quantifier).pos(0, 2)
+            grid.cell(user_rating).pos(0, 1).margin(10, 0, 0, 0),
+            grid.cell(user_quantifier).pos(0, 2).margin(10, 0, 0, 0)
         );
     }
     
@@ -249,8 +249,8 @@ public class SearchGarageSalesView extends View {
             grid.cell(label(
                 "Use this criteria to find sales with a particular rating."
             )).pos(0, 0),
-            grid.cell(sale_rating).pos(0, 1),
-            grid.cell(sale_quantifier).pos(0, 2)
+            grid.cell(sale_rating).pos(0, 1).margin(10, 0, 0, 0),
+            grid.cell(sale_quantifier).pos(0, 2).margin(10, 0, 0, 0)
         );
     }
     
@@ -291,7 +291,7 @@ public class SearchGarageSalesView extends View {
             ))).pos(0, 0).fill(1, 1),
             
             // the tabbed search criteria
-            grid.cell(tab_pane).fill(1, 1).pos(1, 0),
+            grid.cell(tab_pane).margin(0, 0, 0, 10).fill(1, 1).pos(1, 0),
             
             // add in the search button
             grid.cell(2, search_button = button("Search", new D<JButton>() {

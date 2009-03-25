@@ -4,45 +4,59 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import org.uwogarage.models.GarageSaleModel;
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Reads a bulk load file to create new garage sales.
  * 
+ * @version $Id$
  * @author ECORMIEB
  */
 public class BulkLoad {
-
-	//error string, stores errors encountered by the reader during its last attempt
-	private static String errors = "";
 	
 	//keep track of the number of garage sales created, use in error messages
-	int count = 0;
+	private static int line_num;
 
 	//FILE FORMAT INFORMATION:
 
-	//number of fields to be read
-	private static int FIELDS = 6;
-
 	//indexes of information in file format (order it is read from file)
-	private static final int AREA = 0;
-	private static final int STREET = 1;
-	private static final int CITY = 2;
-	private static final int PROVINCE = 3;
-	private static final int DATE = 4;
-	private static final int TIME = 5;
-
+	private static final int AREA = 0,
+	                         STREET = 1,
+	                         CITY = 2,
+	                         PROVINCE = 3,
+	                         DATE = 4,
+	                         TIME = 5,
+	                         
+	                         // number of fields to be read
+	                         FIELDS = 6;
+	
 	/**
-	 * Returns a String with error messages to record each error encountered during last
-	 * bulk reading process.
+	 * Read a line from input and match it against a regular expression. If it
+	 * doesn't match then throw an exception.
 	 * 
-	 * @return String representation of bulk loading errors
+	 * If a line cannot be read then an IOException is thrown.
+	 * 
+	 * @param fin
+	 * @param regex
+	 * @return
+	 * @throws Exception
 	 */
-	public String getErrors() {
-		return errors;
+	private static String matchReadLine(BufferedReader fin, String regex) throws Exception {
+	    ++line_num;
+	    
+	    String line = fin.readLine();
+	    if(!line.matches(regex)) {
+	        throw new Exception(
+	            "Parse error: Line "+ line_num +" is incorrectly formatted:\n"+
+	            line
+	        );
+	    }
+	    return line;
 	}
 
 	/**
@@ -53,20 +67,17 @@ public class BulkLoad {
 	 * @param filename the name of the file to be read
 	 * @return a linked list containing all the GarageSaleModels that were created from the file
 	 */
-	public static LinkedList<GarageSaleModel> bulkLoad(UserModel user,
-			String filename) {
+	public static ModelSet<GarageSaleModel>
+	bulkLoad(UserModel user, String filename) throws Exception {
 
-		//reset the error string
-		errors = "";
+	    // reset the line number
+	    line_num = 0;
 
-		//the filereader
+		//the file reader
 		BufferedReader fin;
 
-		//whether end of file has been reached
-		boolean eof = false;
-
 		//empty list to store the GarageSaleModels created
-		LinkedList<GarageSaleModel> sales = new LinkedList<GarageSaleModel>();
+		ModelSet<GarageSaleModel> sales = new ModelSet<GarageSaleModel>();
 
 		//list of each block of information read from the file (a "block" being the collection
 		//of information required to create one garage sale)
@@ -76,68 +87,87 @@ public class BulkLoad {
 		try {
 			fin = new BufferedReader(new FileReader("bulk.txt"));
 		} catch (Exception e) {
-			errors += "Unable to open file. ";
 			return null;
 		}
-
+		
 		//At each iteration, read one garage sale's information from the file. Stop
 		//when the end of the file has been reached.
-		while (!eof) {
-
-			//array of information read in this block
-			String[] infoRead = new String[FIELDS];
-
-			for (int i = 0; i < FIELDS; i++) {
-				//read a line
-				try {
-					infoRead[i] = fin.readLine().substring(6);
-				}
-				//if it can't be read, end of file has probably been reached.
-				catch (Exception e) {
-					eof = true;
-					break;
-				}
-			}
-
-			//add the new information read only if the end of file wasn't reached by the time the
-			//last field was read
-			if (!eof) {
-				blocksRead.add(infoRead);
-			}
-
+		try {
+    		while (fin.ready()) {
+    
+    			//array of information read in this block
+    			String[] infoRead = new String[FIELDS];
+    			
+    			try {
+        			infoRead[AREA] = matchReadLine(fin,
+        			    "area: -?([0-9]{1,3})\\.([0-9]{3,6}) -?([0-9]{1,3})"+
+        			    "\\.([0-9]{3,6})"
+        			);
+        			infoRead[STREET] = matchReadLine(fin, "stre: .{1,50}");
+        			infoRead[CITY] = matchReadLine(fin, "city: .{1,20}");
+        			infoRead[PROVINCE] = matchReadLine(fin, 
+        			    "prov: (AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)"
+        			);
+        			infoRead[DATE] = matchReadLine(fin,
+        			    "date: ((0?[1-9])|[12][0-9]|3[01])/((0?[1-9])|10|11|"+
+        			    "12)/([12][0-9]{3})"
+        			);
+        			infoRead[TIME] = matchReadLine(fin,
+        			    "time: ((0?[1-9])|1[0-9]|2[0-4]):((0[1-9])|[1-5][1-9])"
+        			);
+        			
+        			// add the new information read only if the end of file 
+                    // wasn't reached by the time the last field was read
+        			blocksRead.add(infoRead);
+        			
+    			// the file was improperly formatted, i.e. it is missing information
+        	    // for a sale
+    			} catch(IOException e) {
+    			    throw new Exception(
+    			        "Parse error: there is information missing from the "+
+    			        "bulk load file on line "+ line_num
+    			    );
+    			}
+    		}
+		} catch(IOException e) {
+		    if(0 == blocksRead.size()) {
+		        throw new Exception(
+		            "The file was empty or did not contain a complete garage "+
+		            "sale record to be added."
+		        );
+		    }
 		}
-
-		//make an iterator of the blocks read
-		ListIterator<String[]> infoIt = (ListIterator<String[]>) blocksRead.iterator();
-
-		//keep track of the garage sales created for more useful error messages
-		int count = 0;
 		
-		while (infoIt.hasNext()) {
-
-			count++;
-
-			//find the block of information read
-			String[] infoRead = infoIt.next();
-
+		// iterate over the blocks read and attempt to verify their contents
+		// against the model layer
+		int count = 1;
+		
+		StringBuffer errors = new StringBuffer();
+		
+		for(String[] infoRead : blocksRead) {
+		    
 			//create a new GarageSale
 			GarageSaleModel saleRead = new GarageSaleModel(user);
 
 			//-----------------area-------------------------------	
 
-			//find where the space between the numbers is, and get substrings
-			//of the numbers before and after this space 
+			// find where the space between the numbers is, and get substrings
+			// of the numbers before and after this space 
 
-			String[] latlong = infoRead[AREA].split(" ");
+			String[] latlong = infoRead[AREA].substring(6).split(" ");
 
-			//try to set the geoposition, append error message to errors if it doesn't work.
+			// try to set the geoposition, append error message to errors if it 
+			// doesn't work.
 			try {
 				if (!saleRead.setGeoPosition(latlong[0], latlong[1])) {
-					errors += "Couldn't set position of " + count
-							+ "th garage sale.\n";
+					errors.append(
+					    "Couldn't set position of " + count + "th garage sale.\n"
+					);
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
-				errors += "Invalid position for " + count + "th garage sale.\n";
+				errors.append(
+				    "Invalid position for " + count + "th garage sale.\n"
+				);
 			}
 
 			//-----------------location-------------------------------	
@@ -150,13 +180,15 @@ public class BulkLoad {
 				newLoc = new Location(infoRead[STREET], infoRead[PROVINCE],
 						infoRead[CITY]);
 				if(!saleRead.setLocation(newLoc)){
-					errors += "Could not set Location for " + count
-					+ "th garage sale.\n";
+					errors.append(
+					    "Could not set Location for " + count + "th garage sale.\n"
+					);
 				}
 				
 			} catch (Exception e) {
-				errors += "Could not create Location for " + count
-						+ "th garage sale.\n";
+				errors.append(
+				    "Could not create Location for " + count + "th garage sale.\n"
+				);
 			}
 
 			//-----------------date/time-------------------------------	
@@ -180,23 +212,40 @@ public class BulkLoad {
 						day, hours, minutes);
 
 				if (!saleRead.setTime(calendar)) {
-					errors += "Could not set time for " + count
-							+ "th garage sale.\n";
+					errors.append(
+					    "Could not set time for " + count + "th garage sale.\n"
+					);
 				}
 
 			}
 			//This exception will be encountered if the split operation doesn't recover 
 			//enough strings, meaning the date or time is in an invalid format
 			catch (ArrayIndexOutOfBoundsException e) {
-				errors += "Invalid date and/or time for " + count
-						+ "th garage sale.\n";
+				errors.append(
+				    "Invalid date and/or time for " + count	+ "th garage sale.\n"
+				);
 			}
 
 			//-----------------------------------------------------
-
-			//add this new GarageSale to the list
+			
+			// have any errors occurred while creating this model?
+			if(0 < errors.length()) {
+			    throw new Exception(errors.toString());
+			}
+			
+			//add this new GarageSale to the set
 			sales.add(saleRead);
-
+			
+			++count;
+		}
+		
+		// if, for some reason, the set is empty, throw an error saying that
+		// an unknown error occurred
+		if(0 == sales.size()) {
+		    throw new Exception(
+		        "An unknown error occurred while trying to bulk loa the "+
+		        "garage sales from disk."
+		    );
 		}
 
 		return sales;

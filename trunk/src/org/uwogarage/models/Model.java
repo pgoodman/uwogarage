@@ -8,4 +8,5 @@ import java.io.Serializable;
  * @version $Id$
  */
 public interface Model extends Serializable {
+    
 }
