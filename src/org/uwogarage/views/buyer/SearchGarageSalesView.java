@@ -305,7 +305,7 @@ public class SearchGarageSalesView extends View {
                     grid.row(grid.cell(search_criteria_boxes[USER_RATING]).anchor(1, 0, 0, 1)),
                     grid.row(grid.cell(search_criteria_boxes[SALE_RATING]).anchor(1, 0, 0, 1))
                 )).margin(10, 0, 0, 0))
-            ))).pos(0, 0),
+            ))).pos(0, 0).fill(1, 1),
             
             grid.cell(tab_pane).fill(1, 1).pos(1, 0),
             grid.cell(2, search_button).pos(0, 1)
