@@ -8,6 +8,8 @@ package org.uwogarage.models;
 
 public class CategoryModel implements Model {
     
+    private static final long serialVersionUID = 1337L;
+    
 	private String name = ""; // the category's name
 
 	/**

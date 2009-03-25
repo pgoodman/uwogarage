@@ -74,7 +74,9 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     }
     
     public void search() {
-        TabView.show((new SearchGarageSalesView(d.category.getModels())).view());
+        TabView.show((new SearchGarageSalesView(d.category.getModels())).view(
+            models
+        ));
     }
     
     public void list(ModelSet<GarageSaleModel> categories) {

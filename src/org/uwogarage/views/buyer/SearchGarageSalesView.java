@@ -10,17 +10,21 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.CategoryModel;
+import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.documents.AlphaNumDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
+import org.uwogarage.util.functional.D;
 import org.uwogarage.views.ListCategoriesView;
+import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 
 /**
@@ -42,7 +46,7 @@ public class SearchGarageSalesView extends View {
     protected JTabbedPane tab_pane = new JTabbedPane();
     
     // the search button
-    protected JButton search_button = button("Search");
+    protected JButton search_button;
     
     // all input fields
     protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
@@ -64,10 +68,15 @@ public class SearchGarageSalesView extends View {
     date_range = new JRadioButton("... within a date range (inclusive).", false);
     
     private String[] quantifiers = { "exactly", "or less", "or more" }; 
-    protected JComboBox quantifier = new JComboBox(quantifiers); 
+    protected JComboBox user_quantifier = new JComboBox(quantifiers),
+                        sale_quantifier = new JComboBox(quantifiers);
     
-    protected JTextField user_rating = field.text(1, new NumDocument(1)),
+    /*protected JTextField user_rating = field.text(1, new NumDocument(1)),
                          sale_rating = field.text(1, new NumDocument(1));
+    */
+    
+    protected JSlider user_rating = Slider.view(0, 5, 0, null),
+                      sale_rating = Slider.view(0, 5, 0, null);
     
     // list of selected categories
     protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 
@@ -229,7 +238,7 @@ public class SearchGarageSalesView extends View {
             )),
             grid.row(
                 grid.cell(user_rating),
-                grid.cell(quantifier)
+                grid.cell(user_quantifier)
             )
         );
     }
@@ -248,12 +257,21 @@ public class SearchGarageSalesView extends View {
             )),
             grid.row(
                 grid.cell(sale_rating),
-                grid.cell(quantifier)
+                grid.cell(sale_quantifier)
             )
         );
     }
     
-    public JPanel view() {
+    /**
+     * 
+     * 
+     * Create the view, takes in a function that accepts a predicate (an object
+     * built up from all of the search criteria that says whether or not a given
+     * garage sale meets the search criteria), and returns a model set of garage
+     * sales (the set of garage sales 
+     * @return
+     */
+    public JPanel view(final ModelSet<GarageSaleModel> sales) {
         Dimension dims = new Dimension(600, 250);
         
         tab_pane.setPreferredSize(dims);
@@ -283,8 +301,24 @@ public class SearchGarageSalesView extends View {
                 )).margin(10, 0, 0, 0))
             ))).pos(0, 0).fill(1, 1),
             
+            // the tabbed search criteria
             grid.cell(tab_pane).fill(1, 1).pos(1, 0),
-            grid.cell(2, search_button).pos(0, 1)
+            
+            // add in the search button
+            grid.cell(2, search_button = button("Search", new D<JButton>() {
+                public void call(JButton b) {
+                    if(!validateInput())
+                        return;
+                    
+                }
+            })).pos(0, 1)
         );
+    }
+    
+    /**
+     * Perform input validation.
+     */
+    public boolean validateInput() {
+        return false;
     }
 }

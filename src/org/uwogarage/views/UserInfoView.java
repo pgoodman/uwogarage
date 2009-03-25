@@ -8,6 +8,8 @@ import org.uwogarage.models.UserModel;
 public class UserInfoView extends TabView {
     static public JPanel view(UserModel user) {
         
+        
+        
         String[] user_phone = user.getPhoneNumber();
         JSlider rating = Slider.view(0, 5, (int)user.getRating(), null);
         rating.setEnabled(false);

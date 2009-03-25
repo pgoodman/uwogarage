@@ -9,6 +9,8 @@ package org.uwogarage.models;
 
 public class RatingModel implements Model {
     
+    private static final long serialVersionUID = 80081355L;
+    
     protected int rating;               // the value of this rating
 	protected UserModel user;			// the user owns this rating
 	protected GarageSaleModel sale;   // the sale that this rating belongs to

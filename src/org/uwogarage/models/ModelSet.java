@@ -1,11 +1,12 @@
 package org.uwogarage.models;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import org.uwogarage.util.functional.P;
 
-public class ModelSet<T> extends HashSet<T> {
+public class ModelSet<T> extends HashSet<T> implements Serializable {
     
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8008135L;
 
     /**
      * Filter out specific models in the model collection.

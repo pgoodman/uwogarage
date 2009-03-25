@@ -1,5 +1,6 @@
 package org.uwogarage.util;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import org.uwogarage.util.functional.D;
@@ -13,7 +14,9 @@ import org.uwogarage.util.functional.D;
  * @version $Id$
  */
 
-public class Location {
+public class Location implements Serializable {
+    
+    private static final long serialVersionUID = 31337L;
     
 	String street; // the location's street address
 	String province; // the location's province
