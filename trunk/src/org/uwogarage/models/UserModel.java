@@ -10,6 +10,8 @@ import org.uwogarage.util.GeoPosition;
 
 public class UserModel implements Model {
     
+    private static final long serialVersionUID = 45535L;
+    
 	protected String first_name = "", // the user's first name
 	                 last_name = "", // the user's last name
 	                 pass = "aaa", // the user's pass, default 'aaa'

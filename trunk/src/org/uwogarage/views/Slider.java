@@ -29,6 +29,7 @@ public class Slider extends View {
         slider.setMinorTickSpacing(1);
         slider.setPaintLabels(true);
         slider.setSnapToTicks(true);
+        slider.setPaintTicks(true);
         
         labels.put(new Integer(min), label("-"));
         labels.put(new Integer(max), label("+"));

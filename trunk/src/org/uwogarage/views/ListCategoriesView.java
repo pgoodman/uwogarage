@@ -3,7 +3,6 @@ package org.uwogarage.views;
 import java.awt.Dimension;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

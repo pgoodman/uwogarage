@@ -15,11 +15,15 @@ import org.uwogarage.util.Location;
 
 public class GarageSaleModel implements Model {
     
+    private static final long serialVersionUID = 45535L;
+    
     final UserModel user; // the user that created this garage sale
     final GregorianCalendar time; // the garage sale's date and time information
+    
     ModelSet<CategoryModel> categories; // the garage sale's categories
 	Location location; // the garage sale's location
 	GeoPosition position; // the location's geo position
+	
 	String note = "", // the garage sale's note
 	       positions[]; // this is out of laziness
 	

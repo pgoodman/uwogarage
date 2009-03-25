@@ -1,5 +1,7 @@
 package org.uwogarage.util;
 
+import java.io.Serializable;
+
 /**
  * A coordinate in the real world, composed of a latitude and a longitude.
  * 
@@ -8,11 +10,13 @@ package org.uwogarage.util;
  * @version $Id$
  */
 
-public class GeoPosition {
+public class GeoPosition implements Serializable {
     
 	private double latitude = 0D, // the way point's latitude
 	               longitude = 0D; // the way point's longitude
-
+	
+	private static final long serialVersionUID = 8008L;
+	
 	/**
 	 * Constructor for Location, sets the latitude and longitude
 	 * @param lat the way point's latitude
