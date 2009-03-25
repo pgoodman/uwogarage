@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
@@ -21,6 +22,7 @@ import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.ListCategoriesView;
+import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 
 /**
@@ -61,7 +63,16 @@ public class SearchGarageSalesView extends View {
     
     protected JRadioButton 
     date_specific = new JRadioButton("... on a specific date.", true),
-    date_range = new JRadioButton("... within a date range (inclusive).", false);
+    date_range = new JRadioButton("... within a date range (inclusive).", false),
+    user_leq = new JRadioButton("<=", false),
+    user_eq = new JRadioButton("=", true),
+    user_geq = new JRadioButton(">=", false),
+    sale_leq = new JRadioButton("<=", false),
+    sale_eq = new JRadioButton("=", true),
+    sale_geq = new JRadioButton(">=", false);
+    
+    protected JSlider user_rating = Slider.view(0, 5, 3, null),
+                      sale_rating = Slider.view(0, 5, 3, null);
     
     // list of selected categories
     protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 
@@ -208,23 +219,61 @@ public class SearchGarageSalesView extends View {
     }
     
     /**
-     * Search criteria for finding sales with a specific rating or with a rating
-     * within a given range.
+     * Search criteria for finding sales created by users ranked in a particular
+     * way.
      * 
      * @return
      */
     protected JPanel viewUserRating() {
+        
+        ButtonGroup group = new ButtonGroup();
+        group.add(user_leq);
+        group.add(user_eq);
+        group.add(user_geq);
+        
         return grid(
             grid.row(grid.cell(
-                label("Use this criteria to find sales ranked in various ways.")
-            ))
+                label(
+                    "Use this criteria to find sales created by users with a "+
+                    "particular rating."
+                )
+            )),
+            grid.row(grid.cell(grid(
+                grid.cell(grid(
+                    grid.cell(user_leq).pos(0, 0).anchor(1, 0, 0, 1),
+                    grid.cell(user_eq).pos(0, 1).anchor(1, 0, 0, 1),
+                    grid.cell(user_geq).pos(0, 2).anchor(1, 0, 0, 1)
+                )),
+                grid.cell(user_rating, 3).pos(1, 0).margin(0, 0, 0, 20)
+            )))
         );
     }
+    
+    /**
+     * Search criteria for finding sales ranked in a particular way.
+     * 
+     * @return
+     */
     protected JPanel viewSaleRating() {
+        ButtonGroup group = new ButtonGroup();
+        group.add(sale_leq);
+        group.add(sale_eq);
+        group.add(sale_geq);
+        
         return grid(
             grid.row(grid.cell(
-                label("Use this criteria to find sales ranked in various ways.")
-            ))
+                label(
+                    "Use this criteria to find sales with a particular rating."
+                )
+            )),
+            grid.row(grid.cell(grid(
+                grid.cell(grid(
+                    grid.cell(sale_leq).pos(0, 0).anchor(1, 0, 0, 1),
+                    grid.cell(sale_eq).pos(0, 1).anchor(1, 0, 0, 1),
+                    grid.cell(sale_geq).pos(0, 2).anchor(1, 0, 0, 1)
+                )),
+                grid.cell(sale_rating, 3).pos(1, 0).margin(0, 0, 0, 20)
+            )))
         );
     }
     

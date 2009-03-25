@@ -1,6 +1,5 @@
 package org.uwogarage.controllers;
 
-import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
@@ -11,7 +10,6 @@ import org.uwogarage.views.UpdatePasswordView;
 import org.uwogarage.views.UserControlPanelView;
 import org.uwogarage.views.UserInfoView;
 import org.uwogarage.views.View;
-import org.uwogarage.views.admin.AddCategoryView;
 import org.uwogarage.views.admin.AddUserView;
 import org.uwogarage.views.admin.EditUserView;
 
@@ -41,6 +39,8 @@ public class UserController extends Controller<UserModel> {
     public void add() {
         View.show((new AddUserView()).view(
             
+            // predicate to check if the user id that the admin supplied already
+            // exists or not
             new P<String>() {
               public boolean call(String id) {
                   // make sure user id is unique
@@ -53,17 +53,21 @@ public class UserController extends Controller<UserModel> {
               }
             },
             
+            // add the user in if all input is valid and return to the admin
+            // panel
             new D<UserModel>() {
-            public void call(UserModel user) {
-                
-                // add the newly created user in, this could have been in the
-                // view but I decided it best to put that control with the
-                // controller
-                models.add(user);
-                
-                // TODO Return to main admin menu or do something
+                public void call(UserModel user) {
+                    
+                    // add the newly created user in, this could have been in the
+                    // view but I decided it best to put that control with the
+                    // controller
+                    models.add(user);
+                    
+                    // return to the admin panel
+                    adminPanel();
+                }
             }
-        }));
+        ));
     }
     
     /**
@@ -124,13 +128,21 @@ public class UserController extends Controller<UserModel> {
      */
     public void controlPanel() {
         View.show(UserControlPanelView.view(logged_user,
-            new F0() { public void call() { stats(); } },
-            new F0() { public void call() { d.garage_sale.list(logged_user.getGarageSales()); } },
-            new F0() { public void call() { d.garage_sale.add(); } },
-            new F0() { public void call() { d.garage_sale.bulkAdd(); } },
-            new F0() { public void call() { d.garage_sale.search(); } },
-            new F0() { public void call() { d.garage_sale.list(d.garage_sale.getModels()); } }
+            new F0() { public void call() { stats(); }},
+            new F0() { public void call() { 
+                d.garage_sale.list(logged_user.getGarageSales()); 
+            }},
+            new F0() { public void call() { d.garage_sale.add(); }},
+            new F0() { public void call() { d.garage_sale.bulkAdd(); }},
+            new F0() { public void call() { d.garage_sale.search(); }},
+            new F0() { public void call() { 
+                d.garage_sale.list(d.garage_sale.getModels()); 
+            }}
         ));
+    }
+    
+    public void adminPanel() {
+        
     }
     
     /**
