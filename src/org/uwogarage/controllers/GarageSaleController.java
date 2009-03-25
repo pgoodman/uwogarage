@@ -10,7 +10,7 @@ import org.uwogarage.views.buyer.SearchGarageSalesView;
 import org.uwogarage.views.seller.AddGarageSaleView;
 import org.uwogarage.views.seller.EditGarageSaleView;
 
-/**
+/** 
  * The GarageSaleController class responds to calls from a View and manipulates  
  * in GarageSaleModels in the datastore
  *
