@@ -25,7 +25,7 @@ import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
 import org.uwogarage.views.ListCategoriesView;
 import org.uwogarage.views.View;
-
+ 
 
 /**
  * Create the view to add a garage sale.

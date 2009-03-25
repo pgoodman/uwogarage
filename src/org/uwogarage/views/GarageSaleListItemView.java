@@ -10,7 +10,7 @@ import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
-
+ 
 /**
  * Show the basic info of a garage sale in a listing of sales / search results /
  * etc.
