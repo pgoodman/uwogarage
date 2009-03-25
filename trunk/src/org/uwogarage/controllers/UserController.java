@@ -78,7 +78,9 @@ public class UserController extends Controller<UserModel> {
         View.show((new EditUserView()).view(user,
             new F0() { 
                 public void call() {
-                    // TODO save the user to file
+
+                    // return to the admin panel
+                    adminPanel();
                 }
             }     
         ));
@@ -142,7 +144,10 @@ public class UserController extends Controller<UserModel> {
     }
     
     public void adminPanel() {
-        
+        // TODO
+        // add user
+        // edit user
+        // delete user
     }
     
     /**
