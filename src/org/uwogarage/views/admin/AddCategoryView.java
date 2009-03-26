@@ -9,12 +9,12 @@ import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.documents.AnyDocument;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
-import org.uwogarage.views.View;
+import org.uwogarage.views.TabView;
 
 /**
  * @version $Id$
  */
-public class AddCategoryView extends View {
+public class AddCategoryView extends TabView {
     
     static public JPanel view(final ModelSet<CategoryModel> categories, final D<CategoryModel> responder) {
         
@@ -52,7 +52,8 @@ public class AddCategoryView extends View {
                         } else {
                             try {
                                 responder.call(new CategoryModel(cat_name.getText()));
-                                
+                                dialog.alert(f, "The category has been added."); 
+                                changeProgramTab(3); 
                             } catch(Exception e) {
                                 dialog.alert(f, 
                                     "The category name was incorrectly formatted. "+

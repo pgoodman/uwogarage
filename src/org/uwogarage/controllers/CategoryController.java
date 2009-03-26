@@ -1,6 +1,7 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.models.CategoryModel;
+import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.admin.AddCategoryView;
@@ -51,12 +52,21 @@ public class CategoryController extends Controller<CategoryModel> {
     public void delete(CategoryModel cat) {
         models.remove(cat);
         
-        // TODO do something now
+        // removes category from all sales that use it
+        for (GarageSaleModel sale: d.garage_sale.getModels())
+        	sale.categories.remove(cat); 
+        
     }
     
     public void list() {
-    	TabView.show(ListCategoriesView.view(models));
-       		
-    	
+    	TabView.show(ListCategoriesView.view(
+    		models, 
+    		new D<CategoryModel>(){
+	    		public void call(CategoryModel model) {
+	    			delete(model); 
+	    		}
+	    	}
+    	));
+       		   	
     }
 }
