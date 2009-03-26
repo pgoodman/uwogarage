@@ -31,18 +31,26 @@ public class UserController extends Controller<UserModel> {
     public UserController() {
         
         UserModel test_user = new UserModel();
-        test_user.setFirstName("Test");
-        test_user.setLastName("User");
+        test_user.setFirstName("A");
+        test_user.setLastName("Apple");
         test_user.setUserId("aaaa");
         test_user.setPassword("aaa");
         test_user.setPhoneNumber("519", "933", "0204");
         models.add(test_user);
         
         test_user = new UserModel();
-        test_user.setFirstName("Test");
-        test_user.setLastName("User");
+        test_user.setFirstName("B");
+        test_user.setLastName("Bear");
         test_user.setUserId("bbbb");
         test_user.setPassword("bbb");
+        test_user.setPhoneNumber("519", "933", "0204");
+        models.add(test_user);
+    
+        test_user = new UserModel();
+        test_user.setFirstName("C");
+        test_user.setLastName("Policeman");
+        test_user.setUserId("cccc");
+        test_user.setPassword("ccc");
         test_user.setPhoneNumber("519", "933", "0204");
         models.add(test_user);
     }
@@ -89,7 +97,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void list(){
      	
-    	TabView.show(ListUsersView.view(models, 
+    	TabView.show((new ListUsersView()).view(models, 
     		new D<UserModel>(){
     			// responder for editing users
     			public void call(UserModel user) {
