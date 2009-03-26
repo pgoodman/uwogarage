@@ -43,4 +43,16 @@ public class ModelSet<T> extends HashSet<T> implements Serializable {
         }
         return null;
     }
+    
+    /**
+     * Type-safe clone.
+     */
+    public ModelSet<T> clone() {
+        ModelSet<T> cloned_set = new ModelSet<T>();
+        
+        for(T item : this)
+            cloned_set.add(item);
+        
+        return cloned_set;
+    }
 }

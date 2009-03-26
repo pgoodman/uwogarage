@@ -37,7 +37,10 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
 				    
 				    // remove the old sales
 				    if(remove_old_sales) {
-				        for(GarageSaleModel sale : logged_user.sales)
+				        
+				        // type-safe clone, avoid concurrent removal from the
+				        // model set
+				        for(GarageSaleModel sale : logged_user.sales.clone())
 				            deleteSale(sale);
 				    }
 				    
@@ -104,7 +107,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         d.rating.getModels().removeAll(ratings);
         
         // remove the ratings from each user
-        for(RatingModel rating : ratings)
+        for(RatingModel rating : ratings.clone())
             rating.getUser().ratings.remove(rating);
         
         // remove the sale from the user that owns it

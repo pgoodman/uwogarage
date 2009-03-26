@@ -6,12 +6,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 
 import org.uwogarage.controllers.Controller;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.PFrame;
 import org.uwogarage.util.gui.SimpleGui.menu;
 import org.uwogarage.views.View;
 
@@ -76,14 +80,12 @@ public class UWOGarage {
         Controller.setDispatcher(dispatch_to);        
         
         // create the program frame that the entire program will run in
-        View.programFrame("UWO Garage", new D<JFrame>() {
-            public void call(final JFrame f) {
+        View.programFrame("UWO Garage", new D<PFrame>() {
+            
+            public void call(final PFrame f) {
             	
-                // resize the frame
-                //Dimension default_size = new Dimension(905,500);
-            	//f.setMinimumSize(new Dimension(default_size));
-            	//f.setPreferredSize(default_size);
-                //f.setSize(default_size);
+                // set the minimum size on the frame
+                f.setMinimumSize(new Dimension(950, 750));
                 
             	// add in the on-close listener to save the program state to
             	// file
