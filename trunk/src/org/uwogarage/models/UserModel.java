@@ -18,7 +18,7 @@ public class UserModel implements Model {
 	                 user_id = "", // the user's id
 	                 phone[] = {"", "", ""}; // the user's phone
 	
-	protected GeoPosition start_location;
+	protected String start_coords[] = {"0.000", "0.000"};
 	
 	protected boolean reset_pass = true; // was the user's password was reset
 	
@@ -74,8 +74,8 @@ public class UserModel implements Model {
 	/**
 	 * Get the user's default latitude.
 	 */
-	public GeoPosition getGeoPosition() {
-	    return start_location;
+	public String[] getStartCoords() {
+	    return start_coords;
 	}
 
 	/**
@@ -209,11 +209,8 @@ public class UserModel implements Model {
 	    if(!lat.matches(regex) || !lng.matches(regex)) {
 	        return false;
 	    }
-	    
-	    start_location = new GeoPosition(
-            Double.parseDouble(lat),
-            Double.parseDouble(lng)
-	    );
+	    start_coords[0] = lat;
+	    start_coords[1] = lng;
 	    
 	    return true;
 	}

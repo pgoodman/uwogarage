@@ -30,7 +30,7 @@ public class EditUserView extends AddUserView {
     public JPanel view(final UserModel user, final F0 responder) {
         
         String[] phone = user.getPhoneNumber();
-        GeoPosition user_pos = user.getGeoPosition();
+        String[] user_geo = user.getStartCoords();
         
         // is the user's password being reset?
         final JCheckBox reset_pass = new JCheckBox();
@@ -43,8 +43,8 @@ public class EditUserView extends AddUserView {
         phone_area.setText(phone[0]);
         phone_first.setText(phone[1]);
         phone_rest.setText(phone[2]);
-        start_lat.setText(String.valueOf(user_pos.getLatitude()));
-        start_lat.setText(String.valueOf(user_pos.getLongitude()));
+        start_lat.setText(user_geo[0]);
+        start_lng.setText(user_geo[1]);
         
         // create the form
         return grid(
