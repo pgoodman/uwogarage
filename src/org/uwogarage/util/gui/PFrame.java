@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
@@ -25,7 +26,9 @@ public class PFrame extends JFrame {
     private boolean _min_size_added = false,
                     _min_size_too_big = false;
     
+    final private JPanel _scroll_content_pane = new JPanel();
     private JScrollPane _scroll_port = new JScrollPane(
+        _scroll_content_pane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
     );
@@ -43,7 +46,7 @@ public class PFrame extends JFrame {
      */
     public Container getContentPane() {
         if(_min_size_too_big)
-            return _scroll_port;
+            return _scroll_content_pane;
         
         return super.getContentPane();
     }
@@ -68,6 +71,8 @@ public class PFrame extends JFrame {
             _min_size_too_big = true;
             _min_width = Math.min(screen_size.width, _min_width);
             _min_height = Math.min(screen_size.height, _min_height);
+            _scroll_port.setPreferredSize(new Dimension(_min_width, _min_height));
+            _scroll_content_pane.setBounds(_scroll_port.getBounds());
         }
         
         if(_min_size_added)
@@ -81,11 +86,18 @@ public class PFrame extends JFrame {
                 boolean resize_width = old_size.width < _min_width,
                         resize_height = old_size.height < _min_height;
                 
-                if(resize_width || resize_height) {
-                    self.setSize(new Dimension(
-                        resize_width ? _min_width : old_size.width,
-                        resize_height ? _min_height : old_size.height
-                    ));
+                Dimension new_size = new Dimension(
+                    resize_width ? _min_width : old_size.width,
+                    resize_height ? _min_height : old_size.height
+                );
+                
+                if(_min_size_too_big) {
+                    _scroll_port.setPreferredSize(new_size);
+                    _scroll_content_pane.setBounds(_scroll_port.getBounds());
+                } else {
+                    if(resize_width || resize_height) {
+                        self.setSize(new_size);
+                    }
                 }
             }
         });
