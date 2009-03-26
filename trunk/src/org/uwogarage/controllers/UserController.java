@@ -1,5 +1,8 @@
 package org.uwogarage.controllers;
 
+import org.uwogarage.models.GarageSaleModel;
+import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.RatingModel;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
@@ -86,7 +89,31 @@ public class UserController extends Controller<UserModel> {
      */
     public void list(){
      	
-    	TabView.show(ListUsersView.view(models));
+    	TabView.show(ListUsersView.view(models, 
+    		new D<UserModel>(){
+    			// responder for editing users
+    			public void call(UserModel user) {
+    				edit(user); 
+    			}
+    		}, 
+    		new D<UserModel>(){
+    			// responder for deleting users
+    			public void call(UserModel user) {
+    				ModelSet<GarageSaleModel> allSales = d.garage_sale.getModels();
+    				for (GarageSaleModel sale: user.sales)
+    					// delete all the user's garage sales
+    					allSales.remove(sale);
+    				
+    				ModelSet<RatingModel> allRatings = d.rating.getModels();
+    				for (RatingModel rating: user.ratings)
+    					// delete all the user's ratings
+    					allRatings.remove(rating);
+    				
+    				models.remove(user);
+    				
+    			}
+    		}
+    	));
     	
     }
     
