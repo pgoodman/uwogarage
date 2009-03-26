@@ -90,6 +90,7 @@ public class EditUserView extends AddUserView {
                             if(reset_pass.isSelected())
                                 user.setPassword(null);
                             
+                            dialog.alert(f, "The user has been updated.");
                             changeProgramTab(1);
                         }                        
                     }
