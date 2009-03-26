@@ -110,9 +110,11 @@ public class GarageSaleView extends TabView {
             )).pos(0, 1).fill(1, 1),
             
             // note
-            grid.cell(fieldset("Notes", note))
-                .pos(0, 2)
-                .fill(1, 1),
+            grid.cell(fieldset("Notes", 
+            	sale.getNote().length() == 0
+            	? label("No note")
+            	: note
+            )).pos(0, 2).fill(1, 1),
             // rating
             grid.cell(fieldset("Rating", label(String.valueOf(sale.getRating()))))
                 .pos(0,3)
