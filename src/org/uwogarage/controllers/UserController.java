@@ -123,15 +123,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void edit(UserModel user) {
         // show the edit view for the user
-        TabView.show((new EditUserView()).view(user,
-            new F0() { 
-                public void call() {
-
-                    // return to the admin panel
-                    adminPanel();
-                }
-            }     
-        ));
+        TabView.show((new EditUserView()).view(user));
     }
     
     /**
