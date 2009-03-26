@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.gui.PFrame;
 import org.uwogarage.util.gui.SimpleGui;
 
 /**
@@ -28,7 +29,7 @@ abstract public class View extends SimpleGui {
         if(null != f) {
             content.remove(f);
             content.add(f, c);
-            f.pack();
+            //f.pack();
             f.validate();
         }
     }
@@ -40,11 +41,11 @@ abstract public class View extends SimpleGui {
     static public JFrame programFrame(String title) {
         return programFrame(title, null);
     }
-    static public JFrame programFrame(String title, final D<JFrame> init_program_frame) {
+    static public PFrame programFrame(String title, final D<PFrame> init_program_frame) {
         
-        return SimpleGui.frame(title, new D<JFrame>() {
+        return SimpleGui.frame(title, new D<PFrame>() {
             
-            public void call(JFrame program_frame) {
+            public void call(PFrame program_frame) {
                 f = program_frame;
                 
                 if(null != init_program_frame) {

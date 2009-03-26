@@ -37,9 +37,9 @@ abstract public class SimpleGui {
     public static JFrame frame(String title) {
         return frame(title, null);
     }
-    public static JFrame frame(String title, D<JFrame> init) {
+    public static PFrame frame(String title, D<PFrame> init) {
         
-        JFrame frame = new JFrame(title);
+        PFrame frame = new PFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // initialize and display the frame
