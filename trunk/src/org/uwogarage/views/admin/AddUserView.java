@@ -12,15 +12,16 @@ import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.*;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
+import org.uwogarage.util.gui.SimpleGui.dialog;
 import org.uwogarage.views.Slider;
-import org.uwogarage.views.View;
+import org.uwogarage.views.TabView;
 
 /**
  * View to add a user to the system.
  * 
  * @version $Id$
  */
-public class AddUserView extends View {
+public class AddUserView extends TabView {
     
     // create the text fields
     final JTextField user_id = field.text(4, new AlphaNumDocument(4)),
@@ -139,9 +140,11 @@ public class AddUserView extends View {
                                 StringUtil.join('\n', errors)
                             );
                         
-                        // no errors, yay, add the user in
+                        // no errors (hooray!), add the user in
                         } else {
                             responder.call(user);
+                            dialog.alert(f, "The user has been added."); 
+                            changeProgramTab(1); 
                         }                        
                     }
                 })).margin(10, 10, 10, 10)
