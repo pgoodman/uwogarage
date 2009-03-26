@@ -78,9 +78,6 @@ public class UWOGarage {
         // create the program frame that the entire program will run in
         View.programFrame("UWO Garage", new D<PFrame>() {
             public void call(final PFrame f) {
-            	
-                // change the program to use the system look and feel
-                laf.theme(f, UIManager.getSystemLookAndFeelClassName());
                 
                 // set the minimum size on the frame
                 f.setMinimumSize(new Dimension(950, 750));
@@ -136,6 +133,9 @@ public class UWOGarage {
                 	dispatch_to.user.adminPanel();
                 else
                     dispatch_to.user.login();
+                
+                // change the program to use the system look and feel
+                laf.theme(f, UIManager.getSystemLookAndFeelClassName());
             }
         });
     }
