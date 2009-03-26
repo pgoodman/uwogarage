@@ -2,6 +2,7 @@ package org.uwogarage.views;
 
 import java.util.Calendar;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -9,6 +10,7 @@ import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
+import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
 
 /**
@@ -73,7 +75,7 @@ public class GarageSaleView extends TabView {
                 grid.row(
                     grid.cell(2, label("map here...")).margin(10, 10, 10, 10)
                 )
-            )), 3).pos(1, 0).fill(1, 1),
+            )), 4).pos(1, 0).fill(1, 1),
             
             // date and time
             grid.cell(fieldset("Date / Time", grid(
@@ -116,9 +118,21 @@ public class GarageSaleView extends TabView {
             	: note
             )).pos(0, 2).fill(1, 1),
             // rating
-            grid.cell(fieldset("Rating", label(String.valueOf(sale.getRating()))))
-                .pos(0,3)
-                .fill(1,1)
+            grid.cell(fieldset("Rating",
+                grid(
+                    grid.cell( 
+                        label(String.valueOf(sale.getRating()))
+                    ).pos(0, 1),
+                    grid.cell(
+                        button("Rate Sale", new D<JButton>() {
+                            public void call(JButton btn) {
+                                // TODO show the rating popup
+                            }
+                        }
+                    )).pos(0, 2)
+                )
+            )).pos(0,3).fill(1,1)
+            
         );
     }
 }
