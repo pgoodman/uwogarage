@@ -22,7 +22,6 @@ import javax.swing.event.ChangeListener;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
-import org.uwogarage.models.UserModel;
 import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.AlphaNumDocument;
@@ -33,13 +32,15 @@ import org.uwogarage.util.functional.F0;
 import org.uwogarage.util.functional.P;
 import org.uwogarage.views.ListCategoriesView;
 import org.uwogarage.views.ListGarageSalesReducedView;
-import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 
 /**
  * View to insert criteria for a garage sale search.
  * 
+ * TODO Test all of the functionality!!!
+ * 
+ * @author Peter Goodman
  * @version $Id$
  */
 public class SearchGarageSalesView extends View {
@@ -132,13 +133,24 @@ public class SearchGarageSalesView extends View {
         ChangeListener listener = new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 num_selected_criteria = 0;
+                int i = 0;
+                
                 for(JCheckBox box : search_criteria_boxes) {
-                    if(box.isSelected())
+                    if(box.isSelected()) {
                         ++num_selected_criteria;
+                    
+                        // this is ugly.
+                        if(box == (JCheckBox) e.getSource())
+                            tab_pane.setSelectedIndex(i);
+                    }
+                    
+                    i++;
                 }
                 
                 if(search_button.isEnabled() != (num_selected_criteria > 0))
                     search_button.setEnabled(num_selected_criteria > 0);
+                
+                
             }
         };
         
