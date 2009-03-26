@@ -1,10 +1,13 @@
 package org.uwogarage.util.gui;
 
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 /**
  * Peter Frame, fixes the minimum size bug in JFrames.
@@ -19,7 +22,13 @@ public class PFrame extends JFrame {
     private int _min_width = 0,
                 _min_height = 0;
     
-    private boolean _min_size_added = false;
+    private boolean _min_size_added = false,
+                    _min_size_too_big = false;
+    
+    private JScrollPane _scroll_port = new JScrollPane(
+        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+    );
     
     /**
      * Constructor.
@@ -30,6 +39,16 @@ public class PFrame extends JFrame {
     }
     
     /**
+     * Return the content pane to add stuff to.
+     */
+    public Container getContentPane() {
+        if(_min_size_too_big)
+            return _scroll_port;
+        
+        return super.getContentPane();
+    }
+    
+    /**
      * Set the minimum size of the frame.
      */
     public void setMinimumSize(Dimension d) {
@@ -37,10 +56,22 @@ public class PFrame extends JFrame {
         _min_width = d.width;
         _min_height = d.height;
         
+        // this pframe
+        final PFrame self = this;
+
+        // Get the current screen size
+        final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        // record whether or not the minimum size extends past the screen size
+        _min_size_too_big = false;
+        if(screen_size.width < _min_width || screen_size.height < _min_height) {
+            _min_size_too_big = true;
+            _min_width = Math.min(screen_size.width, _min_width);
+            _min_height = Math.min(screen_size.height, _min_height);
+        }
+        
         if(_min_size_added)
             return;
-        
-        final PFrame self = this;
         
         // enforce a minimum size on the frame                
         addComponentListener(new ComponentAdapter() {
