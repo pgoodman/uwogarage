@@ -1,6 +1,9 @@
 package org.uwogarage.views.admin;
 
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,7 +24,29 @@ public class ListUsersView extends TabView {
     
     static public JPanel view(ModelSet<UserModel> users, final D<UserModel> editResponder, final D<UserModel> deleteResponder) {
     	
-        // nothing to show
+        SortedSet set_fname = new TreeSet();
+        
+        new Comparator<UserModel>(){
+        	public int compare(UserModel a, UserModel b) {
+        		return a.getFirstName().compareTo(b.getFirstName());
+			}
+        };
+        
+        new Comparator<UserModel>(){
+        	public int compare(UserModel a, UserModel b) {
+        		return a.getLastName().compareTo(b.getLastName());
+			}
+        };
+        
+        new Comparator<UserModel>(){
+        	public int compare(UserModel a, UserModel b) {
+        		return a.getId().compareTo(b.getId());
+			}
+        };
+        
+                
+        
+    	// nothing to show
         if(0 == users.size()) {
             return grid(grid.cell(label(
                 "There are no users to list."
