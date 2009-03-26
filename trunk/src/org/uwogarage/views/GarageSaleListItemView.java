@@ -44,8 +44,10 @@ public class GarageSaleListItemView extends View {
         // button for editing a single sale in the list
         JButton delete_button = button("delete", new D<JButton>() {
             public void call(JButton b) {
-                if(dialog.confirm(f, "Are you sure you want to delete this garage sale?"))
+                if(dialog.confirm(f, "Are you sure you want to delete this garage sale?")) {
+                    dialog.alert(f, "Garage sale deleted.");
                     delete_responder.call(sale);
+                }
             }
         });
         

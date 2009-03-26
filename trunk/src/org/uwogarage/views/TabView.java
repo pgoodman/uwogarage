@@ -17,6 +17,7 @@ abstract public class TabView extends View {
         if(null != t) {
             t.removeAll();
             //t.validate();
+            c.setBounds(t.getVisibleRect());
             t.add(c);
             //t.revalidate();
             //f.pack();
