@@ -13,6 +13,7 @@ import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddUserView;
 import org.uwogarage.views.admin.AdminControlPanelView;
 import org.uwogarage.views.admin.EditUserView;
+import org.uwogarage.views.admin.ListUsersView;
  
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -84,7 +85,8 @@ public class UserController extends Controller<UserModel> {
      * List all users. From here, Admin can sort, edit, and delete users
      */
     public void list(){
-     	//TODO: code
+     	
+    	TabView.show(ListUsersView.view(models));
     	
     }
     
@@ -94,7 +96,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void edit(UserModel user) {
         // show the edit view for the user
-        View.show((new EditUserView()).view(user,
+        TabView.show((new EditUserView()).view(user,
             new F0() { 
                 public void call() {
 
