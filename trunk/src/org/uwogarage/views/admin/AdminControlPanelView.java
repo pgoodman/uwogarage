@@ -34,6 +34,7 @@ public class AdminControlPanelView extends View {
         pane.addTab("Add Category", new JPanel());
         pane.addTab("List Categories", new JPanel());
         
+        TabView.setTabDelegate(pane, 4);
         
         // create the change listener that will refresh the content of each tab
         // per state change

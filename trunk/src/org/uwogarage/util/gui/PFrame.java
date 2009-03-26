@@ -63,7 +63,8 @@ public class PFrame extends JFrame {
         final PFrame self = this;
 
         // Get the current screen size
-        final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize(),
+                        preferred_size;
         
         // record whether or not the minimum size extends past the screen size
         _min_size_too_big = false;
@@ -71,8 +72,13 @@ public class PFrame extends JFrame {
             _min_size_too_big = true;
             _min_width = Math.min(screen_size.width, _min_width);
             _min_height = Math.min(screen_size.height, _min_height);
-            _scroll_port.setPreferredSize(new Dimension(_min_width, _min_height));
-            _scroll_content_pane.setBounds(_scroll_port.getBounds());
+            
+            preferred_size = new Dimension(_min_width, _min_height);
+            
+            // set the defualt sizes
+            this.setPreferredSize(preferred_size);
+            _scroll_port.setPreferredSize(preferred_size);
+            _scroll_content_pane.setPreferredSize(preferred_size);
         }
         
         if(_min_size_added)
@@ -87,17 +93,17 @@ public class PFrame extends JFrame {
                         resize_height = old_size.height < _min_height;
                 
                 Dimension new_size = new Dimension(
-                    resize_width ? _min_width : old_size.width,
-                    resize_height ? _min_height : old_size.height
+                    Math.max(_min_width, old_size.width),
+                    Math.max(_min_height, old_size.height)
                 );
                 
                 if(_min_size_too_big) {
                     _scroll_port.setPreferredSize(new_size);
                     _scroll_content_pane.setBounds(_scroll_port.getBounds());
-                } else {
-                    if(resize_width || resize_height) {
-                        self.setSize(new_size);
-                    }
+                }
+                
+                if(resize_width || resize_height) {
+                    self.setSize(new_size);
                 }
             }
         });

@@ -83,7 +83,8 @@ public class UWOGarage {
                 laf.theme(f, UIManager.getSystemLookAndFeelClassName());
                 
                 // set the minimum size on the frame
-                f.setMinimumSize(new Dimension(950, 750));
+                //f.setMinimumSize(new Dimension(950, 750));
+                f.setMinimumSize(new Dimension(1500, 750));
                 
             	// add in the on-close listener to save the program state to
             	// file
