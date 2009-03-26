@@ -84,7 +84,7 @@ public class GarageSaleListItemView extends View {
             
             // control buttons
             grid.cell(grid(
-                grid.cell(view_button),
+                grid.cell(null != view_responder ? view_button : label("")),
                 grid.cell(sale.user == user
                     ? grid(
                           grid.cell(edit_button),

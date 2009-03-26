@@ -107,7 +107,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
                     );
                     infoRead[DATE] = matchReadLine(fin,
                         "date: ((0?[1-9])|[12]\\d|3[01])/((0?[1-9])|10|11|"+
-                        "12)/([12]\\d\\d\\d)"
+                        "12)/([12]\\d{3})"
                     );
                     infoRead[TIME] = matchReadLine(fin,
                         "time: (1\\d|2[0-4]|(0?[1-9])):([1-5]\\d|(0?\\d))"

@@ -14,6 +14,13 @@ public abstract class D<A> {
     abstract public void call(A arg1);
     
     /**
+     * A delegate that will always do nothing.
+     */
+    final static public class DO_NOTHING<X> extends D<X> {
+        final public void call(X x) { }
+    }
+    
+    /**
      * Delegate combinator, perform delegates in sequence with the same input.
      * @param next
      * @return
