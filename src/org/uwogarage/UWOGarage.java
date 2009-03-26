@@ -1,14 +1,10 @@
 package org.uwogarage;
 
-import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -81,9 +77,11 @@ public class UWOGarage {
         
         // create the program frame that the entire program will run in
         View.programFrame("UWO Garage", new D<PFrame>() {
-            
             public void call(final PFrame f) {
             	
+                // change the program to use the system look and feel
+                laf.theme(f, UIManager.getSystemLookAndFeelClassName());
+                
                 // set the minimum size on the frame
                 f.setMinimumSize(new Dimension(950, 750));
                 
