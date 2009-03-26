@@ -37,7 +37,7 @@ abstract public class TabView extends View {
                 
                 // force a switch if necessary
                 if(p.getSelectedIndex() == index)
-                    p.setSelectedIndex((index+1) % (num_tabs+1));
+                    p.setSelectedIndex((index+1) % num_tabs);
                 
                 p.setSelectedIndex(index);
             }

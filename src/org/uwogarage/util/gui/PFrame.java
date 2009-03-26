@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -78,7 +79,10 @@ public class PFrame extends JFrame {
             // set the defualt sizes
             this.setPreferredSize(preferred_size);
             _scroll_port.setPreferredSize(preferred_size);
-            _scroll_content_pane.setPreferredSize(preferred_size);
+            //_scroll_content_pane.setPreferredSize(preferred_size);
+            
+            // add in the scroller
+            super.getContentPane().add(_scroll_port);
         }
         
         if(_min_size_added)
@@ -88,7 +92,6 @@ public class PFrame extends JFrame {
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 Dimension old_size = self.getSize();
-                
                 boolean resize_width = old_size.width < _min_width,
                         resize_height = old_size.height < _min_height;
                 
@@ -99,7 +102,7 @@ public class PFrame extends JFrame {
                 
                 if(_min_size_too_big) {
                     _scroll_port.setPreferredSize(new_size);
-                    _scroll_content_pane.setBounds(_scroll_port.getBounds());
+                    //_scroll_content_pane.setBounds(_scroll_port.getBounds());
                 }
                 
                 if(resize_width || resize_height) {
