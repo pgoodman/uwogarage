@@ -3,6 +3,8 @@ package org.uwogarage.controllers;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.D2;
+import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.TabView;
@@ -30,11 +32,21 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         
     	TabView.show(BulkAddGarageSaleView.view(
     		logged_user,
-    		new D<ModelSet<GarageSaleModel>>(){
-				public void call(ModelSet<GarageSaleModel> sales) {
-					for (GarageSaleModel sale : sales)
-						models.add(sale);
-					list(logged_user.getGarageSales());
+    		new D2<ModelSet<GarageSaleModel>,F0>() {
+				public void call(ModelSet<GarageSaleModel> sales, F0 change_tab_responder) {
+				    
+				    ModelSet<GarageSaleModel> user_sales = logged_user.getGarageSales();
+				    
+				    // loop over the sales that the bulk load parser returned
+				    // and add them to the model set
+					for (GarageSaleModel sale : sales) {
+						user_sales.add(sale);
+					    models.add(sale);
+					}
+					
+					// toggle a change tab, which will eventually toggle a change
+					// in control flow!
+					change_tab_responder.call();
 				}
 	    	}
     	));

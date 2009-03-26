@@ -6,6 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 
 /**
@@ -40,6 +41,14 @@ public class UserControlPanelView extends View {
         pane.addTab("Search", new JPanel());
         pane.addTab("All Sales", new JPanel());
         
+        // give the tab view
+        TabView.setTabDelegate(new D<Integer>() {
+            public void call(Integer index) {
+                pane.setSelectedIndex((index+1) % 6);
+                pane.setSelectedIndex(index);
+            }
+        });
+        
         // create the change listener that will refresh the content of each tab
         // per state change
         pane.addChangeListener(new ChangeListener() {
@@ -65,8 +74,7 @@ public class UserControlPanelView extends View {
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.
-        pane.setSelectedIndex(1);
-        pane.setSelectedIndex(0);
+        TabView.changeProgramTab(1);
         
         // return the new view
         return grid(

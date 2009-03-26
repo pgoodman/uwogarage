@@ -48,7 +48,6 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
         
         String line = fin.readLine();
         if(!line.matches(regex)) {
-        	System.out.println(fin.readLine());
             throw new Exception(
                 "Parse error: Line "+ line_num +" is incorrectly formatted:\n"+
                 "'"+ line +"'"
@@ -108,7 +107,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
                     );
                     infoRead[DATE] = matchReadLine(fin,
                         "date: ((0?[1-9])|[12]\\d|3[01])/((0?[1-9])|10|11|"+
-                        "12)/([12]\\d{3})"
+                        "12)/([12]\\d\\d\\d)"
                     );
                     infoRead[TIME] = matchReadLine(fin,
                         "time: (1\\d|2[0-4]|(0?[1-9])):([1-5]\\d|(0?\\d))"
@@ -174,13 +173,13 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
 
             //-----------------location-------------------------------  
 
-            //Try creating a new location from the information read, then setting it
-            //for the garage sale. Add to error messages if it doesn't work.
+            // Try creating a new location from the information read, then setting it
+            // for the garage sale. Add to error messages if it doesn't work.
             try {
                 newLoc = new Location(
-                    infoRead[STREET], 
-                    infoRead[PROVINCE],
-                    infoRead[CITY]
+                    infoRead[STREET].substring(6), 
+                    infoRead[PROVINCE].substring(6),
+                    infoRead[CITY].substring(6)
                 );
                 
                 if(!saleRead.setLocation(newLoc)){
@@ -200,14 +199,14 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
             try {
 
                 //split the date read into day, month, year
-                String[] dmy = infoRead[DATE].split("/");
+                String[] dmy = infoRead[DATE].substring(6).split("/");
 
                 int day = Integer.parseInt(dmy[0]);
                 int month = Integer.parseInt(dmy[1]);
                 int year = Integer.parseInt(dmy[2]);
 
                 //split the time read into hours and minutes
-                String[] hm = infoRead[TIME].split(":");
+                String[] hm = infoRead[TIME].substring(6).split(":");
 
                 int hours = Integer.parseInt(hm[0]);
                 int minutes = Integer.parseInt(hm[1]);
