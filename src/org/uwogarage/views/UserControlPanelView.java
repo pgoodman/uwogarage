@@ -42,16 +42,7 @@ public class UserControlPanelView extends View {
         pane.addTab("All Sales", new JPanel());
         
         // give the tab view
-        TabView.setTabDelegate(new D<Integer>() {
-            public void call(Integer index) {
-                
-                // force a switch if necessary
-                if(pane.getSelectedIndex() == index)
-                    pane.setSelectedIndex((index+1) % 6);
-                
-                pane.setSelectedIndex(index);
-            }
-        });
+        TabView.setTabDelegate(pane, 6);
         
         // create the change listener that will refresh the content of each tab
         // per state change
