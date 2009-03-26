@@ -68,7 +68,7 @@ public class GarageSaleListItemView extends View {
         // create this list item
         return grid.row(
             grid.cell(label(sale.getLocation().getStreet()))
-                .margin(10, 10, 0, 10),
+                .margin(10, 10, 0, 10).anchor(1, 0, 0, 1),
                 
             // the date the sale is happening on
             grid.cell(label(
@@ -80,18 +80,19 @@ public class GarageSaleListItemView extends View {
                 StringUtil.padLeft(String.valueOf(date.get(Calendar.MINUTE)), '0', 2) +
                 (date.get(Calendar.AM_PM) == Calendar.AM ? "am" : "pm") +" "+
                 Location.PROVINCE_TIME_ZONE_CODES.get(sale.getLocation().getProvince())
-            )).margin(10, 10, 0, 0),
+            )).margin(10, 10, 0, 0).anchor(1, 0, 0, 1),
             
             // control buttons
-            grid.cell(
-                sale.getUser() == user
-                ? grid(
-                      grid.cell(view_button),
-                      grid.cell(edit_button),
-                      grid.cell(delete_button)                      
-                  )
-                : label("")
-            ).margin(10, 10, 0, 0)
+            grid.cell(grid(
+                grid.cell(view_button),
+                grid.cell(sale.user == user
+                    ? grid(
+                          grid.cell(edit_button),
+                          grid.cell(delete_button)                      
+                      )
+                    : label("")
+                )
+            )).margin(10, 10, 0, 0).anchor(1, 0, 0, 1)
         );
     }
 }

@@ -1,10 +1,8 @@
 package org.uwogarage.controllers;
 
 import org.uwogarage.models.CategoryModel;
-import org.uwogarage.models.ModelSet;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.views.TabView;
-import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddCategoryView;
 import org.uwogarage.views.admin.ListCategoriesView;
 

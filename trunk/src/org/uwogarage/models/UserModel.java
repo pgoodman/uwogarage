@@ -25,10 +25,10 @@ public class UserModel implements Model {
 	protected int start_zoom = 4; // the user's default zoom level
 	
 	// the user's ratings
-	protected ModelSet<RatingModel> ratings = new ModelSet<RatingModel>();
+	final public ModelSet<RatingModel> ratings = new ModelSet<RatingModel>();
 	
 	// the user's sales
-	protected ModelSet<GarageSaleModel> sales = new ModelSet<GarageSaleModel>();
+	final public ModelSet<GarageSaleModel> sales = new ModelSet<GarageSaleModel>();
 	
 	/**
 	 * Get the user ID.
@@ -104,13 +104,6 @@ public class UserModel implements Model {
 	    }
 	    
 	    return num_ratings > 0 ? (rating_sum / num_ratings) : 0;
-	}
-	
-	/**
-	 * Get this user's garage sales.
-	 */
-	public ModelSet<GarageSaleModel> getGarageSales() {
-	    return sales;
 	}
 	
 	/**

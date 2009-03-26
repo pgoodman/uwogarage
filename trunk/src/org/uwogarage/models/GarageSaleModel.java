@@ -17,31 +17,25 @@ public class GarageSaleModel implements Model {
 
     private static final long serialVersionUID = 8274261212454764504L;
     
-    final UserModel user; // the user that created this garage sale
-    final GregorianCalendar time; // the garage sale's date and time information
+    final public UserModel user; // the user that created this garage sale    
+    final public ModelSet<CategoryModel> categories = new ModelSet<CategoryModel>(); // the garage sale's categories
+    final public ModelSet<RatingModel> ratings = new ModelSet<RatingModel>(); // ratings
     
-    ModelSet<CategoryModel> categories; // the garage sale's categories
+    final protected GregorianCalendar time; // the garage sale's date and time information
+    
 	Location location; // the garage sale's location
 	GeoPosition position; // the location's geo position
 	
 	String note = "", // the garage sale's note
 	       positions[]; // this is out of laziness
 	
-	int rating_sum = 0, // the sum of the ratings for this garage sale
-	    num_ratings = 0; // the number of ratings cast
-	
+	/**
+	 * Constructor, set the user and time.
+	 * @param u
+	 */
 	public GarageSaleModel(UserModel u) {
 	    user = u;
-	    categories = new ModelSet<CategoryModel>();
 	    time = new GregorianCalendar();
-	}
-	
-	/**
-	 * This method returns the garage sale's categories
-	 * @return the garage sale's categories
-	 */
-	public ModelSet<CategoryModel> getCategories() {
-	    return categories;
 	}
 	
 	/**
@@ -67,7 +61,7 @@ public class GarageSaleModel implements Model {
 	 * @return the garage sale's date
 	 */
 	public GregorianCalendar getTime() {
-	    return time;
+	    return (GregorianCalendar) time.clone();
 	}
 	
 	/**
@@ -83,14 +77,16 @@ public class GarageSaleModel implements Model {
 	 * @return
 	 */
 	public float getRating() {
-	    return num_ratings > 0 ? (rating_sum / num_ratings) : 0;
-	}
-	
-	/**
-	 * Get the user that owns this model.
-	 */
-	public UserModel getUser() {
-	    return user;
+	    int size = ratings.size(),
+	        sum = 0;
+	    
+	    if(size == 0)
+	        return 0F;
+	    
+	    for(RatingModel rating : ratings)
+	        sum += rating.rating;
+	    
+	    return sum / size;
 	}
 	
 	/**
@@ -98,7 +94,7 @@ public class GarageSaleModel implements Model {
 	 * @return
 	 */
 	public boolean isRated() {
-	    return num_ratings > 0;
+	    return ratings.size() > 0;
 	}
 	
 	/**
@@ -201,6 +197,7 @@ public class GarageSaleModel implements Model {
      * @param cs
      */
     public void setCategories(ModelSet<CategoryModel> cs) {
-        categories = cs;
+        categories.retainAll(new ModelSet<CategoryModel>());
+        categories.addAll(cs);
     }
 }

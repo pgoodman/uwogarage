@@ -5,7 +5,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.View;
