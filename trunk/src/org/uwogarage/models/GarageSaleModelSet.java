@@ -3,6 +3,7 @@ package org.uwogarage.models;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
@@ -47,9 +48,10 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
         
         String line = fin.readLine();
         if(!line.matches(regex)) {
+        	System.out.println(fin.readLine());
             throw new Exception(
                 "Parse error: Line "+ line_num +" is incorrectly formatted:\n"+
-                line
+                "'"+ line +"'"
             );
         }
         return line;
@@ -64,7 +66,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
      * @return a linked list containing all the GarageSaleModels that were created from the file
      */
     public static GarageSaleModelSet
-    loadFromFile(UserModel user, String file_name) throws Exception {
+    loadFromFile(UserModel user, File file) throws Exception {
 
         // reset the line number
         line_num = 0;
@@ -81,9 +83,9 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
 
         //open the file
         try {
-            fin = new BufferedReader(new FileReader(file_name));
-        } catch (Exception e) {
-            return null;
+            fin = new BufferedReader(new FileReader(file));
+        } catch (IOException e) {
+            throw new Exception("Error: could not open file: " + file.getName());
         }
         
         //At each iteration, read one garage sale's information from the file. Stop
@@ -105,11 +107,11 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
                         "prov: (AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)"
                     );
                     infoRead[DATE] = matchReadLine(fin,
-                        "date: ((0?[1-9])|[12][0-9]|3[01])/((0?[1-9])|10|11|"+
-                        "12)/([12][0-9]{3})"
+                        "date: ((0?[1-9])|[12]\\d|3[01])/((0?[1-9])|10|11|"+
+                        "12)/([12]\\d{3})"
                     );
                     infoRead[TIME] = matchReadLine(fin,
-                        "time: ((0?[1-9])|1[0-9]|2[0-4]):((0[1-9])|[1-5][1-9])"
+                        "time: (1\\d|2[0-4]|(0?[1-9])):([1-5]\\d|(0?\\d))"
                     );
                     
                     // add the new information read only if the end of file 

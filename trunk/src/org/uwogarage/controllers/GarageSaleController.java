@@ -8,6 +8,7 @@ import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.buyer.SearchGarageSalesView;
 import org.uwogarage.views.seller.AddGarageSaleView;
+import org.uwogarage.views.seller.BulkAddGarageSaleView;
 import org.uwogarage.views.seller.EditGarageSaleView;
 
 /** 
@@ -27,6 +28,17 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      */
     public void bulkAdd() {
         
+    	TabView.show(BulkAddGarageSaleView.view(
+    		logged_user,
+    		new D<ModelSet<GarageSaleModel>>(){
+				public void call(ModelSet<GarageSaleModel> sales) {
+					for (GarageSaleModel sale : sales)
+						models.add(sale);
+					list(logged_user.getGarageSales());
+				}
+	    	}
+    	));
+    	
     }
     
     public void add() {
