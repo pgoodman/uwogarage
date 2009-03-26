@@ -1,6 +1,9 @@
 package org.uwogarage.views;
 
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
@@ -53,6 +56,19 @@ public class ListGarageSalesView extends View {
             );
         }
         
-        return grid(rows);
+        JScrollPane pane = new JScrollPane(
+            grid(rows),
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        pane.setPreferredSize(new Dimension(600, 400));
+        
+        return grid(
+            grid.cell(label(
+                "Note: garage sales that have now past will not be editable."
+            )).pos(0, 0),
+            
+            grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10)
+        );
     }
 }

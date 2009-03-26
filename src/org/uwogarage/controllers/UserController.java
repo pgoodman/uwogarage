@@ -32,7 +32,14 @@ public class UserController extends Controller<UserModel> {
         test_user.setUserId("aaaa");
         test_user.setPassword("aaa");
         test_user.setPhoneNumber("519", "933", "0204");
+        models.add(test_user);
         
+        test_user = new UserModel();
+        test_user.setFirstName("Test");
+        test_user.setLastName("User");
+        test_user.setUserId("bbbb");
+        test_user.setPassword("bbb");
+        test_user.setPhoneNumber("519", "933", "0204");
         models.add(test_user);
     }
     
@@ -145,7 +152,7 @@ public class UserController extends Controller<UserModel> {
         View.show(UserControlPanelView.view(logged_user,
             new F0() { public void call() { stats(); }},
             new F0() { public void call() { 
-                d.garage_sale.list(logged_user.getGarageSales()); 
+                d.garage_sale.list(logged_user.sales); 
             }},
             new F0() { public void call() { d.garage_sale.add(); }},
             new F0() { public void call() { d.garage_sale.bulkAdd(); }},

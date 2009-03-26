@@ -37,4 +37,8 @@ public class RatingModel implements Model {
 	public GarageSaleModel getSale() {
 		return sale;
 	}
+	
+	public UserModel getUser() {
+	    return user;
+	}
 }

@@ -44,7 +44,11 @@ public class UserControlPanelView extends View {
         // give the tab view
         TabView.setTabDelegate(new D<Integer>() {
             public void call(Integer index) {
-                pane.setSelectedIndex((index+1) % 6);
+                
+                // force a switch if necessary
+                if(pane.getSelectedIndex() == index)
+                    pane.setSelectedIndex((index+1) % 6);
+                
                 pane.setSelectedIndex(index);
             }
         });
@@ -74,7 +78,7 @@ public class UserControlPanelView extends View {
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.
-        TabView.changeProgramTab(1);
+        TabView.changeProgramTab(0);
         
         // return the new view
         return grid(

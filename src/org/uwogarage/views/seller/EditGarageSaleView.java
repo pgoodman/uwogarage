@@ -65,7 +65,7 @@ public class EditGarageSaleView extends AddGarageSaleView {
                 dateAndTimeSection()
             ),
             grid.row(
-                categoriesSection(all_categories, sale.getCategories()),
+                categoriesSection(all_categories, sale.categories),
                 extraInfoSection()
             ),
             

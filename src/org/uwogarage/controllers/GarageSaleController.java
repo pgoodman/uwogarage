@@ -2,9 +2,9 @@ package org.uwogarage.controllers;
 
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.RatingModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.D2;
-import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.TabView;
@@ -15,7 +15,7 @@ import org.uwogarage.views.seller.EditGarageSaleView;
 
 /** 
  * The GarageSaleController class responds to calls from a View and manipulates  
- * in GarageSaleModels in the datastore
+ * in GarageSaleModels in the data store
  *
  * @version $Id$
  */
@@ -32,27 +32,30 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         
     	TabView.show(BulkAddGarageSaleView.view(
     		logged_user,
-    		new D2<ModelSet<GarageSaleModel>,F0>() {
-				public void call(ModelSet<GarageSaleModel> sales, F0 change_tab_responder) {
+    		new D2<Boolean,ModelSet<GarageSaleModel>>() {
+				public void call(Boolean remove_old_sales, ModelSet<GarageSaleModel> sales) {
 				    
-				    ModelSet<GarageSaleModel> user_sales = logged_user.getGarageSales();
+				    // remove the old sales
+				    if(remove_old_sales) {
+				        for(GarageSaleModel sale : logged_user.sales)
+				            deleteSale(sale);
+				    }
 				    
 				    // loop over the sales that the bulk load parser returned
 				    // and add them to the model set
 					for (GarageSaleModel sale : sales) {
-						user_sales.add(sale);
 					    models.add(sale);
+					    logged_user.sales.add(sale);
 					}
-					
-					// toggle a change tab, which will eventually toggle a change
-					// in control flow!
-					change_tab_responder.call();
 				}
 	    	}
     	));
     	
     }
     
+    /**
+     * Add a garage sale
+     */
     public void add() {
         TabView.show((new AddGarageSaleView()).view(
             logged_user,
@@ -69,24 +72,56 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
             }
         ));
     }
-
+    
+    /**
+     * Edit a garage sale.
+     * @param sale
+     */
     public void edit(GarageSaleModel sale) {
         TabView.show((new EditGarageSaleView()).view(
-                sale,
-                d.category.getModels(),
-                
-                // pass a delegate to the view that takes in the updated garage
-                // sale
-                new D<GarageSaleModel>() {
-                    public void call(GarageSaleModel sale) {
-                        view(sale);
-                    }
+            sale,
+            d.category.getModels(),
+            
+            // pass a delegate to the view that takes in the updated garage
+            // sale
+            new D<GarageSaleModel>() {
+                public void call(GarageSaleModel sale) {
+                    view(sale);
                 }
-            ));
+            }
+        ));
     }
     
-    public void delete(GarageSaleModel sale) {
-    	models.remove(sale); 
+    /**
+     * Delete a single garage sale. This delete removes a garage sale and all of
+     * its ratings.
+     * @param sale
+     */
+    protected void deleteSale(GarageSaleModel sale) {
+        ModelSet<RatingModel> ratings = sale.ratings;
+        
+        // remove the ratings from the ratings controller
+        d.rating.getModels().removeAll(ratings);
+        
+        // remove the ratings from each user
+        for(RatingModel rating : ratings)
+            rating.getUser().ratings.remove(rating);
+        
+        // remove the sale from the user that owns it
+        sale.user.sales.remove(sale);
+        
+        // remove it from the garage sale controller
+        models.remove(sale);
+    }
+    
+    /**
+     * Delete a garage sale.
+     * @param sale_list
+     * @param sale
+     */
+    public void delete(ModelSet<GarageSaleModel> sale_list, GarageSaleModel sale) {
+        deleteSale(sale);
+        list(sale_list);
     }
     
     /**
@@ -98,17 +133,24 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         TabView.show(GarageSaleView.view(sale));
     }
     
+    /**
+     * Search for some garage sales.
+     */
     public void search() {
         TabView.show((new SearchGarageSalesView(d.category.getModels())).view(
             models
         ));
     }
     
-    public void list(ModelSet<GarageSaleModel> categories) {
+    /**
+     * Display a list of garage sales.
+     * @param sales
+     */
+    public void list(final ModelSet<GarageSaleModel> sales) {
 
     	TabView.show(ListGarageSalesView.view(
             logged_user,
-            categories,
+            sales,
             
             // view sale
             new D<GarageSaleModel>() {
@@ -127,7 +169,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
             // delete sale
             new D<GarageSaleModel>() {
                 public void call(GarageSaleModel sale) {
-                    delete(sale);
+                    delete(sales, sale);
                 }
             }
         ));

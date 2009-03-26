@@ -2,6 +2,7 @@ package org.uwogarage.views.buyer;
 
 import java.awt.Dimension;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -23,6 +24,10 @@ import org.uwogarage.util.documents.AlphaNumDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.F;
+import org.uwogarage.util.functional.F0;
+import org.uwogarage.util.functional.G;
+import org.uwogarage.util.functional.P;
 import org.uwogarage.views.ListCategoriesView;
 import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
@@ -81,6 +86,13 @@ public class SearchGarageSalesView extends View {
     // list of selected categories
     protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 
     
+    // list of input validation and predicate building functions
+    //protected LinkedList<F<P<GarageSaleModel>,P<GarageSaleModel>>> 
+    //predicate_builders = new LinkedList<F<P<GarageSaleModel>,P<GarageSaleModel>>>();
+    protected LinkedList<P<GarageSaleModel>> predicates = new LinkedList<P<GarageSaleModel>>();
+    protected LinkedList<F0> predicate_builders = new LinkedList<F0>(); 
+    protected LinkedList<String> predicate_build_errors = new LinkedList<String>();
+    
     // check boxes to enable/disable search criteria
     protected JCheckBox[] search_criteria_boxes = new JCheckBox[] {
         new JCheckBox("Radius"),
@@ -130,6 +142,24 @@ public class SearchGarageSalesView extends View {
         for(JCheckBox box : search_criteria_boxes)
             box.addChangeListener(listener);
     }
+    /*
+    protected class PredicateBuilder extends F<P<GarageSaleModel>,P<GarageSaleModel>> {
+        
+        private G<P<GarageSaleModel>> pred_maker;
+        private int which;
+        
+        public PredicateBuilder(int w, G<P<GarageSaleModel>> p) {
+            pred_maker = p;
+            which = w;
+        }
+        
+        public P<GarageSaleModel> call(P<GarageSaleModel> p) {
+            if(!search_criteria_boxes[which].isSelected())
+                return p;
+            
+            return p.and(pred_maker.call());
+        }
+    }*/
     
     /**
      * Search criteria for finding a sale within a given radius of some latitude
@@ -138,6 +168,56 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewRadius() {
+        /*
+        predicate_builders.add(new PredicateBuilder(RADIUS, new G<P<GarageSaleModel>>() {
+            public P<GarageSaleModel> call() {
+                
+            }
+        }));*/
+        
+        // perform input checking and create the necessary predicate
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                // general error checking
+                
+                if(!lat.getText().matches("-?([0-9]{1,3})\\.([0-9]{3,6})")) {
+                    predicate_build_errors.add(
+                        "Radius: please supply a valid latitude."
+                    );
+                }
+                if(!lng.getText().matches("-?([0-9]{1,3})\\.([0-9]{3,6})")) {
+                    predicate_build_errors.add(
+                        "Radius: please supply a valid longitude."
+                    );
+                }
+                if(!radius.getText().matches("\\d+")) {
+                    predicate_build_errors.add(
+                        "Radius: please supply a valid radius."
+                    );
+                }
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                // get the primitive values of the text fields for the
+                // predicate
+                final double _latitude = Double.parseDouble(lat.getText()), 
+                             _longitude = Double.parseDouble(lng.getText());
+                final int _radius = Integer.parseInt(radius.getText());
+                
+                // create the predicate to match sales within a radius of a
+                // specific (latitude, longitude) coordinate pair
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        return true;
+                    }
+                });
+            }
+        });
+        
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales within a given radius of")
