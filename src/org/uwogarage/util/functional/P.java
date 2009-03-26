@@ -11,6 +11,35 @@ package org.uwogarage.util.functional;
  */
 abstract public class P<T> {
     
+    /**
+     * a predicate that always and only returns true, regardless of type or 
+     * value being passed in.
+     * 
+     * @param <X>
+     */
+    final static public class TRUE<X> extends P<X> {
+        final public boolean call(X t) {
+            return true;
+        }
+    }
+    
+    /**
+     * A predicate that always and only returns false, regardless of type or
+     * value being passed in.
+     * 
+     * @param <X>
+     */
+    final static public class FALSE<X> extends P<X> {
+        final public boolean call(X t) {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @param arg
+     * @return
+     */
     abstract public boolean call(T arg);
     
     /**

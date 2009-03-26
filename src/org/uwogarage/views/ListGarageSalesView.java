@@ -67,7 +67,6 @@ public class ListGarageSalesView extends View {
             grid.cell(label(
                 "Note: garage sales that have now past will not be editable."
             )).pos(0, 0),
-            
             grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10)
         );
     }

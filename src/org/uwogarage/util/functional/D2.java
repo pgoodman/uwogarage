@@ -8,6 +8,20 @@ package org.uwogarage.util.functional;
  * @param <A>
  * @param <B>
  */
-public interface D2<A,B> {
-    public void call(A a, B b);
+public abstract class D2<A,B> {
+   
+    /**
+     * A delegate that will always do nothing.
+     */
+    final static public class DO_NOTHING<X,Y> extends D2<X,Y> {
+        final public void call(X x, Y y) { }
+    }
+    
+    /**
+     * Do something!
+     * 
+     * @param a
+     * @param b
+     */
+    abstract public void call(A a, B b);
 }

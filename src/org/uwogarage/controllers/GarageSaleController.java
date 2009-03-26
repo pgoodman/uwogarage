@@ -138,7 +138,12 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      */
     public void search() {
         TabView.show((new SearchGarageSalesView(d.category.getModels())).view(
-            models
+            models,
+            new D<GarageSaleModel>() {
+                public void call(GarageSaleModel sale) {
+                    view(sale);
+                }
+            }
         ));
     }
     

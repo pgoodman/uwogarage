@@ -52,6 +52,7 @@ public class GarageSaleModel implements Model {
 	public GeoPosition getGeoPosition() {
 	    return position;
 	}
+	
 	public String[] getGuiGeoPosition() {
 	    return positions;
 	}
@@ -197,7 +198,7 @@ public class GarageSaleModel implements Model {
      * @param cs
      */
     public void setCategories(ModelSet<CategoryModel> cs) {
-        categories.retainAll(new ModelSet<CategoryModel>());
+        categories.clear();
         categories.addAll(cs);
     }
 }

@@ -2,6 +2,8 @@ package org.uwogarage.views.buyer;
 
 import java.awt.Dimension;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
@@ -20,15 +22,18 @@ import javax.swing.event.ChangeListener;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.UserModel;
+import org.uwogarage.util.GeoPosition;
+import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.AlphaNumDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
-import org.uwogarage.util.functional.F;
 import org.uwogarage.util.functional.F0;
-import org.uwogarage.util.functional.G;
 import org.uwogarage.util.functional.P;
 import org.uwogarage.views.ListCategoriesView;
+import org.uwogarage.views.ListGarageSalesReducedView;
+import org.uwogarage.views.ListGarageSalesView;
 import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 
@@ -87,8 +92,6 @@ public class SearchGarageSalesView extends View {
     protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 
     
     // list of input validation and predicate building functions
-    //protected LinkedList<F<P<GarageSaleModel>,P<GarageSaleModel>>> 
-    //predicate_builders = new LinkedList<F<P<GarageSaleModel>,P<GarageSaleModel>>>();
     protected LinkedList<P<GarageSaleModel>> predicates = new LinkedList<P<GarageSaleModel>>();
     protected LinkedList<F0> predicate_builders = new LinkedList<F0>(); 
     protected LinkedList<String> predicate_build_errors = new LinkedList<String>();
@@ -142,24 +145,6 @@ public class SearchGarageSalesView extends View {
         for(JCheckBox box : search_criteria_boxes)
             box.addChangeListener(listener);
     }
-    /*
-    protected class PredicateBuilder extends F<P<GarageSaleModel>,P<GarageSaleModel>> {
-        
-        private G<P<GarageSaleModel>> pred_maker;
-        private int which;
-        
-        public PredicateBuilder(int w, G<P<GarageSaleModel>> p) {
-            pred_maker = p;
-            which = w;
-        }
-        
-        public P<GarageSaleModel> call(P<GarageSaleModel> p) {
-            if(!search_criteria_boxes[which].isSelected())
-                return p;
-            
-            return p.and(pred_maker.call());
-        }
-    }*/
     
     /**
      * Search criteria for finding a sale within a given radius of some latitude
@@ -168,18 +153,14 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewRadius() {
-        /*
-        predicate_builders.add(new PredicateBuilder(RADIUS, new G<P<GarageSaleModel>>() {
-            public P<GarageSaleModel> call() {
-                
-            }
-        }));*/
         
         // perform input checking and create the necessary predicate
         predicate_builders.add(new F0() {
             public void call() {
                 
                 // general error checking
+                if(!search_criteria_boxes[RADIUS].isSelected())
+                    return;
                 
                 if(!lat.getText().matches("-?([0-9]{1,3})\\.([0-9]{3,6})")) {
                     predicate_build_errors.add(
@@ -205,19 +186,29 @@ public class SearchGarageSalesView extends View {
                 // get the primitive values of the text fields for the
                 // predicate
                 final double _latitude = Double.parseDouble(lat.getText()), 
-                             _longitude = Double.parseDouble(lng.getText());
-                final int _radius = Integer.parseInt(radius.getText());
+                             _longitude = Double.parseDouble(lng.getText()),
+                             _radius = Double.parseDouble(radius.getText());
                 
                 // create the predicate to match sales within a radius of a
-                // specific (latitude, longitude) coordinate pair
+                // specific (latitude, longitude) coordinate pair. this uses
+                // an approximation to find the distance between the two
+                // coordinate pairs (as opposed to the great circle distance
+                // formula)
                 predicates.add(new P<GarageSaleModel>() {
                     public boolean call(GarageSaleModel sale) {
-                        return true;
+                        
+                        GeoPosition pos = sale.getGeoPosition();
+                        
+                        double x = 69.1 * (pos.getLatitude() - _latitude),
+                               y = 53.0 * (pos.getLongitude() - _longitude) * Math.cos(_latitude / 57.3);
+                        
+                        return Math.abs(Math.sqrt(x*x + y*y) * 0.621371192) <= _radius;
                     }
                 });
             }
         });
         
+        // build the gui for the radius criteria
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales within a given radius of")
@@ -241,6 +232,37 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewUserId() {
+        
+        // perform input checking and create the necessary predicate
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                if(!search_criteria_boxes[USER_ID].isSelected())
+                    return;
+                
+                // error check the 
+                if(!user_id.getText().matches("[0-9a-zA-Z]{4}")) {
+                    predicate_build_errors.add(
+                        "User ID: User IDs must be four characters long and "+
+                        "comprised of alphanumeric characters."
+                    );
+                }
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                // the user id predicate
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        return sale.user.getId().equals(user_id.getText());
+                    }
+                });
+            }
+        });
+        
+        // build the gui for the user id criteria
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales created by a given user.")
@@ -259,10 +281,99 @@ public class SearchGarageSalesView extends View {
      */
     protected JPanel viewDate() {
         
+        // perform input checking and create the necessary predicate. For the
+        // specific date, we turn it into a problem of a date range by using one
+        // date as the start of the day, and the other as the end of the day.
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                if(!search_criteria_boxes[DATE].isSelected())
+                    return;
+                
+                // in yyyy/mm/dd format
+                String date_pattern = (
+                    "([12]\\d{3})/((0?[1-9])|10|11|12)/((0?[1-9])|[12]\\d|3[01])"
+                );
+                
+                SimpleDateFormat date_format = new SimpleDateFormat("yyyy/MM/dd");
+                
+                Calendar start_cal = Calendar.getInstance(),
+                         end_cal = Calendar.getInstance();
+                
+                try {
+                
+                    // checking a specific date
+                    if(date_specific.isSelected()) {
+                    
+                        if(!date.getText().matches(date_pattern)) {
+                            predicate_build_errors.add(
+                                "Date: Please supply a valid specific date, formatted as: yyyy/mm/dd."
+                            );
+                        }
+                        
+                        start_cal.setTime(date_format.parse(date.getText()));
+                        end_cal.setTime(date_format.parse(date.getText()));
+                    
+                    // checking between two dates
+                    } else {
+                        if(!start_date.getText().matches(date_pattern)) {
+                            predicate_build_errors.add(
+                                "Date: Please supply a valid specific date, formatted as: yyyy/mm/dd."
+                            );
+                        }
+                        if(!end_date.getText().matches(date_pattern)) {
+                            predicate_build_errors.add(
+                                "Date: Please supply a valid specific date, formatted as: yyyy/mm/dd."
+                            );
+                        }
+                        
+                        start_cal.setTime(date_format.parse(start_date.getText()));
+                        end_cal.setTime(date_format.parse(end_date.getText()));
+                    }
+                
+                } catch(Exception e) {
+                    predicate_build_errors.add("Date: Unabled to parse the dates.");
+                }
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                // set it to the start of the start day, this should fall over to
+                // the previous day
+                start_cal.set(Calendar.MINUTE, 59);
+                start_cal.set(Calendar.HOUR_OF_DAY, -1);
+                
+                // set it to the end of the end day, this should fall over to
+                // the next day
+                end_cal.set(Calendar.MINUTE, 59);
+                end_cal.set(Calendar.HOUR_OF_DAY, 24);
+                
+                // convert to dates
+                final Date _start_date = start_cal.getTime(),
+                           _end_date = end_cal.getTime();
+                
+                // the date predicate, transformed into the equivalent of a
+                // before and after check, regardless of if we are considering a
+                // specific date or a date range.
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        Date sale_date = sale.getTime().getTime();
+                        return (true
+                            && _start_date.before(sale_date) 
+                            && _end_date.after(sale_date)
+                        );
+                    }
+                });
+            }
+        });
+        
         ButtonGroup group = new ButtonGroup();
         group.add(date_specific);
         group.add(date_range);
         
+        // build the gui for the date criteria
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales...")
@@ -285,6 +396,37 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewCategory(ModelSet<CategoryModel> categories) {
+        
+        // perform input checking and create the necessary predicate
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                if(!search_criteria_boxes[CATEGORY].isSelected())
+                    return;
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                // Check that a given sale has all of the selected categories
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        
+                        ModelSet<CategoryModel> c = sale.categories;
+                        
+                        for(CategoryModel category : selected_categories) {
+                            if(!c.contains(category))
+                                return false;
+                        }
+                        
+                        return true;
+                    }
+                });
+            }
+        });
+        
+        // build this gui for the category criteria
         return grid(
             grid.row(grid.cell(
                 label("Use this criteria to find sales that are categorized")
@@ -309,6 +451,40 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewUserRating() {
+        
+        // perform input checking and create the necessary predicate
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                if(!search_criteria_boxes[USER_RATING].isSelected())
+                    return;
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                final int _modifier = user_quantifier.getSelectedIndex(),
+                          _rating = user_rating.getValue();
+                
+                // Check that a given sale has all of the selected categories
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        float rating = sale.user.getRating();
+                        
+                        switch(_modifier) {
+                            case 0: return rating == (int)_rating;
+                            case 1: return rating <= _rating;
+                            case 2: return rating >= _rating;
+                        }
+                        
+                        return false;
+                    }
+                });
+            }
+        });
+        
+        // build the gui for the user rating criteria
         return grid(
             grid.cell(label(
                 "Use this criteria to find sales created by users with a "+
@@ -325,6 +501,39 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     protected JPanel viewSaleRating() {
+        
+        // perform input checking and create the necessary predicate
+        predicate_builders.add(new F0() {
+            public void call() {
+                
+                if(!search_criteria_boxes[SALE_RATING].isSelected())
+                    return;
+                
+                // ignore creating any predicates if *any* errors exist for any
+                // of the criteria
+                if(predicate_build_errors.size() > 0)
+                    return;
+                
+                final int _modifier = sale_quantifier.getSelectedIndex(),
+                          _rating = sale_rating.getValue();
+                
+                // Check that a given sale has all of the selected categories
+                predicates.add(new P<GarageSaleModel>() {
+                    public boolean call(GarageSaleModel sale) {
+                        float rating = sale.getRating();
+                        
+                        switch(_modifier) {
+                            case 0: return rating == (int)_rating;
+                            case 1: return rating <= _rating;
+                            case 2: return rating >= _rating;
+                        }
+                        
+                        return false;
+                    }
+                });
+            }
+        });
+        
         return grid(
             grid.cell(label(
                 "Use this criteria to find sales with a particular rating."
@@ -340,8 +549,11 @@ public class SearchGarageSalesView extends View {
      * 
      * @return
      */
-    public JPanel view(final ModelSet<GarageSaleModel> sales) {
+    public JPanel view(final ModelSet<GarageSaleModel> sales, 
+                              final D<GarageSaleModel> view_responder) {
+        
         Dimension dims = new Dimension(600, 250);
+        final JPanel search_results = new JPanel();
         
         tab_pane.setPreferredSize(dims);
         
@@ -353,6 +565,53 @@ public class SearchGarageSalesView extends View {
         tab_pane.addTab("User Rating", search_criteria_tabs[USER_RATING]);
         tab_pane.addTab("Sale Rating", search_criteria_tabs[SALE_RATING]);
                 
+        // the search button, gets things started
+        search_button = button("Search", new D<JButton>() {
+            public void call(JButton b) {
+                
+                predicates.clear();
+                predicate_build_errors.clear();
+                
+                // perform all error checking and build the predicates
+                for(F0 builder : predicate_builders)
+                    builder.call();
+                
+                // there are are errors, alert them and then stop
+                if(0 < predicate_build_errors.size()) {
+                    dialog.alert(f,
+                        "The following errors occurred: \n\n"+
+                        StringUtil.join('\n', predicate_build_errors)
+                    );
+                    return;
+                }
+                
+                search_button.setText("Searching...");
+                search_button.setEnabled(false);
+                search_button.validate();
+                
+                // build the final predicate that will be used for the search
+                P<GarageSaleModel> p = new P.TRUE<GarageSaleModel>();
+                for(P<GarageSaleModel> sp : predicates)
+                    p = p.and(sp);
+                
+                // find and show the search results!
+                search_results.removeAll();
+                search_results.add(fieldset("Search Results",
+                    ListGarageSalesReducedView.view(
+                        sales.filter(p), // filter the sales!
+                        view_responder
+                    )
+                ));
+                
+                search_results.validate();
+                search_button.setText("Search");
+                search_button.setEnabled(true);
+                f.pack();
+            }
+        });
+        
+        search_button.setEnabled(false);
+        
         // create the GUI
         return grid(
                 
@@ -374,13 +633,10 @@ public class SearchGarageSalesView extends View {
             grid.cell(tab_pane).margin(0, 0, 0, 10).fill(1, 1).pos(1, 0),
             
             // add in the search button
-            grid.cell(2, search_button = button("Search", new D<JButton>() {
-                public void call(JButton b) {
-                    if(!validateInput())
-                        return;
-                    
-                }
-            })).pos(0, 1)
+            grid.cell(2, search_button).pos(0, 1),
+            
+            // add in the search results panel
+            grid.cell(2, search_results).pos(0, 2)
         );
     }
     
