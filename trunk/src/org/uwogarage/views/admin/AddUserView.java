@@ -44,10 +44,7 @@ public class AddUserView extends TabView {
      * @param errors
      */
     protected void collectInputErrors(UserModel user, LinkedList<String> errors) {
-        
-        if(!user.setPassword(password.getText()))
-            errors.add("The password must be 3 characters long.");
-        
+               
         if(!user.setFirstName(first_name.getText())) {
             errors.add(
                 "The first name must be between 1 and 20 "+
@@ -129,6 +126,9 @@ public class AddUserView extends TabView {
 
                         else if(!user.setUserId(user_id.getText()))
                             errors.add("The user id must be 4 characters long.");
+                        
+                        if(!user.setPassword(password.getText()))
+                            errors.add("The password must be 3 characters long.");
                         
                         // collect common input errors
                         collectInputErrors(user, errors);

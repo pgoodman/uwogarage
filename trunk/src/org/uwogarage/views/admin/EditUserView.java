@@ -27,7 +27,7 @@ public class EditUserView extends AddUserView {
      * @param responder
      * @return
      */
-    public JPanel view(final UserModel user, final F0 responder) {
+    public JPanel view(final UserModel user) {
         
         String[] phone = user.getPhoneNumber();
         String[] user_geo = user.getStartCoords();
@@ -68,7 +68,7 @@ public class EditUserView extends AddUserView {
             
             // deal with form submission
             grid.row(
-                grid.cell(2, button("Update", new D<JButton>() {
+                grid.cell(button("Update", new D<JButton>() {
                     public void call(JButton b) {
                         
                         LinkedList<String> errors = new LinkedList<String>();
@@ -90,10 +90,16 @@ public class EditUserView extends AddUserView {
                             if(reset_pass.isSelected())
                                 user.setPassword(null);
                             
-                            responder.call();
+                            changeProgramTab(1);
                         }                        
                     }
-                })).margin(10, 10, 10, 10)
+                })).margin(10, 10, 10, 10).anchor(1, 1, 0, 0),
+                grid.cell(button("Cancel", new D<JButton>() {
+                    public void call(JButton b) {
+                        
+                            changeProgramTab(1);                        
+                    }
+                })).margin(10, 10, 10, 10).anchor(1, 0, 0, 1)
             )
         );
     }
