@@ -29,7 +29,7 @@ public class UserControlPanelView extends View {
      */
     static public JPanel view(final UserModel user,
                 final F0 my_info, final F0 my_sales, final F0 add_sale, 
-                final F0 bulk_add, final F0 search, final F0 view_all){
+                final F0 bulk_add, final F0 search, final F0 view_all) {
         
         final JTabbedPane pane = new JTabbedPane();
         

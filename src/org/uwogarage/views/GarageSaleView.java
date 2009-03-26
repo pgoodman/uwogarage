@@ -109,10 +109,14 @@ public class GarageSaleView extends TabView {
                 : grid(grid.cell(label("Not Categorized.")))
             )).pos(0, 1).fill(1, 1),
             
-            // note, rating
-            grid.cell(fieldset("Extra", note))
+            // note
+            grid.cell(fieldset("Notes", note))
                 .pos(0, 2)
-                .fill(1, 1)
+                .fill(1, 1),
+            // rating
+            grid.cell(fieldset("Rating", label(String.valueOf(sale.getRating()))))
+                .pos(0,3)
+                .fill(1,1)
         );
     }
 }
