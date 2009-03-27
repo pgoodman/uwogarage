@@ -123,7 +123,11 @@ public class UWOGarage {
                         })
                     ),
                     menu.dd("Help",
-                        menu.item("Help Contents")
+                        menu.item("About UWOGarage", new D<JMenuItem>() {
+                        	 public void call(JMenuItem i) {
+                                 dialog.alert(f, "This is a CS2212 Project. Copyright 2009.");
+                             }
+                        })
                     )
                 );
                 

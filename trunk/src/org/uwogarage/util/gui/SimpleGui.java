@@ -440,6 +440,7 @@ abstract public class SimpleGui {
                 UIManager.setLookAndFeel(class_loc);
                 SwingUtilities.updateComponentTreeUI(frame);
                 frame.pack();
+                //frame.validate();
             } catch(Exception e) {
                 dialog.alert(frame, 
                     "An error occured while trying to switch the look and feel."
