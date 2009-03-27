@@ -34,6 +34,10 @@ public class RatingModel implements Model {
 	    return rating;
 	}
 	
+	public void setRating(int rating) {
+	    this.rating = rating;
+	}
+	
 	/**
 	 * Get the sale that this rating refers to.
 	 * @return

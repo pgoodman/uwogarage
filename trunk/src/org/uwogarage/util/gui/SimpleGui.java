@@ -12,6 +12,7 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.text.Document;
 import org.uwogarage.util.functional.*;
 
+
 /**
  * Simplification of the general uses of certain swing objects. Using these
  * functions, GUIs can be built recursively, which is convenient because it fits
@@ -338,7 +339,7 @@ abstract public class SimpleGui {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(content_init.call(dialog));
         dialog.pack();
-        dialog.setVisible(true);
+//        dialog.setVisible(true);
 
         return dialog;
     }
@@ -349,11 +350,11 @@ abstract public class SimpleGui {
          * Show a modal dialog.
          * @param frame
          * @param title
-         * @param content_init
+         * @param f
          * @return
          */
-        public static JDialog modal(JFrame frame, String title, F<JDialog,Container> content_init) {
-            JDialog d = dialog(frame, title, content_init);
+        public static JDialog modal(JFrame frame, String title, F<JDialog, Container> f) {
+            JDialog d = dialog(frame, title, f);
             d.setModal(true);
             return d;
         }

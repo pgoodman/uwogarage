@@ -1,5 +1,7 @@
 package org.uwogarage.views;
 
+
+import java.awt.Container;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -11,7 +13,9 @@ import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
 import org.uwogarage.UWOGarage;
@@ -21,6 +25,7 @@ import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.F;
 import org.uwogarage.util.gui.GridCell;
 
 /**
@@ -29,8 +34,7 @@ import org.uwogarage.util.gui.GridCell;
  * @version $Id$
  */
 public class GarageSaleView extends TabView {
-
-    static public JPanel view(final GarageSaleModel sale, final UserModel logged_user) {
+    static public JPanel view(final GarageSaleModel sale, UserModel logged_user, final D<Integer> rate_responder) {
         
         JTextArea note = new JTextArea(sale.getNote());
         note.setEnabled(false);
@@ -101,10 +105,26 @@ public class GarageSaleView extends TabView {
                         grid.cell(
                             button("Rate Sale", new D<JButton>() {
                                 public void call(JButton btn) {
-                                    // TODO show the rating pop up
+                                    dialog.modal(f, "Rate Sale",
+                                        new F<JDialog, Container>() {
+                                            public Container call(final JDialog dialog) {
+                                                final JSlider slider = Slider.view(1, 5, 3, null);
+                                                return grid(
+                                                    grid.cell(slider),
+                                                    grid.cell(button("Rate", 
+                                                            new D<JButton>() {
+                                                                public void call(JButton btn) {
+                                                                    rate_responder.call(slider.getValue());
+                                                                    dialog.setVisible(false);
+                                                                }
+                                                            }
+                                                )));
+                                            }
+                                        }
+                                    ).setVisible(true);
                                 }
                             }
-                        )).pos(0, 3)
+                            )).pos(0, 3)
                     )
                 )).pos(0,3).fill(1,1);
             	
@@ -124,12 +144,28 @@ public class GarageSaleView extends TabView {
                             label(String.valueOf(sale.getRatingFrom(logged_user)))
                         ).pos(0, 4),
                         grid.cell(
-                            button("Edit Rating", new D<JButton>() {
-                                public void call(JButton btn) {
-                                    // TODO show the rating pop up
+                                button("Rate Sale", new D<JButton>() {
+                                    public void call(JButton btn) {
+                                        dialog.modal(f, "Rate Sale",
+                                            new F<JDialog, Container>() {
+                                                public Container call(final JDialog dialog) {
+                                                    final JSlider slider = Slider.view(1, 5, 3, null);
+                                                    return grid(
+                                                        grid.cell(slider),
+                                                        grid.cell(button("Rate", 
+                                                                new D<JButton>() {
+                                                                    public void call(JButton btn) {
+                                                                        rate_responder.call(slider.getValue());
+                                                                        dialog.setVisible(false);
+                                                                    }
+                                                                }
+                                                    )));
+                                                }
+                                            }
+                                        ).setVisible(true);
+                                    }
                                 }
-                            }
-                        )).pos(0, 5)
+                                )).pos(0, 5)
                     )
                 )).pos(0,3).fill(1,1);
         }
@@ -280,10 +316,6 @@ public class GarageSaleView extends TabView {
             )).pos(0, 2).fill(1, 1),
             
             rating_box, print_box
-            
-
-            
-            
         );
     }
 }

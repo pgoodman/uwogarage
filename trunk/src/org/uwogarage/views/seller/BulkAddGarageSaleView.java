@@ -8,7 +8,6 @@ import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.D2;
-import org.uwogarage.util.gui.SimpleGui.dialog;
 import org.uwogarage.views.TabView;
 
 

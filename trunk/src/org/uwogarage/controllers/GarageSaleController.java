@@ -126,8 +126,13 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * 
      * @param sale
      */
-    public void view(GarageSaleModel sale) {
-        TabView.show(GarageSaleView.view(sale, logged_user));
+    public void view(final GarageSaleModel sale) {
+        TabView.show(GarageSaleView.view(sale, logged_user, new D<Integer>() {
+                public void call(Integer rating) {
+                    d.rating.save(sale, rating);
+                }
+            }
+        ));
     }
     
     /**
