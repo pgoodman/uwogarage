@@ -57,7 +57,7 @@ public class MapPanel extends JXMapKit{
      * @param defaultPosition user's default starting GeoPosition
      * @param defaultZoom user's default zoom level
      */   
-    public MapPanel(GeoPosition defaultPosition, int defaultZoom){
+    private MapPanel(GeoPosition defaultPosition, int defaultZoom){
     	
     	super();
     	    		
@@ -96,7 +96,11 @@ public class MapPanel extends JXMapKit{
     		//Create a new MapWaypoint, add it to the waypoint set and then the the map's waypoint painter
     		MapWaypoint newWaypoint = new MapWaypoint(sale);    	
     		waypoints.add(newWaypoint);    	
-    		painter.setWaypoints(waypoints);        	  		
+    		painter.setWaypoints(waypoints);
+    		
+    		//this causes the map to refresh and show new waypoints
+    		this.setVisible(false);
+    		this.setVisible(true);
     	}
     	//In the event of an exception, just don't add anything to the map.
     	catch(Exception e){    		
