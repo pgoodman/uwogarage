@@ -237,9 +237,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
                 throw new Exception(errors.toString());
             }
             
-            //add this new GarageSale to the set
             sales.add(saleRead);
-            
             ++count;
         }
         

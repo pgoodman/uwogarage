@@ -38,35 +38,26 @@ public class CategoryController extends Controller<CategoryModel> {
                 // view but I decided it best to put that control with the
                 // controller
                 models.add(category);
-                
-                // TODO Return to main admin menu or do something
             }
         }));
-    }
-    
-    // leave unimplemented
-    public void edit(String model) {
-    //TODO: code
-    }
-    
-    public void delete(CategoryModel cat) {
-        models.remove(cat);
-        
-        // removes category from all sales that use it
-        for (GarageSaleModel sale: d.garage_sale.getModels())
-        	sale.categories.remove(cat); 
-        
     }
     
     public void list() {
     	TabView.show(ListCategoriesView.view(
     		models, 
+    		
+    		// responder to delete the category
     		new D<CategoryModel>(){
-	    		public void call(CategoryModel model) {
-	    			delete(model); 
+	    		public void call(CategoryModel cat) {
+	    		    
+	    		    // remove the category from the main set
+	    		    models.remove(cat);
+	    	        
+	    	        // removes category from all sales that use it
+	    	        for (GarageSaleModel sale: d.garage_sale.getModels())
+	    	            sale.categories.remove(cat);
 	    		}
 	    	}
     	));
-       		   	
     }
 }

@@ -34,10 +34,18 @@ public class RatingModel implements Model {
 	    return rating;
 	}
 	
+	/**
+	 * Get the sale that this rating refers to.
+	 * @return
+	 */
 	public GarageSaleModel getSale() {
 		return sale;
 	}
 	
+	/**
+	 * Get the user that made this rating.
+	 * @return
+	 */
 	public UserModel getUser() {
 	    return user;
 	}

@@ -12,6 +12,7 @@ import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
+import org.uwogarage.util.InverseComparator;
 import org.uwogarage.views.TabView;
 
 /**
@@ -62,27 +63,7 @@ public class ListUsersView extends TabView {
                            delete_responder;
 
     // store the up/down buttons
-    protected GridCell[] sort_buttons;
-    
-	/**
-	 * Invert a sort comparator.
-	 */
-	class InverseSort<T> implements Comparator<T> {
-		
-		protected Comparator<T> c;
-		
-		public InverseSort(Comparator<T> cc) {
-			c = cc;
-		}
-		
-		/**
-		 * Invert the comparison by multiplying by -1, i.e. changing the order.
-		 */
-		public int compare(T o1, T o2) {
-			return -1 * c.compare(o1, o2);
-		}
-		
-	}
+    protected GridCell[] sort_buttons;	
 	
 	/**
 	 * Constructor.
@@ -103,7 +84,7 @@ public class ListUsersView extends TabView {
 	        grid.cell(grid(
                 grid.cell(button(up_arrow, makeSortDelegate(id_sort))), 
                 grid.cell(button(down_arrow, makeSortDelegate(
-                    new InverseSort<UserModel>(id_sort)
+                    new InverseComparator<UserModel>(id_sort)
                 )))
             )).margin(0, 0, 10, 20),
             
@@ -113,7 +94,7 @@ public class ListUsersView extends TabView {
                     first_name_sort
                 ))), 
                 grid.cell(button(down_arrow, makeSortDelegate(
-                    new InverseSort<UserModel>(first_name_sort)
+                    new InverseComparator<UserModel>(first_name_sort)
                 )))
             )).margin(0, 0, 10, 10),
             
@@ -123,7 +104,7 @@ public class ListUsersView extends TabView {
                     last_name_sort
                 ))), 
                 grid.cell(button(down_arrow, makeSortDelegate(
-                    new InverseSort<UserModel>(last_name_sort)
+                    new InverseComparator<UserModel>(last_name_sort)
                 )))
             )).margin(0, 0, 10, 20)            
         );
