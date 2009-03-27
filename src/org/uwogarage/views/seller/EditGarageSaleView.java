@@ -69,13 +69,20 @@ public class EditGarageSaleView extends AddGarageSaleView {
                 extraInfoSection()
             ),
             
-            // submit button
+            // submit and cancel buttons
             grid.row(
-                grid.cell(2, button("Update", new D<JButton>() {
-                    public void call(JButton b) {
-                        processInput(sale, responder);
-                    }
-                }))
+                grid.cell(2, grid(
+                    grid.cell(button("Update", new D<JButton>() {
+                        public void call(JButton b) {
+                            processInput(sale, responder);
+                        }
+                    })),
+                    grid.cell(button("Cancel", new D<JButton>() {
+                        public void call(JButton b) {
+                            changeProgramTab(1); // switch tabs to: my sales
+                        }
+                    }))
+                ))
             )
         );
     }

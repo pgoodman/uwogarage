@@ -24,7 +24,7 @@ import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
 import org.uwogarage.views.ListCategoriesView;
-import org.uwogarage.views.View;
+import org.uwogarage.views.TabView;
  
 
 /**
@@ -33,7 +33,7 @@ import org.uwogarage.views.View;
  * @author Peter Goodman
  * @version $Id$
  */
-public class AddGarageSaleView extends View {
+public class AddGarageSaleView extends TabView {
     
     // set up the main text boxes
     protected JTextField street = field.text(20, new AnyDocument(50)),
