@@ -1,5 +1,8 @@
 package org.uwogarage.views;
 
+import java.util.Hashtable;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
@@ -12,6 +15,13 @@ public class UserInfoView extends TabView {
         
         String[] user_phone = user.getPhoneNumber();
         JSlider rating = Slider.view(0, 4, (int)user.getRating(), null);
+        Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+        labelTable.put(new Integer(0), new JLabel("1"));
+        labelTable.put(new Integer(1), new JLabel("2"));
+        labelTable.put(new Integer(2), new JLabel("3"));
+        labelTable.put(new Integer(3), new JLabel("4"));
+        labelTable.put(new Integer(4), new JLabel("5"));
+        rating.setLabelTable(labelTable);
         rating.setEnabled(false);
         
         return grid(
