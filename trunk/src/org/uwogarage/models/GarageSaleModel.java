@@ -95,6 +95,14 @@ public class GarageSaleModel implements Model {
 	    return sum / size;
 	}
 	
+	public float getRatingFrom(UserModel user) {
+	    for(RatingModel rating : ratings) {
+	        if (rating.user == user)
+	            return rating.rating;
+	    }        
+	    return 0;
+	}
+	
 	/**
 	 * Check if this garage sale has been rated yet.
 	 * @return
