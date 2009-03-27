@@ -295,6 +295,7 @@ public class AddGarageSaleView extends TabView {
         
         // done, no errors left :D
         } else {
+            dialog.alert(f, "The garage sale has saved.");
             responder.call(sale);
         }
     }
