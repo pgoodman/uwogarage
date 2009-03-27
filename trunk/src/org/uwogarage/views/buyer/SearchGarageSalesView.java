@@ -32,7 +32,6 @@ import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 import org.uwogarage.util.functional.P;
 import org.uwogarage.views.ListCategoriesView;
-import org.uwogarage.views.ListGarageSalesReducedView;
 import org.uwogarage.views.Slider;
 import org.uwogarage.views.View;
 

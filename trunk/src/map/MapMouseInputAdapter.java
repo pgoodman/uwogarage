@@ -47,7 +47,7 @@ public class MapMouseInputAdapter extends MouseInputAdapter {
 	 * a window with information about the garage sale at that point.
 	 */
 	public void mouseClicked(MouseEvent e) {
-
+	    
 		// Get the screen point of mouse click.
 		Point pt = e.getPoint();
 
@@ -60,7 +60,7 @@ public class MapMouseInputAdapter extends MouseInputAdapter {
 
 		//go through each waypoint
 		while (waypointIt.hasNext()) {
-
+		    System.out.println("Hello");
 			//get this waypoint
 			MapWaypoint currentWaypoint = waypointIt.next();
 							
@@ -125,11 +125,6 @@ public class MapMouseInputAdapter extends MouseInputAdapter {
 				newframe.setLocationRelativeTo(parent);
 				newframe.setVisible(true);
 			}
-			
-			
-
 		}
-
 	}
-
 }

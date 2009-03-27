@@ -18,17 +18,18 @@ public class RatingController extends Controller<RatingModel> {
      * Show the view to rate a garage sale.
      */
     public void save(GarageSaleModel sale, int rating) {
-        for (RatingModel a_rating : sale.ratings) {
-            if (a_rating.getUser() == logged_user) {
-                a_rating.setRating(rating);
-                d.garage_sale.view(sale);
-                return;
-            }
+        RatingModel therating = sale.getRatingFrom(logged_user);
+        
+        // create the rating
+        if(null == therating) {
+            therating = new RatingModel(rating, logged_user, sale);
+            sale.ratings.add(therating);
+            logged_user.ratings.add(therating);
+            models.add(therating);
         }
-        RatingModel therating = new RatingModel(rating, logged_user, sale);
-        sale.ratings.add(therating);
-        logged_user.ratings.add(therating);
-        models.add(therating);
+        
+        // update the rating and change views
+        therating.setRating(rating);
         d.garage_sale.view(sale);
     }
 

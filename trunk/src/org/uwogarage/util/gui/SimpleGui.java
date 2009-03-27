@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.Format;
+import java.util.Collection;
 
 import javax.swing.*;
 import javax.swing.plaf.synth.SynthLookAndFeel;
@@ -233,6 +234,9 @@ abstract public class SimpleGui {
      */
     public static JPanel grid(GridCell[] ... rows) {
         return grid(new JPanel(), rows);
+    }
+    public static JPanel grid(Collection<GridCell[]> rows) {
+        return grid(new JPanel(), rows.toArray(new GridCell[rows.size()][]));
     }
     public static <T extends Container> T grid(T pane, GridCell[] ... rows) {
         int y = 0,

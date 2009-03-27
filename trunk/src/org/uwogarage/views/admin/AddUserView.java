@@ -34,7 +34,7 @@ public class AddUserView extends TabView {
                      start_lng = field.text(10, new RealNumDocument(10));
     
     // the slider to choose the start zoom level
-    final JSlider start_zoom = Slider.view(4, 23, 4, null);
+    final JSlider start_zoom = Slider.view(1, 15, 15, null);
     
     /**
      * Collect the common input errors to adding and editing users.

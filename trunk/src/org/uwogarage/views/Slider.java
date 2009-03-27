@@ -34,11 +34,13 @@ public class Slider extends View {
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
         
-        //labels.put(new Integer(min), label("-"));
-        //labels.put(new Integer(max), label("+"));
+        labels.put(new Integer(min), label(String.valueOf(min)));
+        labels.put(new Integer(max), label(String.valueOf(max)));
         
-        for(int i = min; i <= max; i++)
+        int step = (int)Math.ceil((max - min) / 4);
+        for(int i = min+step; i < max; i += step)
             labels.put(new Integer(i), label(String.valueOf(i)));
+        
         
         slider.setLabelTable(labels);
         

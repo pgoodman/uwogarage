@@ -21,7 +21,7 @@ public class UserModel implements Model {
 	
 	protected boolean reset_pass = true; // was the user's password was reset
 	
-	protected int start_zoom = 4; // the user's default zoom level
+	protected int start_zoom = 15; // the user's default zoom level
 	
 	// the user's ratings
 	final public ModelSet<RatingModel> ratings = new ModelSet<RatingModel>();
@@ -225,7 +225,7 @@ public class UserModel implements Model {
 	 * @param level the user's default level
 	 */
 	public boolean setDefaultZoom(int level) {
-	    if(level < 4 || level > 23)
+	    if(level < 1 || level > 15)
 	        return false;
 	    
 	    start_zoom = level;

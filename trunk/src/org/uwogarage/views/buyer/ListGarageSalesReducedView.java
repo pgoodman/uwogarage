@@ -1,7 +1,8 @@
-package org.uwogarage.views;
+package org.uwogarage.views.buyer;
 
 import java.awt.Dimension;
 import java.util.Calendar;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -14,6 +15,8 @@ import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
+import org.uwogarage.views.View;
+
 import map.*;
 
 /**
@@ -28,7 +31,13 @@ public class ListGarageSalesReducedView extends View {
                                final D<GarageSaleModel> view_responder,
                                UserModel user) {
         
-    	 MapPanel map = new MapPanel(user);
+        // instantiate the map, and give it a delegate to call for when a 
+        // waypoint is clicked.
+    	MapPanel map = new MapPanel(user, new D<Set<GarageSaleModel>>() {
+    	    public void call(Set<GarageSaleModel> sales) {
+    	        
+    	    }
+    	});
     	
         // nothing to show
         if(0 == sales.size()) {
@@ -46,8 +55,10 @@ public class ListGarageSalesReducedView extends View {
         // create the rows
         for(final GarageSaleModel sale : sales) {
             
+            // add the sale into the map
         	map.addGarageSale(sale);
         	
+        	// do non-map things
             date = sale.getTime();
             hour = date.get(Calendar.HOUR);
             
@@ -87,15 +98,12 @@ public class ListGarageSalesReducedView extends View {
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        pane.setPreferredSize(new Dimension(600, 200));
-        
-      
-    
+        pane.setPreferredSize(new Dimension(450, 300));
         
         // put the gui together
         return grid(
-            grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10),
-            grid.cell(map)
+            grid.cell(pane).pos(0, 0).margin(10, 0, 10, 10),
+            grid.cell(map).pos(1, 0)
         );
     }
 }

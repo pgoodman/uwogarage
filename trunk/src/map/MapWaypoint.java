@@ -10,7 +10,7 @@ import org.uwogarage.models.GarageSaleModel;
  * @author ECormie
  *
  */
-public class MapWaypoint extends Waypoint{
+public class MapWaypoint extends Waypoint {
 	
 	//the GarageSale this Waypoint is pointing to
 	private GarageSaleModel sale;

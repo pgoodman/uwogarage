@@ -45,7 +45,6 @@ abstract public class TabView extends View {
     }
     
     static protected void changeProgramTab(int i) {
-        System.out.println(i);
         change_tab.call(new Integer(i));
     }
 }
