@@ -11,7 +11,7 @@ public class UserInfoView extends TabView {
         
         
         String[] user_phone = user.getPhoneNumber();
-        JSlider rating = Slider.view(0, 5, (int)user.getRating(), null);
+        JSlider rating = Slider.view(0, 4, (int)user.getRating(), null);
         rating.setEnabled(false);
         
         return grid(
