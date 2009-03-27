@@ -28,17 +28,17 @@ public class MapPanel extends JXMapKit{
 	private static final long serialVersionUID = 1L;
 
 	// Get us a map provider to get Google maps.    
-    GoogleMapsProvider map = new GoogleMapsProvider();
+	private GoogleMapsProvider map = new GoogleMapsProvider();
     
     // From here, set things up to get the main map viewer using this provider as a source.
-    TileFactoryInfo tileProviderInfo = map.getTileProviderInfo();
-    TileFactory tileFactory = new DefaultTileFactory (tileProviderInfo);
+	private TileFactoryInfo tileProviderInfo = map.getTileProviderInfo();
+	private TileFactory tileFactory = new DefaultTileFactory (tileProviderInfo);
     
     //holds the waypoints
-    Set<MapWaypoint> waypoints = new HashSet<MapWaypoint>();
+	private Set<MapWaypoint> waypoints = new HashSet<MapWaypoint>();
     
     //paints the waypoints
-    WaypointPainter painter = new WaypointPainter();
+	private WaypointPainter painter = new WaypointPainter();
 	        
     
     /**
