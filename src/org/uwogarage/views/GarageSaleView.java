@@ -47,6 +47,9 @@ public class GarageSaleView extends TabView {
         };
         String[] am_or_pm = {"am", "pm"};
         
+        int cal_hour = cal.get(Calendar.HOUR);
+        if(cal_hour == 0) cal_hour = 12;
+        
         // create the GUI for showing all garage sale info
         return grid(
                 
@@ -90,7 +93,7 @@ public class GarageSaleView extends TabView {
                 grid.row(
                     grid.cell(label("Time:")),
                     grid.cell(label(
-                        (cal.get(Calendar.HOUR)+1) +":"+
+                        (cal_hour) +":"+
                         StringUtil.padLeft(
                             String.valueOf(cal.get(Calendar.MINUTE)), 
                             '0', 

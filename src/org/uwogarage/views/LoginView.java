@@ -64,6 +64,7 @@ public class LoginView extends View {
                     // this adapter, and subsequently this delegate (mutual
                     // dependency) when enter is pressed.
                     f.removeKeyListener(getKeyAdapter());
+                    on_enter_adapter = null;
                     
                     // call the responder and get out of here!
                     responder.call(u);
