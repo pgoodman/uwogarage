@@ -1,6 +1,7 @@
 package map;
 
 import org.jdesktop.swingx.mapviewer.TileFactoryInfo; 
+
  
 public class GoogleMapsProvider  extends  AbstractMapProvider { 
  
