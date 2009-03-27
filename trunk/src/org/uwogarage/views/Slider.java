@@ -23,6 +23,9 @@ public class Slider extends View {
      */
     static public JSlider view(int min, int max, int initial, final D<JSlider> on_slide) {
         
+        if(initial < min) initial = min;
+        if(initial > max) initial = max;
+
         final JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, initial);
         Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>(2);
         
@@ -31,8 +34,11 @@ public class Slider extends View {
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
         
-        labels.put(new Integer(min), label("-"));
-        labels.put(new Integer(max), label("+"));
+        //labels.put(new Integer(min), label("-"));
+        //labels.put(new Integer(max), label("+"));
+        
+        for(int i = min; i <= max; i++)
+            labels.put(new Integer(i), label(String.valueOf(i)));
         
         slider.setLabelTable(labels);
         

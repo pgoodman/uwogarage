@@ -3,8 +3,10 @@ package org.uwogarage.views;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.uwogarage.models.ModelSet;
@@ -38,11 +40,17 @@ public class LoginView extends View {
      * View the login form. Takes in a delegate from the controller that actually
      * performs the log in operation.
      */
-    static public JPanel view(final ModelSet<UserModel> users, final D<UserModel> responder) {
+    static public JPanel view(final ModelSet<UserModel> users, 
+                                     final D<UserModel> buyer_responder,
+                                     final D<UserModel> seller_responder) {
         
         // text fields, need them for later ;)
         final JTextField user_id = field.text(4, new AlphaNumDocument(4)),
                          password = field.pass(3, new AlphaDocument(3));
+        
+        ButtonGroup group = new ButtonGroup();
+        final JRadioButton as_buyer = new JRadioButton("Buyer"),
+                           as_seller = new JRadioButton("Seller");
         
         // the delegate that is called when the login button is clicked
         final D<JButton> on_click_delegate = new D<JButton>() {
@@ -67,7 +75,10 @@ public class LoginView extends View {
                     on_enter_adapter = null;
                     
                     // call the responder and get out of here!
-                    responder.call(u);
+                    if(as_buyer.isSelected())
+                        buyer_responder.call(u);
+                    else
+                        seller_responder.call(u);
                     
                 // invalid user info, alter the user and clear the form
                 // values
@@ -110,13 +121,19 @@ public class LoginView extends View {
         user_id.addKeyListener(on_press_enter);
         password.addKeyListener(on_press_enter);
         
+        group.add(as_buyer);
+        group.add(as_seller);
+        
         // create the form
         return grid(
             grid.row(grid.cell(2, label("Log In")).margin(10, 10, 0, 10)),
             
             form.row(label("User ID:"),  user_id),
             form.row(label("Password:"), password),
-            
+            form.row(label("Log in as:"), grid(
+                grid.cell(as_buyer),
+                grid.cell(as_seller).pos(0, 1)
+            )),
             grid.row(    
                 grid.cell(2, login_button).margin(10, 10, 10, 10)
             )

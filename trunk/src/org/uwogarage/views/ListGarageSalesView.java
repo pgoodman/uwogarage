@@ -64,9 +64,9 @@ public class ListGarageSalesView extends View {
         pane.setPreferredSize(new Dimension(600, 400));
         
         return grid(
-            grid.cell(label(
-                "Note: garage sales that have now past will not be editable."
-            )).pos(0, 0),
+            grid.cell(fieldset("Note", label(
+                "Garage sales that have now past will not be editable."
+            ))).pos(0, 0),
             grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10)
         );
     }
