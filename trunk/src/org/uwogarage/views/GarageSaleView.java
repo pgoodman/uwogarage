@@ -37,6 +37,7 @@ public class GarageSaleView extends TabView {
         }
         
         final GridCell rating_box;
+        final GridCell print_box;
         
         if (sale.getRatingFrom(logged_user) == 0.0) {
             rating_box = grid.cell(fieldset("Rating",
@@ -82,6 +83,19 @@ public class GarageSaleView extends TabView {
                 )).pos(0,3).fill(1,1);
         }
         
+        print_box = grid.cell(fieldset("Print",
+                grid(
+                   
+                   grid.cell(
+                        button("Print this Sale", new D<JButton>() {
+                            public void call(JButton btn) {
+                                // TODO show the rating pop up
+                            }
+                        }
+                    )).pos(0, 3)
+                )
+            )).pos(0,4).fill(1,1);
+        
         Location address = sale.getLocation();
         Calendar cal = sale.getTime();
         
@@ -125,7 +139,7 @@ public class GarageSaleView extends TabView {
                 grid.row(
                     grid.cell(2, label("map here...")).margin(10, 10, 10, 10)
                 )
-            )), 4).pos(1, 0).fill(1, 1),
+            )), 5).pos(1, 0).fill(1, 1),
             
             // date and time
             grid.cell(fieldset("Date / Time", grid(
@@ -168,7 +182,10 @@ public class GarageSaleView extends TabView {
             	: note
             )).pos(0, 2).fill(1, 1),
             
-            rating_box
+            rating_box, print_box
+            
+
+            
             
         );
     }
