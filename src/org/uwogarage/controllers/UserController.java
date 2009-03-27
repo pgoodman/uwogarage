@@ -97,7 +97,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void list(){
      	
-    	TabView.show((new ListUsersView()).view(models, 
+    	TabView.show((new ListUsersView(models, 
     		new D<UserModel>(){
     			// responder for editing users
     			public void call(UserModel user) {
@@ -121,7 +121,7 @@ public class UserController extends Controller<UserModel> {
     				
     			}
     		}
-    	));
+    	)).view());
     	
     }
     
