@@ -8,6 +8,7 @@ import javax.swing.JTextArea;
 
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
+import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
@@ -19,7 +20,7 @@ import org.uwogarage.util.gui.GridCell;
  * @version $Id$
  */
 public class GarageSaleView extends TabView {
-    static public JPanel view(GarageSaleModel sale) {
+    static public JPanel view(GarageSaleModel sale, UserModel logged_user) {
         
         JTextArea note = new JTextArea(sale.getNote());
         note.setEnabled(false);
@@ -33,6 +34,52 @@ public class GarageSaleView extends TabView {
                     .anchor(1, 0, 0, 1)
                     .margin(0, 10, 0, 10)
             );
+        }
+        
+        final GridCell rating_box;
+        
+        if (sale.getRatingFrom(logged_user) == 0.0) {
+            rating_box = grid.cell(fieldset("Rating",
+                    grid(
+                        grid.cell( 
+                            label("Overall Rating")
+                        ).pos(0, 1),
+                        grid.cell( 
+                            label(String.valueOf(sale.getRating()))
+                        ).pos(0, 2),
+                        grid.cell(
+                            button("Rate Sale", new D<JButton>() {
+                                public void call(JButton btn) {
+                                    // TODO show the rating pop up
+                                }
+                            }
+                        )).pos(0, 3)
+                    )
+                )).pos(0,3).fill(1,1);
+        } else {
+            rating_box = grid.cell(fieldset("Rating",
+                    grid(
+                        grid.cell( 
+                            label("Overall Rating")
+                        ).pos(0, 1),
+                        grid.cell( 
+                            label(String.valueOf(sale.getRating()))
+                        ).pos(0, 2),
+                        grid.cell( 
+                            label("Your Rating")
+                        ).pos(0, 3),
+                        grid.cell( 
+                            label(String.valueOf(sale.getRatingFrom(logged_user)))
+                        ).pos(0, 4),
+                        grid.cell(
+                            button("Edit Rating", new D<JButton>() {
+                                public void call(JButton btn) {
+                                    // TODO show the rating pop up
+                                }
+                            }
+                        )).pos(0, 5)
+                    )
+                )).pos(0,3).fill(1,1);
         }
         
         Location address = sale.getLocation();
@@ -121,22 +168,7 @@ public class GarageSaleView extends TabView {
             	: note
             )).pos(0, 2).fill(1, 1),
             
-            // rating
-            // TODO don't allow a user to rate his own sale
-            grid.cell(fieldset("Rating",
-                grid(
-                    grid.cell( 
-                        label(String.valueOf(sale.getRating()))
-                    ).pos(0, 1),
-                    grid.cell(
-                        button("Rate Sale", new D<JButton>() {
-                            public void call(JButton btn) {
-                                // TODO show the rating popup
-                            }
-                        }
-                    )).pos(0, 2)
-                )
-            )).pos(0,3).fill(1,1)
+            rating_box
             
         );
     }
