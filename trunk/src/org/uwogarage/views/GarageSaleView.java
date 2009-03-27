@@ -1,11 +1,19 @@
 package org.uwogarage.views;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.uwogarage.UWOGarage;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.UserModel;
@@ -88,10 +96,65 @@ public class GarageSaleView extends TabView {
                    
                    grid.cell(
                         button("Print this Sale", new D<JButton>() {
-                            public void call(JButton btn) {
-                                // TODO show the rating pop up
+                            public void call(JButton btn)  {
+                            	String web_page = "http://google.ca";
+                            	
+                            	URL loc = UWOGarage.class.getResource("files/garagesale.html"),
+                            		template = UWOGarage.class.getResource("files/garagesale-template.html");
+                            	
+                            	if(null != loc) {
+	                            	web_page = loc.getFile()
+	                            				  .replace('/', '\\')
+	                            				  .substring(1)
+	                            				  .replaceAll("%20", " ");
+                            	}
+                            	
+                            	try {
+                            		BufferedReader in_fp = new BufferedReader(new InputStreamReader(template.openStream()));
+                            		BufferedWriter out_fp = new BufferedWriter(new FileWriter(web_page));
+                            		
+                            		// read the file into a string
+                            		StringBuffer file_contents = new StringBuffer();
+                            		try {
+                            			while(true)
+                            				file_contents.append(in_fp.readLine());
+                            		} catch(IOException e) { }
+                            		
+                            		in_fp.close();
+                            		in_fp = null;
+                            		
+                            		out_fp.write(String.format(file_contents.toString(),
+                            		    "Sale name here",
+                            		    "Date here",
+                            		    "Time here",
+                            		    "Category list here..",
+                            		    "Rating here"
+                            		));
+                            		
+                            		out_fp.close();
+                            		out_fp = null;
+                            		
+                            	} catch(IOException e) {
+                            		System.out.println("Couldn't convert template.");
+                            		e.printStackTrace();
+                            	}
+                            	
+                            	
+                            	
+                            	String web[] ={"cmd", "/c", "start", "iexplore.exe", "-nohome", web_page};
+                            	
+                            	Process p;
+                            	
+                            	try{
+                            		p = Runtime.getRuntime().exec(web);
+                    			}
+                    			catch(Exception e){
+                    				e.printStackTrace();
+								
+                    			}
                             }
                         }
+                        
                     )).pos(0, 3)
                 )
             )).pos(0,4).fill(1,1);
