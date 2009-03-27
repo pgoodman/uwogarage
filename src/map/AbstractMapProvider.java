@@ -3,8 +3,6 @@ package map;
 
 import java.util.HashMap; 
 import java.util.Map; 
-
-import javax.swing.JPanel;
  
 public abstract class AbstractMapProvider  implements MapProvider { 
  
