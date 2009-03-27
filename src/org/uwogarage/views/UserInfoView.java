@@ -11,19 +11,11 @@ import org.uwogarage.models.UserModel;
 public class UserInfoView extends TabView {
     static public JPanel view(UserModel user) {
         
-        
-        
         String[] user_phone = user.getPhoneNumber();
-        JSlider rating = Slider.view(0, 4, (int)user.getRating(), null);
-        Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
-        labelTable.put(new Integer(0), new JLabel("1"));
-        labelTable.put(new Integer(1), new JLabel("2"));
-        labelTable.put(new Integer(2), new JLabel("3"));
-        labelTable.put(new Integer(3), new JLabel("4"));
-        labelTable.put(new Integer(4), new JLabel("5"));
-        rating.setLabelTable(labelTable);
+        JSlider rating = Slider.view(1, 5, (int)user.getRating(), null);
+
         rating.setEnabled(false);
-        
+
         return grid(
             grid.row(
                 grid.cell(2, label("User Info"))

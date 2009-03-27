@@ -17,6 +17,8 @@ import org.uwogarage.views.admin.AddUserView;
 import org.uwogarage.views.admin.AdminControlPanelView;
 import org.uwogarage.views.admin.EditUserView;
 import org.uwogarage.views.admin.ListUsersView;
+import org.uwogarage.views.buyer.BuyerControlPanelView;
+import org.uwogarage.views.seller.SellerControlPanelView;
  
 /**
  * The UserController class responds to calls from a View and manipulates  
@@ -142,38 +144,65 @@ public class UserController extends Controller<UserModel> {
      * Show the login view.
      */
     public void login() {
-        View.show(LoginView.view(models, new D<UserModel>() {
-            public void call(UserModel user) {
-                
-                // set the user as the current user that is logged in, thus
-                // making it available to all controllers
-                logged_user = user;
-                
-                // this is either the first time logging in or the admin reset
-                // this user's password, show the view to change passwords
-                if(user.isUsingDefaultPass()) {
-                    updatePassword();
-                
-                // no password reset required, show the now logged in user the
-                // main menu
-                } else {
-                    controlPanel();
+        View.show(LoginView.view(
+            models, 
+            
+            // buyer delegate
+            new D<UserModel>() {
+                public void call(UserModel user) {
+                    
+                    // set the user as the current user that is logged in, thus
+                    // making it available to all controllers
+                    logged_user = user;
+                    
+                    // this is either the first time logging in or the admin reset
+                    // this user's password, show the view to change passwords
+                    if(user.isUsingDefaultPass())
+                        updatePassword(true);
+                    
+                    // no password reset required, show the now logged in user the
+                    // main menu
+                    else
+                        buyerPanel();
+                }
+            },
+            
+            // seller delegate
+            new D<UserModel>() {
+                public void call(UserModel user) {
+                 // set the user as the current user that is logged in, thus
+                    // making it available to all controllers
+                    logged_user = user;
+                    
+                    // this is either the first time logging in or the admin reset
+                    // this user's password, show the view to change passwords
+                    if(user.isUsingDefaultPass())
+                        updatePassword(false);
+                    
+                    // no password reset required, show the now logged in user the
+                    // main menu
+                    else
+                        sellerPanel();
                 }
             }
-        }));
+        ));
     }
     
     /**
      * Display the view for updating a user's password and then updates the 
      * UserModel
      */
-    public void updatePassword() {
+    public void updatePassword(final boolean is_buyer) {
         View.show(UpdatePasswordView.view(logged_user, new F0() {
             
             // the password has been updated, go back to the main menu
             public void call() {
                 logged_user.setUsingDefaultPass(false);
-                controlPanel();
+                
+                if(is_buyer)
+                    buyerPanel();
+                else
+                    sellerPanel();
             }
         }));
     }
@@ -181,18 +210,24 @@ public class UserController extends Controller<UserModel> {
     /**
      * Display the main user control panel.
      */
-    public void controlPanel() {
-        View.show(UserControlPanelView.view(logged_user,
+    public void buyerPanel() {
+        View.show(BuyerControlPanelView.view(logged_user,
+            new F0() { public void call() { myInfo(); }},
+            new F0() { public void call() { d.garage_sale.search(); }},
+            new F0() { public void call() { 
+                d.garage_sale.list(d.garage_sale.getModels()); 
+            }}
+        ));
+    }
+    
+    public void sellerPanel() {
+        View.show(SellerControlPanelView.view(logged_user,
             new F0() { public void call() { myInfo(); }},
             new F0() { public void call() { 
                 d.garage_sale.list(logged_user.sales); 
             }},
             new F0() { public void call() { d.garage_sale.add(); }},
-            new F0() { public void call() { d.garage_sale.bulkAdd(); }},
-            new F0() { public void call() { d.garage_sale.search(); }},
-            new F0() { public void call() { 
-                d.garage_sale.list(d.garage_sale.getModels()); 
-            }}
+            new F0() { public void call() { d.garage_sale.bulkAdd(); }}
         ));
     }
     
@@ -203,7 +238,6 @@ public class UserController extends Controller<UserModel> {
     	    new F0() { public void call() { d.category.add(); }},
     	    new F0() { public void call() { d.category.list(); }}
     	));
-    
     }
     
     /**

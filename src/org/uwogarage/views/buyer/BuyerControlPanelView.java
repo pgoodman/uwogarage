@@ -1,4 +1,4 @@
-package org.uwogarage.views;
+package org.uwogarage.views.buyer;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -7,13 +7,14 @@ import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.F0;
+import org.uwogarage.views.TabView;
 
 /**
  * Show the main menu for buyers/sellers.
  * 
  * @version $Id$
  */
-public class UserControlPanelView extends View {
+public class BuyerControlPanelView extends TabView {
     
     /**
      * Show the User Control Panel view.
@@ -26,22 +27,18 @@ public class UserControlPanelView extends View {
      * @param search
      * @return
      */
-    static public JPanel view(final UserModel user,
-                final F0 my_info, final F0 my_sales, final F0 add_sale, 
-                final F0 bulk_add, final F0 search, final F0 view_all) {
+    static public JPanel view(final UserModel user, final F0 my_info, 
+                                     final F0 search, final F0 view_all) {
         
         final JTabbedPane pane = new JTabbedPane();
         
         // set up the default tabs with empty panels
         pane.addTab("My Info", new JPanel());
-        pane.addTab("My Sales", new JPanel());
-        pane.addTab("Add Sale", new JPanel());
-        pane.addTab("Bulk Add", new JPanel());
         pane.addTab("Search", new JPanel());
         pane.addTab("All Sales", new JPanel());
         
         // give the tab view
-        TabView.setTabDelegate(pane, 6);
+        setTabDelegate(pane, 3);
         
         // create the change listener that will refresh the content of each tab
         // per state change
@@ -57,24 +54,22 @@ public class UserControlPanelView extends View {
                 // call the various responders
                 switch(pane.getSelectedIndex()) {
                     case 0: my_info.call(); break;
-                    case 1: my_sales.call(); break;
-                    case 2: add_sale.call(); break;
-                    case 3: bulk_add.call(); break;
-                    case 4: search.call(); break;
-                    case 5: view_all.call(); break;
+                    case 1: search.call(); break;
+                    case 2: view_all.call(); break;
                 }
             }
         });
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.
-        TabView.changeProgramTab(0);
+        changeProgramTab(0);
         
         // return the new view
         return grid(
-            grid.cell(label("Welcome, "+ user.getFirstName() +" "+ user.getLastName()))
-                .pos(0, 0)
-                .margin(10, 10, 10, 10),
+            grid.cell(label(
+                "Welcome, "+ user.getFirstName() +" "+ user.getLastName() +
+                " to the buyer control panel."
+            )).pos(0, 0).margin(10, 10, 10, 10),
             
             grid.cell(pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
         );

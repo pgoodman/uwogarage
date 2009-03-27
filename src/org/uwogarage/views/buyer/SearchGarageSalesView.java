@@ -87,8 +87,8 @@ public class SearchGarageSalesView extends View {
                          sale_rating = field.text(1, new NumDocument(1));
     */
     
-    protected JSlider user_rating = Slider.view(0, 5, 0, null),
-                      sale_rating = Slider.view(0, 5, 0, null);
+    protected JSlider user_rating = Slider.view(1, 5, 0, null),
+                      sale_rating = Slider.view(1, 5, 0, null);
     
     // list of selected categories
     protected ModelSet<CategoryModel> selected_categories = new ModelSet<CategoryModel>(); 

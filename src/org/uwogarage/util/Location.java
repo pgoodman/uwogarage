@@ -3,8 +3,6 @@ package org.uwogarage.util;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import org.uwogarage.util.functional.D;
-
 
 /**
  * The Location class represents a location in the Garage Sale system
