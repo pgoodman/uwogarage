@@ -1,41 +1,26 @@
 package map;
 
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 
 import org.jdesktop.swingx.JXMapKit;
-import org.jdesktop.swingx.JXMapViewer;
 import org.jdesktop.swingx.mapviewer.DefaultTileFactory;
 import org.jdesktop.swingx.mapviewer.TileFactory;
 import org.jdesktop.swingx.mapviewer.TileFactoryInfo;
-import org.jdesktop.swingx.mapviewer.Waypoint;
 import org.jdesktop.swingx.mapviewer.WaypointPainter;
-import org.jdesktop.swingx.mapviewer.WaypointRenderer;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.UserModel;
 
 import org.uwogarage.util.GeoPosition;
 
-import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
-
 /**
- * Class represents a map to use with the GarageSale app.
- * @author Me
- *
+ * Class represents a panel with a map in it, which stores the locations
+ * of GarageSaleModels as Waypoints.
+ * @author ECormie
  */
 
 public class MapPanel extends JXMapKit{
@@ -50,24 +35,25 @@ public class MapPanel extends JXMapKit{
     TileFactory tileFactory = new DefaultTileFactory (tileProviderInfo);
     
     //holds the waypoints
-    Set<Waypoint> waypoints = new HashSet<Waypoint>();
+    Set<MapWaypoint> waypoints = new HashSet<MapWaypoint>();
     
     //paints the waypoints
     WaypointPainter painter = new WaypointPainter();
-	    
+	        
     
     /**
-     * Constructor initializes a map using the default parameters
-     * from a particular user.
-     * @param user
+     * Constructor initializes a map using the default position and zoom
+     * from the parameter user.
+     * @param user the user whose defaults should be used
      */
     public MapPanel(UserModel user){
+    	//call the other constructor
     	this(user.getGeoPosition(),user.getDefaultZoom());
     }
     
     
     /**
-     * Constructor initializes map with the user's defaults as parameters.
+     * Constructor initializes a MapPanel with the given defaults as parameters.
      * @param defaultPosition user's default starting GeoPosition
      * @param defaultZoom user's default zoom level
      */   
@@ -79,65 +65,52 @@ public class MapPanel extends JXMapKit{
         this.setTileFactory(tileFactory);
         this.setCenterPosition(new MapGeoPosition(defaultPosition.getLatitude(),defaultPosition.getLongitude()));
         this.setZoom(defaultZoom);
-                
-        //get rid of the mini-map
-        this.setMiniMapVisible(false);
-        
-        //set a size to a nice square
-        this.setPreferredSize(new Dimension(300,300));
-        
-        
-        //visuals:
-        
-        this.setBorder(BorderFactory.createEtchedBorder(0));
-        
+                        
         //set the thing that paints the map's waypoints
         this.getMainMap().setOverlayPainter(painter);
-    	
-        
-        //you can change what the waypoints look like with this
-        /*
-        painter.setRenderer(new WaypointRenderer() {
-            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-                g.setColor(Color.GREEN);
-                Ellipse2D.Double circle = new Ellipse2D.Double(10, 10, 5, 5);
-
-                g.draw(circle);
-                return true;
-            }
-        });
-        */        
-        
-        
+    	     
         //add a mouse listener to react when waypoints are clicked
         this.getMainMap().addMouseListener(new MapMouseInputAdapter(this));
         
+        //----------visuals-------------
+        
+        //get rid of the mini-map
+        this.setMiniMapVisible(false);
+        
+        //set the default size to a nice square
+        this.setPreferredSize(new Dimension(300,300));
+        
+        //add a border        
+        this.setBorder(BorderFactory.createEtchedBorder(0));
+                
     	
     }
     
     
-
     /**
      * Adds a garage sale as a waypoint on the map
+     * @param sale the GarageSaleModel to add to the map as a waypoint
      */
-    public void addGarageSale(GarageSaleModel sale){
-    	Waypoint newWaypoint = new Waypoint(sale.getGeoPosition().getLatitude(),sale.getGeoPosition().getLongitude());
-    	
-    	waypoints.add(newWaypoint);
-    	
-        painter.setWaypoints(waypoints);        
-
+    public void addGarageSale(GarageSaleModel sale){  
+    	try{
+    		//Create a new MapWaypoint, add it to the waypoint set and then the the map's waypoint painter
+    		MapWaypoint newWaypoint = new MapWaypoint(sale);    	
+    		waypoints.add(newWaypoint);    	
+    		painter.setWaypoints(waypoints);        	  		
+    	}
+    	//In the event of an exception, just don't add anything to the map.
+    	catch(Exception e){    		
+    	}
     }
     
-    public Set<Waypoint> getWaypoints(){
+    /**
+     * Gets the set of waypoints
+     * @return the set of MapWaypoints that are being displayed by this map
+     */
+    public Set<MapWaypoint> getWaypoints(){
     	return waypoints;
     }
     
-    
-
-    
-
-
-	
+    	
 
 }
