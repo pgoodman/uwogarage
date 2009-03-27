@@ -1,9 +1,7 @@
 package org.uwogarage.views.admin;
 
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.JButton;
@@ -13,10 +11,7 @@ import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
-import org.uwogarage.util.gui.SimpleGui.dialog;
-import org.uwogarage.util.gui.SimpleGui.grid;
 import org.uwogarage.views.TabView;
-import org.uwogarage.views.View;
 
 /**
  * @version $Id$
@@ -42,67 +37,80 @@ public class ListUsersView extends TabView {
     };
 	
     protected final JPanel rows = new JPanel();
-   
-    
-	class SortButtonDelegate extends D<JButton>{
+    protected ModelSet<UserModel> users;
+    protected D<UserModel> edit_responder,
+                           delete_responder;
+	
+	/**
+	 * Invert a sort comparator.
+	 * @author petergoodman
+	 */
+	class InverseSort<T> implements Comparator<T> {
 		
-		Set<UserModel> uu;
-		Comparator<UserModel> cc; 
-		D<UserModel> ee; 
-		D<UserModel> dd;
+		protected Comparator<T> temp;
 		
-		public SortButtonDelegate (Set<UserModel> u, Comparator<UserModel> c, 
-				D<UserModel> e, D<UserModel> d){
-			uu = u;
-			cc = c;
-			ee = e;
-			dd = d;
-			
-		}
-		public void call(JButton b){
-			// SORT FIRST NAME
-				rows.removeAll();
-				rows.add(createRows(sortModels(uu, cc), ee, dd));
-				rows.validate();
-			}
-		}
-	// This class will reverse the sorting order of the set
-	class InverseSort implements Comparator<UserModel> {
-		
-		protected Comparator<UserModel> temp;
-		
-		public InverseSort(Comparator<UserModel> c) {
+		public InverseSort(Comparator<T> c) {
 			temp = c;
 		}
 		
-		public int compare(UserModel o1, UserModel o2) {
+		public int compare(T o1, T o2) {
 			return -1 * temp.compare(o1, o2);
 		}
 		
 	}
 	
-	// returns sorted set
-	protected Set<UserModel> sortModels (Set<UserModel> usrs, Comparator<UserModel> c) {
+	/**
+	 * Constructor.
+	 */
+	public ListUsersView(ModelSet<UserModel> u, D<UserModel> e, D<UserModel> d) {
+	    users = u;
+	    edit_responder = e;
+	    delete_responder = d;
+	}
+	
+    /**
+     * Create the delegate to be called by a specific button used to toggle
+     * sorting,
+     * 
+     * @param cc The comparator used to sort with.
+     * @return
+     */
+    protected D<JButton> makeSortDelegate(final Comparator<UserModel> cc) {
+        
+        return new D<JButton>() {
+            public void call(JButton b){
+                rows.removeAll();
+                rows.add(createRows(sortModels(cc)));
+                rows.validate();
+            }
+        };
+    }
+	
+    /**
+     * Sort a set of models into an ordered set.
+     * 
+     * @param usrs
+     * @param c
+     * @return
+     */
+	protected Set<UserModel> sortModels (Comparator<UserModel> c) {
 		TreeSet<UserModel> sorted = new TreeSet<UserModel>(c);
 		
-		for (UserModel user : usrs) {
+		for (UserModel user : users) {
 			sorted.add(user);
 		}
 		
 		return sorted;
 	}
 	
-    public JPanel view(final ModelSet<UserModel> users, final D<UserModel> editResponder, final D<UserModel> deleteResponder) {
-    	
-
-        
-        /*SortedSet set_fname = new TreeSet(first_name_sort);
-        SortedSet set_lname = new TreeSet(last_name_sort);
-        SortedSet set_id = new TreeSet(id_sort);
-        
-        SortedSet set_fname_inv = new TreeSet(new InverseSort(first_name_sort));
-        SortedSet set_lname_inv = new TreeSet(new InverseSort(last_name_sort));
-        SortedSet set_id_inv = new TreeSet(new InverseSort(id_sort));*/
+	/**
+	 * Create the list users view.
+	 * @param users
+	 * @param editResponder
+	 * @param deleteResponder
+	 * @return
+	 */
+    public JPanel view() {
         
         // nothing to show
         if(0 == users.size()) {
@@ -111,27 +119,37 @@ public class ListUsersView extends TabView {
             )));
         }
          
-        rows.add(createRows(users, editResponder, deleteResponder));
+        rows.add(createRows(users));
         return grid( 
         		grid.row(
     				grid.cell(grid(
-    					grid.cell(button("/\\", new SortButtonDelegate(users, first_name_sort, editResponder, deleteResponder))), 
-    					grid.cell(button("\\/", new SortButtonDelegate(users, new InverseSort(first_name_sort), editResponder, deleteResponder)))
+    					grid.cell(button("/\\", makeSortDelegate(
+    					    first_name_sort
+    					))), 
+    					grid.cell(button("\\/", makeSortDelegate(
+    					    new InverseSort<UserModel>(first_name_sort)
+    					)))
     				)),
     				grid.cell(grid(
-    					grid.cell(button("/\\", new SortButtonDelegate(users, last_name_sort, editResponder, deleteResponder))), 
-    					grid.cell(button("\\/", new SortButtonDelegate(users, new InverseSort(last_name_sort), editResponder, deleteResponder)))
+    					grid.cell(button("/\\", makeSortDelegate(
+    					    last_name_sort
+    					))), 
+    					grid.cell(button("\\/", makeSortDelegate(
+    					    new InverseSort<UserModel>(last_name_sort)
+    					)))
     				)),
     				grid.cell(grid(
-    					grid.cell(button("/\\", new SortButtonDelegate(users, id_sort, editResponder, deleteResponder))), 
-    					grid.cell(button("\\/", new SortButtonDelegate(users, new InverseSort(id_sort), editResponder, deleteResponder)))
+    					grid.cell(button("/\\", makeSortDelegate(id_sort))), 
+    					grid.cell(button("\\/", makeSortDelegate(
+    					    new InverseSort<UserModel>(id_sort)
+    					)))
     				))
     			),
         		grid.row(grid.cell(rows)));
         
     }
     
-    public JPanel createRows (Set<UserModel> users, final D<UserModel> editResponder, final D<UserModel> deleteResponder) 
+    public JPanel createRows (Set<UserModel> users) 
     {
     	// allocate the rows
         GridCell[][] rows = new GridCell[users.size()][];
@@ -148,7 +166,7 @@ public class ListUsersView extends TabView {
                 		grid.cell(button("Edit", new D<JButton>(){
                 			public void call(JButton b){
                 				// EDIT USER
-                				editResponder.call(user);
+                				edit_responder.call(user);
                 			}
                 		})).margin(0, 0, 0, 10),
                 		grid.cell(button("Delete", new D<JButton>(){
@@ -156,7 +174,7 @@ public class ListUsersView extends TabView {
                 				if (!dialog.confirm(f, "Are you sure you want to delete this user?"))
                 					return;
     					
-                				deleteResponder.call(user);
+                				delete_responder.call(user);
                 				dialog.alert(f, "The user has been deleted.");
                 				changeProgramTab(1);
                 			}

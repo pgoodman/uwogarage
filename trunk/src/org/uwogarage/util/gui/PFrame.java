@@ -1,5 +1,6 @@
 package org.uwogarage.util.gui;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -9,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 
 /**
  * Peter Frame, fixes the minimum size bug in JFrames.
@@ -26,7 +28,7 @@ public class PFrame extends JFrame {
     private boolean _min_size_added = false,
                     _min_size_too_big = false;
     
-    final private JPanel _scroll_content_pane = new JPanel();
+    private Container _scroll_content_pane = new JPanel();
     private JScrollPane _scroll_port = new JScrollPane(
         _scroll_content_pane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -45,10 +47,21 @@ public class PFrame extends JFrame {
      * Return the content pane to add stuff to.
      */
     public Container getContentPane() {
-        if(_min_size_too_big)
+        if(_min_size_added)
             return _scroll_content_pane;
-        
         return super.getContentPane();
+    }
+    
+    /**
+     * Add something to the content pane.
+     */
+    public Component add(Component c) {
+        if(_min_size_added)
+            _scroll_content_pane.add(c);
+        else
+            super.getContentPane().add(c);
+        
+        return c;
     }
     
     /**
@@ -58,6 +71,7 @@ public class PFrame extends JFrame {
         
         _min_width = d.width;
         _min_height = d.height;
+        _scroll_content_pane = super.getContentPane();
         
         // this pframe
         final PFrame self = this;
@@ -81,7 +95,7 @@ public class PFrame extends JFrame {
             _scroll_content_pane.setBounds(_scroll_port.getVisibleRect());
             
             // add in the scroller
-            super.getContentPane().add(_scroll_port);
+            _scroll_content_pane.add(_scroll_port);
         }
         
         if(_min_size_added)
