@@ -1,8 +1,5 @@
 package org.uwogarage.views;
 
-import java.util.Hashtable;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
