@@ -29,21 +29,22 @@ public class Location implements Serializable {
 	
 	// corresponding time zone codes for the province codes, if only Java had
 	// JSON...
-	final static public Hashtable<String,String> 
-	PROVINCE_TIME_ZONE_CODES = ImmHashtable.getInstance(10, new D<Hashtable<String,String>>() {
-	    public void call(Hashtable<String,String> table) {
-	        table.put("AB", "MDT");
-	        table.put("BC", "PDT");
-	        table.put("MB", "CDT");
-	        table.put("NB", "ADT");
-	        table.put("NL", "NDT");
-	        table.put("NS", "ADT");
-	        table.put("ON", "EDT");
-	        table.put("PE", "ADT");
-	        table.put("QC", "EDT");
-	        table.put("SK", "CST"); // most of Saskatchewan, at least
-	    }
-	});
+	final static public Hashtable<String,String> PROVINCE_TIME_ZONE_CODES;
+	
+	// initialize static components of class
+	static {
+	    PROVINCE_TIME_ZONE_CODES = new Hashtable<String,String>();
+	    PROVINCE_TIME_ZONE_CODES.put("AB", "MDT");
+	    PROVINCE_TIME_ZONE_CODES.put("BC", "PDT");
+	    PROVINCE_TIME_ZONE_CODES.put("MB", "CDT");
+	    PROVINCE_TIME_ZONE_CODES.put("NB", "ADT");
+	    PROVINCE_TIME_ZONE_CODES.put("NL", "NDT");
+	    PROVINCE_TIME_ZONE_CODES.put("NS", "ADT");
+	    PROVINCE_TIME_ZONE_CODES.put("ON", "EDT");
+	    PROVINCE_TIME_ZONE_CODES.put("PE", "ADT");
+	    PROVINCE_TIME_ZONE_CODES.put("QC", "EDT");
+	    PROVINCE_TIME_ZONE_CODES.put("SK", "CST"); // most of Saskatchewan, at least
+	}
 	
 	/**
 	 * Constructor for Location, sets the street, province, city

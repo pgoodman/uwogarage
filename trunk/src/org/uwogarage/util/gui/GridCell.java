@@ -19,6 +19,12 @@ public class GridCell {
     final public Component first;
     final public GridBagConstraints second;
     
+    /**
+     * Constructor, bring in the component that will belong within this cell and
+     * the constraints object that positions it.
+     * @param aa
+     * @param bb
+     */
     public GridCell(Component aa, GridBagConstraints bb) {
         first = aa;
         second = bb;
