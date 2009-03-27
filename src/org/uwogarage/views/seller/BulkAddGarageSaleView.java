@@ -8,6 +8,7 @@ import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.D2;
+import org.uwogarage.util.gui.SimpleGui.dialog;
 import org.uwogarage.views.TabView;
 
 
@@ -18,15 +19,12 @@ public class BulkAddGarageSaleView extends TabView {
 	
     static public JPanel view(final UserModel logged_user, final D2<Boolean,ModelSet<GarageSaleModel>> responder) {
         
-    	
         final JFileChooser chooser = new JFileChooser();
         final JCheckBox delete_prev_checkbox = new JCheckBox("Delete all previous sales?");
-        
-        // TODO provide option to either remove existing garage sales
-        // or to add bulk loaded garage sales info to existing garage sales
-        
+    
+        // create the gui to do bulk loading
         return grid(
-            grid.row(grid.cell(delete_prev_checkbox)),
+            grid.row(grid.cell(delete_prev_checkbox).margin(10, 0, 10, 0)),
             grid.row(grid.cell(button("Click to choose a file bulk add sales.", 
                 new D<JButton>(){
     				public void call(JButton arg1) {
@@ -45,7 +43,10 @@ public class BulkAddGarageSaleView extends TabView {
         						)
     						);
     						
-    						changeProgramTab(1);
+    						// if it makes it down here then it means that no
+    						// errors happened!
+    						dialog.alert(f, "The garage sales have been added.");
+    						changeProgramTab(1); // go to: my sales
     					
     					// a parsing error occurred, alert the user to it.
     					} catch (Exception e) {
