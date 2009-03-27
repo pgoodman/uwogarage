@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -28,20 +29,61 @@ import org.uwogarage.util.gui.GridCell;
  * @version $Id$
  */
 public class GarageSaleView extends TabView {
-    static public JPanel view(GarageSaleModel sale, UserModel logged_user) {
+
+    static public JPanel view(final GarageSaleModel sale, final UserModel logged_user) {
         
         JTextArea note = new JTextArea(sale.getNote());
         note.setEnabled(false);
         
+        Location address = sale.getLocation();
+        Calendar cal = sale.getTime();
+        
+        String[] days = {
+            "","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
+        };
+        String[] months = {
+            "January","February","March","April","May","June","July","August",
+            "September","October","November","December"
+        };
+        String[] am_or_pm = {"am", "pm"};
+        
+        final String sale_date = days[cal.get(Calendar.DAY_OF_WEEK)] +", "+
+        	months[cal.get(Calendar.MONTH)] +" "+
+        	cal.get(Calendar.DAY_OF_MONTH);
+        
+        int cal_hour = cal.get(Calendar.HOUR);
+        if(cal_hour == 0) cal_hour = 12;
+        
+        final String sale_time = (cal_hour) +":"+
+        StringUtil.padLeft(
+                String.valueOf(cal.get(Calendar.MINUTE)), 
+                '0', 
+                2
+            ) +" "+
+            am_or_pm[cal.get(Calendar.AM_PM)] +" "+
+            Location.PROVINCE_TIME_ZONE_CODES.get(
+                address.getProvince()
+            );
+        
+        
+        
         // make a list of categories
         GridCell[][] categories = new GridCell[sale.categories.size()][];
         int i = 0;
+        
+        String cat_sep = "";
+        final StringBuffer all_categories = new StringBuffer();
+        
         for(CategoryModel category : sale.categories) {
-            categories[i++] = grid.row(
+        	all_categories.append(cat_sep + category.getName());
+            
+        	categories[i++] = grid.row(
                 grid.cell(label(category.getName()))
                     .anchor(1, 0, 0, 1)
                     .margin(0, 10, 0, 10)
             );
+        	
+            cat_sep = ", ";
         }
         
         final GridCell rating_box;
@@ -65,6 +107,7 @@ public class GarageSaleView extends TabView {
                         )).pos(0, 3)
                     )
                 )).pos(0,3).fill(1,1);
+            	
         } else {
             rating_box = grid.cell(fieldset("Rating",
                     grid(
@@ -109,12 +152,12 @@ public class GarageSaleView extends TabView {
 	                            				  .replaceAll("%20", " ");
                             	}
                             	
-                            	try {
-                            		BufferedReader in_fp = new BufferedReader(new InputStreamReader(template.openStream()));
+                            	/*try {
+                            		//BufferedReader in_fp = new BufferedReader(new InputStreamReader(template.openStream()));
                             		BufferedWriter out_fp = new BufferedWriter(new FileWriter(web_page));
                             		
                             		// read the file into a string
-                            		StringBuffer file_contents = new StringBuffer();
+                            		
                             		try {
                             			while(true)
                             				file_contents.append(in_fp.readLine());
@@ -137,9 +180,24 @@ public class GarageSaleView extends TabView {
                             	} catch(IOException e) {
                             		System.out.println("Couldn't convert template.");
                             		e.printStackTrace();
-                            	}
+                            	}*/
+                            	StringBuffer fc = new StringBuffer();
                             	
+                            	fc.append("<table><tr><td><p><h1>Your Garage Sale</h1><h3>When</h3><p>");
+                            	fc.append(sale_date);
+                            	fc.append(" at ");
+                            	fc.append(sale_time);
+                            	fc.append("</p><h3>Categories</h3><p>");
+                            	fc.append(all_categories.toString());
+                            	fc.append("</p><h3>Overall Rating</h3><p>");
+                            	fc.append(String.valueOf(sale.getRating()));
+                            	fc.append("</p></td></tr></table>");
                             	
+                            	try {
+                            		BufferedWriter out_fp = new BufferedWriter(new FileWriter(web_page));
+                            		out_fp.write(fc.toString());
+                            		out_fp.close();
+                            	} catch(IOException e) { }
                             	
                             	String web[] ={"cmd", "/c", "start", "iexplore.exe", "-nohome", web_page};
                             	
@@ -159,20 +217,7 @@ public class GarageSaleView extends TabView {
                 )
             )).pos(0,4).fill(1,1);
         
-        Location address = sale.getLocation();
-        Calendar cal = sale.getTime();
         
-        String[] days = {
-            "","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
-        };
-        String[] months = {
-            "January","February","March","April","May","June","July","August",
-            "September","October","November","December"
-        };
-        String[] am_or_pm = {"am", "pm"};
-        
-        int cal_hour = cal.get(Calendar.HOUR);
-        if(cal_hour == 0) cal_hour = 12;
         
         // create the GUI for showing all garage sale info
         return grid(
@@ -209,24 +254,13 @@ public class GarageSaleView extends TabView {
                 grid.row(
                     grid.cell(label("Date:")).anchor(1, 0, 0, 1),
                     grid.cell(label(
-                        days[cal.get(Calendar.DAY_OF_WEEK)] +", "+
-                        months[cal.get(Calendar.MONTH)] +" "+
-                        cal.get(Calendar.DAY_OF_MONTH)
+                        sale_date
                     )).anchor(1, 0, 0, 1).margin(0, 0, 0, 10)
                 ),
                 grid.row(
                     grid.cell(label("Time:")),
                     grid.cell(label(
-                        (cal_hour) +":"+
-                        StringUtil.padLeft(
-                            String.valueOf(cal.get(Calendar.MINUTE)), 
-                            '0', 
-                            2
-                        ) +" "+
-                        am_or_pm[cal.get(Calendar.AM_PM)] +" "+
-                        Location.PROVINCE_TIME_ZONE_CODES.get(
-                            address.getProvince()
-                        )
+                        sale_time
                     )).anchor(1, 0, 0, 1).margin(0, 0, 0, 10)
                 )
             ))).pos(0, 0).fill(1, 1),
