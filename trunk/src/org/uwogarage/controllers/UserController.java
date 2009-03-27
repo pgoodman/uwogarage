@@ -97,26 +97,31 @@ public class UserController extends Controller<UserModel> {
      */
     public void list(){
      	
-    	TabView.show((new ListUsersView(models, 
+    	TabView.show((new ListUsersView(models,
+    	        
+    	     // responder for editing users
     		new D<UserModel>(){
-    			// responder for editing users
     			public void call(UserModel user) {
     				edit(user); 
     			}
     		}, 
+    		
+    		// responder for deleting users
     		new D<UserModel>(){
-    			// responder for deleting users
     			public void call(UserModel user) {
-    				ModelSet<GarageSaleModel> allSales = d.garage_sale.getModels();
+    			    
+    			    ModelSet<GarageSaleModel> allSales = d.garage_sale.getModels();
+    			    ModelSet<RatingModel> allRatings = d.rating.getModels();
+    			    
+    			    // delete all the user's garage sales
     				for (GarageSaleModel sale: user.sales)
-    					// delete all the user's garage sales
     					allSales.remove(sale);
     				
-    				ModelSet<RatingModel> allRatings = d.rating.getModels();
+    				// delete all the user's ratings
     				for (RatingModel rating: user.ratings)
-    					// delete all the user's ratings
     					allRatings.remove(rating);
     				
+    				// delete the user from the main set
     				models.remove(user);
     				
     			}
@@ -130,7 +135,6 @@ public class UserController extends Controller<UserModel> {
      * Edit a user.
      */
     public void edit(UserModel user) {
-        // show the edit view for the user
         TabView.show((new EditUserView()).view(user));
     }
     
@@ -179,7 +183,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void controlPanel() {
         View.show(UserControlPanelView.view(logged_user,
-            new F0() { public void call() { stats(); }},
+            new F0() { public void call() { myInfo(); }},
             new F0() { public void call() { 
                 d.garage_sale.list(logged_user.sales); 
             }},
@@ -205,7 +209,7 @@ public class UserController extends Controller<UserModel> {
     /**
      * Show this user some information/statistics about their activity.
      */
-    public void stats() {
+    public void myInfo() {
         TabView.show(UserInfoView.view(logged_user));
     }
 }

@@ -18,10 +18,15 @@ public class GarageSaleModel implements Model {
     private static final long serialVersionUID = 8274261212454764504L;
     
     final public UserModel user; // the user that created this garage sale    
-    final public ModelSet<CategoryModel> categories = new ModelSet<CategoryModel>(); // the garage sale's categories
-    final public ModelSet<RatingModel> ratings = new ModelSet<RatingModel>(); // ratings
     
-    final protected GregorianCalendar time; // the garage sale's date and time information
+    // the garage sale's categories
+    final public ModelSet<CategoryModel> categories = new ModelSet<CategoryModel>();
+    
+    // the ratings that this user has made
+    final public ModelSet<RatingModel> ratings = new ModelSet<RatingModel>();
+    
+    // the garage sale's date and time information
+    final protected GregorianCalendar time;
     
 	Location location; // the garage sale's location
 	GeoPosition position; // the location's geo position

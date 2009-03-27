@@ -1,7 +1,5 @@
 package org.uwogarage.models;
 
-import org.uwogarage.util.GeoPosition;
-
 /**
  * The UserModel class represents a user in the Garage Sale system
  *
@@ -18,6 +16,7 @@ public class UserModel implements Model {
 	                 user_id = "", // the user's id
 	                 phone[] = {"", "", ""}; // the user's phone
 	
+    // the start geo position coordinates for this user
 	protected String start_coords[] = {"0.000", "0.000"};
 	
 	protected boolean reset_pass = true; // was the user's password was reset
@@ -103,7 +102,7 @@ public class UserModel implements Model {
 	        ++num_ratings;
 	    }
 	    
-	    return num_ratings > 0 ? (rating_sum / num_ratings) : 0;
+	    return num_ratings > 0 ? (rating_sum / num_ratings) : 1;
 	}
 	
 	/**
@@ -114,6 +113,10 @@ public class UserModel implements Model {
 	    return reset_pass;
 	}
 	
+	/**
+	 * Set whether or not this user is using the default password.
+	 * @param r
+	 */
 	public void setUsingDefaultPass(boolean r) {
 	    reset_pass = r;
 	}

@@ -32,6 +32,10 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
         
     	TabView.show(BulkAddGarageSaleView.view(
     		logged_user,
+    		
+    		// responder to bulk load the files, first parameter is whether or
+    		// not old sales should be removed, second are the new sales to
+    		// add
     		new D2<Boolean,ModelSet<GarageSaleModel>>() {
 				public void call(Boolean remove_old_sales, ModelSet<GarageSaleModel> sales) {
 				    
@@ -118,16 +122,6 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     }
     
     /**
-     * Delete a garage sale.
-     * @param sale_list
-     * @param sale
-     */
-    public void delete(ModelSet<GarageSaleModel> sale_list, GarageSaleModel sale) {
-        deleteSale(sale);
-        list(sale_list);
-    }
-    
-    /**
      * View a single garage sale.
      * 
      * @param sale
@@ -174,10 +168,11 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
                 }
             },
             
-            // delete sale
+            // delete sale, then go and re-list the sales
             new D<GarageSaleModel>() {
                 public void call(GarageSaleModel sale) {
-                    delete(sales, sale);
+                    deleteSale(sale);
+                    list(sales);
                 }
             }
         ));
