@@ -7,10 +7,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.uwogarage.models.UserModel;
-import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
-import org.uwogarage.util.functional.F0;
 
 /**
  * View to edit an existing user of the system.
@@ -47,10 +45,7 @@ public class EditUserView extends AddUserView {
         start_lng.setText(user_geo[1]);
         
         // create the form
-        return grid(
-            grid.row(
-                grid.cell(label("Edit User")).margin(10, 10, 0, 10)
-            ),
+        return grid(fieldset("Edit User", grid(
             
             form.row(label("Reset Password?"),  reset_pass),
             form.row(label("First Name:"),      first_name),
@@ -67,7 +62,7 @@ public class EditUserView extends AddUserView {
             form.row(label("Start Zoom Level"), start_zoom),
             
             // deal with form submission
-            grid.row(
+            grid.row(grid.cell(2, grid(
                 grid.cell(button("Update", new D<JButton>() {
                     public void call(JButton b) {
                         
@@ -94,14 +89,15 @@ public class EditUserView extends AddUserView {
                             changeProgramTab(1);
                         }                        
                     }
-                })).margin(10, 10, 10, 10).anchor(1, 1, 0, 0),
+                })).margin(0, 10, 0, 0),
+                
                 grid.cell(button("Cancel", new D<JButton>() {
                     public void call(JButton b) {
                         
                             changeProgramTab(1);                        
                     }
-                })).margin(10, 10, 10, 10).anchor(1, 0, 0, 1)
-            )
-        );
+                }))
+            )).margin(10, 10, 10, 10))
+        )));
     }
 }

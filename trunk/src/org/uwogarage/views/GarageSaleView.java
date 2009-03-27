@@ -39,7 +39,7 @@ public class GarageSaleView extends TabView {
         Calendar cal = sale.getTime();
         
         String[] days = {
-            "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
+            "","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
         };
         String[] months = {
             "January","February","March","April","May","June","July","August",

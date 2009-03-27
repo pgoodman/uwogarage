@@ -12,7 +12,6 @@ import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.*;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.P;
-import org.uwogarage.util.gui.SimpleGui.dialog;
 import org.uwogarage.views.Slider;
 import org.uwogarage.views.TabView;
 
@@ -90,7 +89,8 @@ public class AddUserView extends TabView {
         password.setText("aaa");
         
         // create the form
-        return grid(
+        return grid(grid.cell(fieldset("Add User", grid(
+
             grid.row(
                 grid.cell(label("Add User")).margin(10, 10, 0, 10)
             ),
@@ -149,6 +149,6 @@ public class AddUserView extends TabView {
                     }
                 })).margin(10, 10, 10, 10)
             )
-        );
+        ))));
     }
 }
