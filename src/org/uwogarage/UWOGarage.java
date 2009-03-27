@@ -125,7 +125,14 @@ public class UWOGarage {
                     menu.dd("Help",
                         menu.item("About UWOGarage", new D<JMenuItem>() {
                         	 public void call(JMenuItem i) {
-                                 dialog.alert(f, "This is a CS2212 Project. Copyright 2009.");
+                                 dialog.alert(f, "This is a CS2212 Project,\n" + 
+                                		 "created by the team consisting of\n" + "\n" +
+                                		 "Eivor Cormie\n" + 
+                                		 "Peter Goodman\n" +
+                                		 "Nate Smith\n" +
+                                		 "Randy Sousa\n" +
+                                		 "Daisy Tsang\n" + "\n" +
+                                		 "March 2009.");
                              }
                         })
                     )
