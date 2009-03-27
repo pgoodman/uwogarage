@@ -42,9 +42,6 @@ public class MapPanel extends JXMapKit{
 	private WaypointPainter painter = new WaypointPainter();
 	        
     
-
-    
-    
     /**
      * Constructor initializes a map using the default position and zoom
      * from the parameter user.
