@@ -140,7 +140,8 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
                 public void call(GarageSaleModel sale) {
                     view(sale);
                 }
-            }
+            },
+            logged_user
         ));
     }
     
