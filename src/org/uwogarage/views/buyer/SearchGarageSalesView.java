@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.UserModel;
 import org.uwogarage.util.GeoPosition;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.documents.AlphaNumDocument;
@@ -562,7 +563,8 @@ public class SearchGarageSalesView extends View {
      * @return
      */
     public JPanel view(final ModelSet<GarageSaleModel> sales, 
-                              final D<GarageSaleModel> view_responder) {
+                              final D<GarageSaleModel> view_responder,
+                              final UserModel user) {
         
         Dimension dims = new Dimension(600, 250);
         final JPanel search_results = new JPanel();
@@ -611,7 +613,8 @@ public class SearchGarageSalesView extends View {
                 search_results.add(fieldset("Search Results",
                     ListGarageSalesReducedView.view(
                         sales.filter(p), // filter the sales!
-                        view_responder
+                        view_responder,
+                        user
                     )
                 ));
                 

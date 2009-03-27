@@ -9,10 +9,12 @@ import javax.swing.JScrollPane;
 
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
+import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
 import org.uwogarage.util.gui.GridCell;
+import map.*;
 
 /**
  * Show a reduced form of a garage sale list.
@@ -23,8 +25,11 @@ import org.uwogarage.util.gui.GridCell;
 public class ListGarageSalesReducedView extends View {
     
     static public JPanel view(ModelSet<GarageSaleModel> sales, 
-                               final D<GarageSaleModel> view_responder) {
+                               final D<GarageSaleModel> view_responder,
+                               UserModel user) {
         
+    	 MapPanel map = new MapPanel(user);
+    	
         // nothing to show
         if(0 == sales.size()) {
             return grid(grid.cell(label(
@@ -41,6 +46,8 @@ public class ListGarageSalesReducedView extends View {
         // create the rows
         for(final GarageSaleModel sale : sales) {
             
+        	map.addGarageSale(sale);
+        	
             date = sale.getTime();
             hour = date.get(Calendar.HOUR);
             
@@ -82,9 +89,13 @@ public class ListGarageSalesReducedView extends View {
         
         pane.setPreferredSize(new Dimension(600, 200));
         
+      
+    
+        
         // put the gui together
         return grid(
-            grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10)
+            grid.cell(pane).pos(0, 1).margin(10, 10, 10, 10),
+            grid.cell(map)
         );
     }
 }
