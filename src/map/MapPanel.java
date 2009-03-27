@@ -15,7 +15,8 @@ import org.jdesktop.swingx.mapviewer.WaypointPainter;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.UserModel;
 
-import org.uwogarage.util.GeoPosition;
+//import org.uwogarage.util.GeoPosition;
+import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
  * Class represents a panel with a map in it, which stores the locations
@@ -41,29 +42,28 @@ public class MapPanel extends JXMapKit{
 	private WaypointPainter painter = new WaypointPainter();
 	        
     
+
+    
+    
     /**
      * Constructor initializes a map using the default position and zoom
      * from the parameter user.
      * @param user the user whose defaults should be used
-     */
-    public MapPanel(UserModel user){
-    	//call the other constructor
-    	this(user.getGeoPosition(),user.getDefaultZoom());
-    }
-    
-    
-    /**
-     * Constructor initializes a MapPanel with the given defaults as parameters.
-     * @param defaultPosition user's default starting GeoPosition
-     * @param defaultZoom user's default zoom level
-     */   
-    private MapPanel(GeoPosition defaultPosition, int defaultZoom){
+     */ 
+	public MapPanel(UserModel user){
     	
     	super();
     	    		
+    	//get the user's coordinates
+    	String[] coords = user.getStartCoords();
+    	GeoPosition defaultPosition = new GeoPosition(Double.parseDouble( coords[0]), Double.parseDouble( coords[1]));
+    	
+    	//get the user's default zoom level
+    	int defaultZoom = user.getDefaultZoom();
+    	
     	//set various defaults
         this.setTileFactory(tileFactory);
-        this.setCenterPosition(new MapGeoPosition(defaultPosition.getLatitude(),defaultPosition.getLongitude()));
+        this.setCenterPosition(defaultPosition);
         this.setZoom(defaultZoom);
                         
         //set the thing that paints the map's waypoints
