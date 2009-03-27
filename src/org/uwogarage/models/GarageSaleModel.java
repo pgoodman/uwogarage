@@ -95,12 +95,12 @@ public class GarageSaleModel implements Model {
 	    return sum / size;
 	}
 	
-	public float getRatingFrom(UserModel user) {
+	public RatingModel getRatingFrom(UserModel user) {
 	    for(RatingModel rating : ratings) {
 	        if (rating.user == user)
-	            return rating.rating;
+	            return rating;
 	    }        
-	    return 0;
+	    return null;
 	}
 	
 	/**
