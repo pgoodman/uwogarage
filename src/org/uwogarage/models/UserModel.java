@@ -102,7 +102,7 @@ public class UserModel implements Model {
 	        ++num_ratings;
 	    }
 	    
-	    return num_ratings > 0 ? (rating_sum / num_ratings) : 1;
+	    return num_ratings > 0 ? (rating_sum / num_ratings) : 0;
 	}
 	
 	/**
