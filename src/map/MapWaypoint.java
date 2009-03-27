@@ -13,13 +13,13 @@ import org.uwogarage.models.GarageSaleModel;
 public class MapWaypoint extends Waypoint{
 	
 	//the GarageSale this Waypoint is pointing to
-	GarageSaleModel sale;
+	private GarageSaleModel sale;
 	
 	/**
 	 * Constructor creates a Waypoint from a GarageSaleModel.
 	 * @param sale the GarageSaleModel that this Waypoint represents
 	 */
-	MapWaypoint(GarageSaleModel sale){
+	public MapWaypoint(GarageSaleModel sale){
 		super(sale.getGeoPosition().getLatitude(),sale.getGeoPosition().getLongitude());
 		this.sale = sale;		
 	}

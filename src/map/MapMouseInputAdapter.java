@@ -29,14 +29,14 @@ import org.uwogarage.models.GarageSaleModel;
 public class MapMouseInputAdapter extends MouseInputAdapter {
 
 	//the MapPanel whose map is using this MouseInputAdapter
-	MapPanel parent;
+	private MapPanel parent;
 
 	/**
 	 * Constructor uses default superclass constructor, and sets
 	 * the parent MapPanel.
 	 * @param parent the MapPanel using this MouseInputAdapter
 	 */
-	MapMouseInputAdapter(MapPanel parent) {
+	public MapMouseInputAdapter(MapPanel parent) {
 		super();
 		this.parent = parent;
 	}

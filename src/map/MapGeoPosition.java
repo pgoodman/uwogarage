@@ -20,7 +20,7 @@ public class MapGeoPosition extends GeoPosition{
 	 * @param latitude
 	 * @param longitude
 	 */
-	MapGeoPosition(double latitude, double longitude){
+	public MapGeoPosition(double latitude, double longitude){
 		super(latitude, longitude);
 	}
 
