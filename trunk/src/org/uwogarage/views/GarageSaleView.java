@@ -74,7 +74,7 @@ public class GarageSaleView extends TabView {
                         .margin(0, 0, 0, 10)
                 ),
                 
-                // map showing where the sale is
+                // TODO map showing where the sale is
                 grid.row(
                     grid.cell(2, label("map here...")).margin(10, 10, 10, 10)
                 )
@@ -120,7 +120,9 @@ public class GarageSaleView extends TabView {
             	? label("No note")
             	: note
             )).pos(0, 2).fill(1, 1),
+            
             // rating
+            // TODO don't allow a user to rate his own sale
             grid.cell(fieldset("Rating",
                 grid(
                     grid.cell( 

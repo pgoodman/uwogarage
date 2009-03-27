@@ -92,6 +92,9 @@ abstract public class SimpleGui {
     public static JButton button(String name, D<JButton> on_click) {
         return button_hook(new JButton(name), on_click);
     }
+    public static JButton button(Icon icon, D<JButton> on_click) {
+        return button_hook(new JButton(icon), on_click);
+    }
     protected static <B extends AbstractButton> B button_hook(final B btn, final D<B> on_click) {
         btn.setEnabled(on_click != null);
         
@@ -312,16 +315,16 @@ abstract public class SimpleGui {
      * SimpleGUI class; however, a Class object can be passed in to make it
      * relative to whatever class one chooses.
      */
-    public static JLabel icon(String loc) {
+    public static ImageIcon icon(String loc) {
         return icon(loc, SimpleGui.class);
     }
-    public static <T> JLabel icon(String loc, Class<T> c) {
+    public static <T> ImageIcon icon(String loc, Class<T> c) {
         URL icon_url = c.getResource(loc);
         if (null != icon_url)
-            return new JLabel(new ImageIcon(icon_url));
+            return new ImageIcon(icon_url);
         
         System.err.println("Couldn't find icon: " + loc);
-        return new JLabel();
+        return new ImageIcon();
     }
     
     /**
