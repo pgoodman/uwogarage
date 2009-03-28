@@ -83,7 +83,7 @@ public class SearchResultsGarageSalesView extends View {
                     }
                 });
                 
-                d.setSize(500, 600);
+                d.setPreferredSize(new Dimension(500, 600));
                 
                 return pane;
             }
