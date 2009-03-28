@@ -90,6 +90,7 @@ public class AddGarageSaleView extends TabView {
         if(y < curr_year) y = curr_year;
         if(m < 1) m = 1;
         if(d < 1) d = 1;
+        //if(m == 0) m = 12;
         
         // get the integer values for hours/minutes
         int h = Math.abs((0 == hour.getText().length()) ? 1 : Integer.parseInt(hour.getText(), 10)),
@@ -121,8 +122,10 @@ public class AddGarageSaleView extends TabView {
         then.set(Calendar.DAY_OF_MONTH, d);
         
         // pad or fill in values for the left out fields
+        m = then.get(Calendar.MONTH);
+        if(m == 0) m = 12;
         year.setText(String.valueOf(then.get(Calendar.YEAR)));
-        month.setText(StringUtil.padLeft(String.valueOf(then.get(Calendar.MONTH)), '0', 2));
+        month.setText(StringUtil.padLeft(String.valueOf(m), '0', 2));
         day.setText(StringUtil.padLeft(String.valueOf(then.get(Calendar.DAY_OF_MONTH)), '0', 2));
     }
     
