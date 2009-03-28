@@ -171,6 +171,12 @@ public class GarageSaleView extends TabView {
                             fc.append(string_parts[9]);
                             fc.append("<br>Province: ");
                             fc.append(string_parts[10]);
+
+                            fc.append("<br>Latitude: ");
+                            fc.append(string_parts[11]);
+                            fc.append("<br>Longitude: ");
+                            fc.append(string_parts[12]);
+                            
                             fc.append(
                                 "</fieldset></td><td><fieldset><legend>Date "+
                                 "/ Time</legend>Date: "
@@ -367,7 +373,9 @@ public class GarageSaleView extends TabView {
                 grid.cell(fieldset("Location", grid(
                     form.row(label("Street:"), label(string_parts[8])),
                     form.row(label("City:"), label(string_parts[9])),
-                    form.row(label("Province:"), label(string_parts[10]))
+                    form.row(label("Province:"), label(string_parts[10])),
+                    form.row(label("Latitude:"), label(string_parts[11])),
+                    form.row(label("Longitude:"), label(string_parts[12]))
                 ))).fill(1, 1),
                 
                 // date and time
