@@ -100,8 +100,8 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
                         "area: -?([0-9]{1,3})\\.([0-9]{3,6}) -?([0-9]{1,3})"+
                         "\\.([0-9]{3,6})"
                     );
-                    infoRead[STREET] = matchReadLine(fin, "stre: .{1,50}");
-                    infoRead[CITY] = matchReadLine(fin, "city: .{1,20}");
+                    infoRead[STREET] = matchReadLine(fin, "stre: .+");
+                    infoRead[CITY] = matchReadLine(fin, "city: .+");
                     infoRead[PROVINCE] = matchReadLine(fin, 
                         "prov: (AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)"
                     );
@@ -176,10 +176,20 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
             // Try creating a new location from the information read, then setting it
             // for the garage sale. Add to error messages if it doesn't work.
             try {
+                
+                String street = infoRead[STREET].substring(6),
+                       city = infoRead[CITY].substring(6);
+                
+                if(street.length() > 50)
+                    street = street.substring(0, 50);
+                
+                if(city.length() > 20)
+                    city = city.substring(10, 20);
+                
                 newLoc = new Location(
-                    infoRead[STREET].substring(6), 
+                    street, 
                     infoRead[PROVINCE].substring(6),
-                    infoRead[CITY].substring(6)
+                    city
                 );
                 
                 if(!saleRead.setLocation(newLoc)){
