@@ -118,11 +118,11 @@ public class AddGarageSaleView extends TabView {
         // use the Calendar class to perform the proper equivalence transformations
         // for us on year/month/day
         then.set(Calendar.YEAR, y);
-        then.set(Calendar.MONTH, m);
+        then.set(Calendar.MONTH, m - 1);
         then.set(Calendar.DAY_OF_MONTH, d);
         
         // pad or fill in values for the left out fields
-        m = then.get(Calendar.MONTH);
+        m = then.get(Calendar.MONTH) + 1;
         if(m == 0) m = 12;
         year.setText(String.valueOf(then.get(Calendar.YEAR)));
         month.setText(StringUtil.padLeft(String.valueOf(m), '0', 2));
