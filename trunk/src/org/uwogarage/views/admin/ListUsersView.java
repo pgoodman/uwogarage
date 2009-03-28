@@ -136,7 +136,7 @@ public class ListUsersView extends TabView {
      */
 	protected UserModel[] sortModels (Comparator<UserModel> c) {
 	    UserModel sorted[] = users.toArray(new UserModel[users.size()]);
-		Arrays.sort(sorted, c);		
+		Arrays.sort(sorted, c);	
 		return sorted;
 	}
 	

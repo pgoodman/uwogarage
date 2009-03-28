@@ -3,7 +3,7 @@ package org.uwogarage.controllers;
 import org.uwogarage.models.CategoryModel;
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.util.functional.D;
-import org.uwogarage.views.TabView;
+import org.uwogarage.views.View;
 import org.uwogarage.views.admin.AddCategoryView;
 import org.uwogarage.views.admin.ListCategoriesView;
 
@@ -31,7 +31,7 @@ public class CategoryController extends Controller<CategoryModel> {
      * submitted successfully.
      */
     public void add() {
-        TabView.show(AddCategoryView.view(models, new D<CategoryModel>() {
+        View.show(AddCategoryView.view(models, new D<CategoryModel>() {
             public void call(CategoryModel category) {
                 
                 // add the newly created category in, this could have been in the
@@ -43,7 +43,7 @@ public class CategoryController extends Controller<CategoryModel> {
     }
     
     public void list() {
-    	TabView.show(ListCategoriesView.view(
+    	View.show(ListCategoriesView.view(
     		models, 
     		
     		// responder to delete the category

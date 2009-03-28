@@ -1,6 +1,8 @@
 package org.uwogarage.views;
 
 import java.awt.Dimension;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,8 +47,16 @@ public class ListGarageSalesView extends View {
         GridCell[][] rows = new GridCell[sales.size()][];
         int i = 0;
         
+        // sort the sales by date, newer ones will appear earlier in the list
+        GarageSaleModel sorted_sales[] = sales.toArray(new GarageSaleModel[sales.size()]);
+        Arrays.sort(sorted_sales, new Comparator<GarageSaleModel>() {
+            public int compare(GarageSaleModel a, GarageSaleModel b) {
+                return a.getTime().getTime().before(b.getTime().getTime()) ? 1 : -1;
+            }
+        });
+        
         // create the rows
-        for(GarageSaleModel sale : sales) {
+        for(GarageSaleModel sale : sorted_sales) {
             rows[i++] = GarageSaleListItemView.view(
                 user, 
                 sale, 

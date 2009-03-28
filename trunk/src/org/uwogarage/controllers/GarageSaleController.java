@@ -7,7 +7,7 @@ import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.D2;
 import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.ListGarageSalesView;
-import org.uwogarage.views.TabView;
+import org.uwogarage.views.View;
 import org.uwogarage.views.buyer.SearchGarageSalesView;
 import org.uwogarage.views.seller.AddGarageSaleView;
 import org.uwogarage.views.seller.BulkAddGarageSaleView;
@@ -30,7 +30,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      */
     public void bulkAdd() {
         
-    	TabView.show(BulkAddGarageSaleView.view(
+    	View.show(BulkAddGarageSaleView.view(
     		logged_user,
     		
     		// responder to bulk load the files, first parameter is whether or
@@ -64,7 +64,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * Add a garage sale
      */
     public void add() {
-        TabView.show((new AddGarageSaleView()).view(
+        View.show((new AddGarageSaleView()).view(
             logged_user,
             d.category.getModels(),
             
@@ -85,7 +85,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * @param sale
      */
     public void edit(GarageSaleModel sale) {
-        TabView.show((new EditGarageSaleView()).view(
+        View.show((new EditGarageSaleView()).view(
             sale,
             d.category.getModels(),
             
@@ -127,7 +127,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * @param sale
      */
     public void view(final GarageSaleModel sale) {
-        TabView.show(GarageSaleView.view(sale, logged_user, new D2<GarageSaleModel,Integer>() {
+        View.show(GarageSaleView.view(sale, logged_user, new D2<GarageSaleModel,Integer>() {
             public void call(GarageSaleModel sale, Integer rating) {
                 d.rating.save(sale, rating);
             }
@@ -138,7 +138,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      * Search for some garage sales.
      */
     public void search() {
-        TabView.show((new SearchGarageSalesView(d.category.getModels())).view(
+        View.show((new SearchGarageSalesView(d.category.getModels())).view(
             models,
             new D<GarageSaleModel>() {
                 public void call(GarageSaleModel sale) {
@@ -160,7 +160,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
      */
     public void list(final ModelSet<GarageSaleModel> sales) {
 
-    	TabView.show(ListGarageSalesView.view(
+    	View.show(ListGarageSalesView.view(
             logged_user,
             sales,
             

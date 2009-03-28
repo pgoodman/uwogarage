@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -120,8 +122,16 @@ public class SearchResultsGarageSalesView extends View {
         int i = 0, 
             hour;
         
+        // sort the sales by date, newer ones will appear earlier in the list
+        GarageSaleModel sorted_sales[] = sales.toArray(new GarageSaleModel[sales.size()]);
+        Arrays.sort(sorted_sales, new Comparator<GarageSaleModel>() {
+            public int compare(GarageSaleModel a, GarageSaleModel b) {
+                return a.getTime().getTime().before(b.getTime().getTime()) ? 1 : -1;
+            }
+        });
+        
         // create the rows
-        for(final GarageSaleModel sale : sales) {
+        for(final GarageSaleModel sale : sorted_sales) {
             
             // add the sale into the map
         	map.addGarageSale(sale);

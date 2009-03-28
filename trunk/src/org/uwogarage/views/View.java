@@ -47,9 +47,15 @@ abstract public class View extends SimpleGui {
                       parent = (Container) top,
                       self = (Container) c;
             
+            // if false then that means we are trying to add 'c' to one of its
+            // children
             boolean set_which = true;
             
             try {
+                
+                // go look for 'c' within what's on the top of the context stack,
+                // or go as far as we can with its parents until we're sure that
+                // we're not adding a component to itself in one way or another
                 while(null != parent) {
                     if(parent == self) {
                         which = context.size() > 1 ? context.get(context.size() - 2) : f;
@@ -62,6 +68,8 @@ abstract public class View extends SimpleGui {
                 
             } catch(Exception e) { }
             
+            // we are not adding the component to itself, set the context on the
+            // top of the stack to the one to add 'c' to.
             if(set_which) {
             
                 // try to make the component we are adding as big as possible
@@ -72,20 +80,31 @@ abstract public class View extends SimpleGui {
             }
         }
         
-        // if there is some sort of container to use, use it
+        // if there is some sort of context to use then use it
         if(null != which) {
             if(which != c) {
                 content.remove(which);
                 content.add(which, c);
             }
+            
+            if(which instanceof JFrame)
+                ((JFrame) which).pack();
+            
             which.validate();
         }
     }
     
+    /**
+     * Push a context onto the context stack.
+     * @param c
+     */
     static protected void pushContext(Container c) {
         context.push(c);
     }
     
+    /**
+     * Pop a context from the stack.
+     */
     static protected void popContext() {
         try {
             context.pop();
@@ -102,7 +121,10 @@ abstract public class View extends SimpleGui {
     static public PFrame programFrame(String title, final D<PFrame> init_program_frame) {
         return SimpleGui.frame(title, new D<PFrame>() {
             public void call(PFrame program_frame) {
-                f = program_frame;
+                
+                // add the frame to the stack, it doesn't actually matter if it
+                // inadvertently gets popped off
+                pushContext(f = program_frame);
                 
                 if(null != init_program_frame) {
                     init_program_frame.call(program_frame);
