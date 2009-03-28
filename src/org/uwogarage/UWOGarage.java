@@ -1,9 +1,11 @@
 package org.uwogarage;
 
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -11,6 +13,7 @@ import java.io.*;
 
 import org.uwogarage.controllers.Controller;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.F;
 import org.uwogarage.util.gui.PFrame;
 import org.uwogarage.util.gui.SimpleGui.menu;
 import org.uwogarage.views.View;
@@ -125,14 +128,28 @@ public class UWOGarage {
                     menu.dd("Help",
                         menu.item("About UWOGarage", new D<JMenuItem>() {
                         	 public void call(JMenuItem i) {
-                                 dialog.alert(f, "This is a CS2212 Project,\n" + 
+                                 /*dialog.alert(f, "This is a CS2212 Project,\n" + 
                                 		 "created by the team consisting of\n" + "\n" +
                                 		 "Eivor Cormie\n" + 
                                 		 "Peter Goodman\n" +
                                 		 "Nate Smith\n" +
                                 		 "Randy Sousa\n" +
                                 		 "Daisy Tsang\n" + "\n" +
-                                		 "March 2009.");
+                                		 "March 2009.");*/
+                        		 /*
+                        		 String aboutGreeting = "MyApp is licensed under a BSD-like license available from...";
+
+                        		 JOptionPane.showMessageDialog(
+                        		 myAppFrame,
+                        		 aboutGreeting, "About MyApp",
+                        		 JOptionPane.INFORMATION_MESSAGE,
+                        		 View.;
+                        		 */
+                        		 dialog.modal(f, "About UWOGarage", new F<JDialog,Container>(){
+                        			 public Container call(JDialog d) {
+                        				 return label(icon("files/splash.gif", UWOGarage.class));
+                        			 }
+                        		 });
                              }
                         })
                     )

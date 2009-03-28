@@ -173,6 +173,9 @@ abstract public class SimpleGui {
     public static JLabel label(final String label_name, int text_align) {
         return new JLabel(label_name, text_align);
     }
+    public static JLabel label(Icon icon) {
+    	return new JLabel(icon);
+    }
     
     public static class content {
         
