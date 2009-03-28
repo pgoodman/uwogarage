@@ -145,7 +145,7 @@ public class GarageSaleView extends TabView {
                             web_page = loc.getFile().replaceAll("%20", " ");
                             
                             // if it's windows, change forward slashes to backslashes
-                            if(os_name.startsWith("Windows"))
+                            if(os_name.startsWith("windows"))
                                 web_page = web_page.substring(1).replace('/', '\\');
                             
                             // start creating our file contents
