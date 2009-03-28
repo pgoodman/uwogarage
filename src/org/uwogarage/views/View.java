@@ -88,8 +88,12 @@ abstract public class View extends SimpleGui {
                 content.add(which, c);
             }
             
-            if(which instanceof Window)
-                ((Window) which).pack();
+            /*for(Container p : context) {
+                if(p instanceof Window)
+                    ((Window) p).pack();
+                
+                p.validate();
+            }*/
             
             which.validate();
         }
