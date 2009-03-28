@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="src" kind="src"/>
-	<classpathentry path="test" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="vendor/hamcrest-core-1.1.jar" kind="lib"/>
-	<classpathentry path="vendor/hamcrest-library-1.1.jar" kind="lib"/>
-	<classpathentry path="vendor/jmock-2.5.1.jar" kind="lib"/>
-	<classpathentry path="vendor/jmock-junit4-2.5.1.jar" kind="lib"/>
-	<classpathentry path="vendor/junit-4.5.jar" kind="lib"/>
-	<classpathentry path="vendor/swingx-2007_10_21.jar" kind="lib"/>
-	<classpathentry path="vendor/swingx-ws-2007_10_21.jar" kind="lib"/>
-	<classpathentry path="bin" kind="output"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="vendor/swingx-2007_10_21.jar"/>
+	<classpathentry kind="lib" path="vendor/swingx-ws-2007_10_21.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
