@@ -49,8 +49,8 @@ public class BulkAddGarageSaleView extends TabView {
     					
     					// a parsing error occurred, alert the user to it.
     					} catch (Exception e) {
-    					    e.printStackTrace();
-    						dialog.alert(f, e.getMessage());
+    					    dialog.alert(f, "ERROR: Unable to parse file.");
+    						
     					}
     				}
                 }
