@@ -566,8 +566,10 @@ public class SearchGarageSalesView extends View {
                               final UserModel user) {
         
         Dimension dims = new Dimension(600, 250);
-        final JPanel search_results = new JPanel();
+        final JPanel search_results = new JPanel(),
+                     search_results_box = fieldset("Search Results", search_results);
         
+        search_results.add(label("You have not searched for anything yet!"));
         tab_pane.setPreferredSize(dims);
         
         // set up the default tabs with empty panels
@@ -609,13 +611,11 @@ public class SearchGarageSalesView extends View {
                 
                 // find and show the search results!
                 search_results.removeAll();
-                search_results.add(fieldset("Search Results",
-                    SearchResultsGarageSalesView.view(
-                        sales.filter(p), // filter the sales!
-                        view_responder,
-                        rate_responder,
-                        user
-                    )
+                search_results.add(SearchResultsGarageSalesView.view(
+                    sales.filter(p), // filter the sales!
+                    view_responder,
+                    rate_responder,
+                    user
                 ));
                 
                 search_results.validate();
@@ -651,7 +651,7 @@ public class SearchGarageSalesView extends View {
             grid.cell(2, search_button).pos(0, 1),
             
             // add in the search results panel
-            grid.cell(2, search_results).pos(0, 2)
+            grid.cell(2, search_results_box).pos(0, 2).fill(1, 1)
         );
     }
     

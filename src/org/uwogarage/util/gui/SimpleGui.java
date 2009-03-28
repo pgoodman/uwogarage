@@ -337,8 +337,8 @@ abstract public class SimpleGui {
      * that can further initialize the dialog box and also must return what is
      * to be the dialog's content pane.
      */
-    public static JDialog dialog(JFrame frame, String title, F<JDialog,Container> content_init) {
-        final JDialog dialog = new JDialog(frame, title);
+    public static JDialog dialog(JFrame frame, String title, boolean modal, F<JDialog,Container> content_init) {
+        final JDialog dialog = new JDialog(frame, title, modal);
         
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(content_init.call(dialog));
@@ -358,8 +358,8 @@ abstract public class SimpleGui {
          * @return
          */
         public static JDialog modal(JFrame frame, String title, F<JDialog, Container> f) {
-            JDialog d = dialog(frame, title, f);
-            d.setModal(true);
+            JDialog d = dialog(frame, title, true, f);
+            //d.setModal(true);
             return d;
         }
         

@@ -124,10 +124,7 @@ public class GarageSaleView extends TabView {
      * @param rating
      * @return
      */
-    static public GridCell printBox(final String sale_date, 
-                                    final String sale_time, 
-                                    final String all_categories, 
-                                    final String rating) {
+    static public GridCell printBox(final String[] string_parts) {
         
         return grid.cell(fieldset("Print", grid(
            grid.cell(
@@ -145,29 +142,70 @@ public class GarageSaleView extends TabView {
                         if(null != loc) {
                             
                             // the the absolute location of the file
-                            web_page = loc.getFile()
-                                          .substring(1)
-                                          .replaceAll("%20", " ");
+                            web_page = loc.getFile().replaceAll("%20", " ");
                             
                             // if it's windows, change forward slashes to backslashes
                             if(os_name.startsWith("Windows"))
-                                web_page = web_page.replace('/', '\\');
+                                web_page = web_page.substring(1).replace('/', '\\');
                             
                             // start creating our file contents
                             StringBuffer fc = new StringBuffer();
                             
                             fc.append(
-                                "<table><tr><td><p><h1>Your Garage Sale</h1>"+
-                                "<h3>When</h3><p>"
+                                "<table cellpadding=10 cellspacing=0 border=0>"+
+                                "<tr><td colspan=2><fieldset><legend>Seller In"+
+                                "formation</legend>Name:"
                             );
-                            fc.append(sale_date);
-                            fc.append(" at ");
-                            fc.append(sale_time);
-                            fc.append("</p><h3>Categories</h3><p>");
-                            fc.append(all_categories);
-                            fc.append("</p><h3>Overall Rating</h3><p>");
-                            fc.append(rating);
-                            fc.append("</p></td></tr></table>");
+                            fc.append(string_parts[5]); // name
+                            fc.append("<br>Telephone: ");
+                            fc.append(string_parts[6]);
+                            fc.append("<br>Average Sale Rating: ");
+                            fc.append(string_parts[7]);
+                            fc.append(
+                                "</fieldset></td></tr><tr><td><fieldset><lege"+
+                                "nd>Location</legend>Street: "
+                            );
+                            fc.append(string_parts[8]); // street
+                            fc.append("<br>City: ");
+                            fc.append(string_parts[9]);
+                            fc.append("<br>Province: ");
+                            fc.append(string_parts[10]);
+                            fc.append(
+                                "</fieldset></td><td><fieldset><legend>Date "+
+                                "/ Time</legend>Date: "
+                            );
+                            fc.append(string_parts[0]); // date
+                            fc.append("<br>Time: ");
+                            fc.append(string_parts[1]); // time
+                            fc.append(
+                                "</fieldset></td></tr><tr><td><fieldset><lege"+
+                                "nd>Categories</legend>"
+                            );
+                            fc.append(string_parts[2]);
+                            fc.append(
+                                "</fieldset></td><td><fieldset><legend>Note"+
+                                "s</legend>"
+                            );
+                            fc.append(string_parts[4].replaceAll("\n", "<br>"));
+                            fc.append(
+                                "</fieldset></td></tr><tr><td colspan=2><fiel"+
+                                "dset><legend>Rating</legend>Overall Rating: "
+                            );
+                            fc.append(string_parts[3]);
+                            fc.append("</fieldset></td></tr></table>");
+                            fc.append(
+                                "<img src=\"http://maps.google.com/staticmap?"+
+                                "center="
+                            );
+                            fc.append(string_parts[11] +","+string_parts[12]);
+                            fc.append(
+                                "&markers=" + string_parts[11] +","+string_parts[12]
+                            );
+                            fc.append(
+                                "&zoom=13&size=450x300&key=ABQIAAAAWJ1f06DiaUA"+
+                                "SHJVzXczaghRI-Cfgy4h0_LeGxKqiHbDD72RMjhQoruC4"+
+                                "y-hM46U-7HA7vyxDEWlspA\">"
+                            );
                             
                             // write the contents to file
                             try {
@@ -176,7 +214,9 @@ public class GarageSaleView extends TabView {
                                 );
                                 out_fp.write(fc.toString());
                                 out_fp.close();
-                            } catch(IOException e) { }
+                            } catch(IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         
                         
@@ -213,9 +253,7 @@ public class GarageSaleView extends TabView {
                               final UserModel logged_user, 
                               final D2<GarageSaleModel,Integer> rate_responder) {
         
-        JTextArea note = new JTextArea(sale.getNote());
-        note.setEnabled(false);
-        
+        UserModel user = sale.user;
         Location address = sale.getLocation();
         Calendar cal = sale.getTime();
         
@@ -228,28 +266,8 @@ public class GarageSaleView extends TabView {
         };
         String[] am_or_pm = {"am", "pm"};
         
-        // the date of the sale
-        final String sale_date = (
-            days[cal.get(Calendar.DAY_OF_WEEK)] +", "+
-        	months[cal.get(Calendar.MONTH)] +" "+
-        	cal.get(Calendar.DAY_OF_MONTH)
-        );
-        
         int cal_hour = cal.get(Calendar.HOUR);
         if(cal_hour == 0) cal_hour = 12;
-        
-        // the time of the sale
-        final String sale_time = (
-            cal_hour +":"+ StringUtil.padLeft(
-                String.valueOf(cal.get(Calendar.MINUTE)), 
-                '0', 
-                 2
-            ) +
-            " "+ am_or_pm[cal.get(Calendar.AM_PM)] +" "+ 
-            Location.PROVINCE_TIME_ZONE_CODES.get(
-                address.getProvince()
-            )
-        );
         
         // make a list of categories
         GridCell[][] categories = new GridCell[sale.categories.size()][];
@@ -270,38 +288,89 @@ public class GarageSaleView extends TabView {
             cat_sep = ", ";
         }
         
-        UserModel user = sale.user;
+        final String[] string_parts = new String[] {
+            
+            // 0 sale date
+            (
+                days[cal.get(Calendar.DAY_OF_WEEK)] +", "+
+                months[cal.get(Calendar.MONTH)] +" "+
+                cal.get(Calendar.DAY_OF_MONTH)
+            ),
+            
+            // 1 sale time
+            (
+                cal_hour +":"+ StringUtil.padLeft(
+                    String.valueOf(cal.get(Calendar.MINUTE)), 
+                    '0', 
+                     2
+                ) +
+                " "+ am_or_pm[cal.get(Calendar.AM_PM)] +" "+ 
+                Location.PROVINCE_TIME_ZONE_CODES.get(
+                    address.getProvince()
+                )
+            ),
+            
+            // 2 categories
+            all_categories.toString(),
+            
+            // 3 rating
+            String.valueOf(sale.getRating()),
+            
+            // 4 note
+            sale.getNote().length() == 0 ? "No Note" : sale.getNote(),
+                    
+            // 5 seller name
+            user.getFirstName() +" "+ user.getLastName(),
+            
+            // 6 seller telephone
+            StringUtil.join('-', user.getPhoneNumber()),
+            
+            // 7 seller rating average
+            String.valueOf(user.getRating()),
+            
+            // 8 street
+            address.getStreet(),
+            
+            // 9 city
+            address.getCity(),
+            
+            // 10 province
+            address.getProvince(),
+            
+            // 11 latitude
+            sale.getGuiGeoPosition()[0],
+            
+            // 12 longitude
+            sale.getGuiGeoPosition()[1],
+        };
         
         // create the GUI for showing all garage sale info
+        JTextArea note = new JTextArea(sale.getNote());
+        note.setEnabled(false);
+        
         return grid(
             
             // seller information
             grid.row(
                 grid.cell(2, fieldset("Seller Information", grid(
-                    form.row(label("Name:"), label(
-                        user.getFirstName() +" "+ user.getLastName()
-                    )),
-                    form.row(label("Telephone:"), label(
-                        StringUtil.join('-', user.getPhoneNumber())
-                    )),
-                    form.row(label("Average Sale Rating:"), label(
-                        String.valueOf(user.getRating())
-                    ))
+                    form.row(label("Name:"), label(string_parts[5])),
+                    form.row(label("Telephone:"), label(string_parts[6])),
+                    form.row(label("Average Sale Rating:"), label(string_parts[7]))
                 ))).fill(1, 1)
             ),
             
             // address
             grid.row(    
                 grid.cell(fieldset("Location", grid(
-                    form.row(label("Street:"), label(address.getStreet())),
-                    form.row(label("City:"), label(address.getCity())),
-                    form.row(label("Province:"), label(address.getProvince()))
+                    form.row(label("Street:"), label(string_parts[8])),
+                    form.row(label("City:"), label(string_parts[9])),
+                    form.row(label("Province:"), label(string_parts[10]))
                 ))).fill(1, 1),
                 
                 // date and time
                 grid.cell(fieldset("Date / Time", grid(
-                    form.row(label("Date:"), label(sale_date)),
-                    form.row(label("Time:"), label(sale_time))
+                    form.row(label("Date:"), label(string_parts[0])),
+                    form.row(label("Time:"), label(string_parts[1]))
                 ))).fill(1, 1)
             ),
             grid.row(
@@ -327,12 +396,7 @@ public class GarageSaleView extends TabView {
                 ratingBox(sale, logged_user, rate_responder), 
                 
                 // print the sale
-                printBox(
-                    sale_date,
-                    sale_time,
-                    all_categories.toString(),
-                    String.valueOf(sale.getRating())
-                )
+                printBox(string_parts)
             )
         );
     }

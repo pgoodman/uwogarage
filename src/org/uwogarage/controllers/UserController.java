@@ -60,7 +60,7 @@ public class UserController extends Controller<UserModel> {
      * Add a user.
      */
     public void add() {
-        TabView.show((new AddUserView()).view(
+        View.show((new AddUserView()).view(
             
             // predicate to check if the user id that the admin supplied already
             // exists or not
@@ -98,7 +98,7 @@ public class UserController extends Controller<UserModel> {
      */
     public void list(){
      	
-    	TabView.show((new ListUsersView(models,
+    	View.show((new ListUsersView(models,
     	        
     	     // responder for editing users
     		new D<UserModel>(){
@@ -136,7 +136,7 @@ public class UserController extends Controller<UserModel> {
      * Edit a user.
      */
     public void edit(UserModel user) {
-        TabView.show((new EditUserView()).view(user));
+        View.show((new EditUserView()).view(user));
     }
     
     /**
@@ -255,6 +255,6 @@ public class UserController extends Controller<UserModel> {
      * Show this user some information/statistics about their activity.
      */
     public void myInfo() {
-        TabView.show(UserInfoView.view(logged_user));
+        View.show(UserInfoView.view(logged_user));
     }
 }
