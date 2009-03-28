@@ -1,11 +1,13 @@
 package org.uwogarage.views.buyer;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.TabView;
 
@@ -27,8 +29,8 @@ public class BuyerControlPanelView extends TabView {
      * @param search
      * @return
      */
-    static public JPanel view(final UserModel user, final F0 my_info, 
-                                     final F0 search, final F0 view_all) {
+    static public JPanel view(final UserModel user, final F0 my_info,
+                final F0 search, final F0 view_all, final F0 log_out) {
         
         final JTabbedPane pane = new JTabbedPane();
         
@@ -47,9 +49,8 @@ public class BuyerControlPanelView extends TabView {
                 
                 // change the current tab accessible through the TabView, in the
                 // same way that the program frame is accessible through View
-                TabView.setProgramTab(
-                    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
-                );
+                popContext();
+                pushContext((JPanel) pane.getComponentAt(pane.getSelectedIndex()));
                 
                 // call the various responders
                 switch(pane.getSelectedIndex()) {
@@ -62,6 +63,7 @@ public class BuyerControlPanelView extends TabView {
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.
+        pushContext((JPanel) pane.getComponentAt(0));
         changeProgramTab(0);
         
         // return the new view
@@ -69,9 +71,16 @@ public class BuyerControlPanelView extends TabView {
             grid.cell(label(
                 "Welcome, "+ user.getFirstName() +" "+ user.getLastName() +
                 " to the buyer control panel."
-            )).pos(0, 0).margin(10, 10, 10, 10),
+            )).pos(0, 0).margin(10, 10, 10, 20).anchor(1, 0, 0, 1),
             
-            grid.cell(pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
+            grid.cell(button("Log Out", new D<JButton>() {
+                public void call(JButton b) {
+                    popContext();
+                    log_out.call();
+                }
+            })).pos(1, 0).anchor(1, 1, 0, 0).margin(10, 10, 10, 10),
+            
+            grid.cell(2, pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
         );
     }
 }

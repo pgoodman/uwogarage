@@ -29,6 +29,7 @@ import org.uwogarage.util.documents.AlphaNumDocument;
 import org.uwogarage.util.documents.NumDocument;
 import org.uwogarage.util.documents.RealNumDocument;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.D2;
 import org.uwogarage.util.functional.F0;
 import org.uwogarage.util.functional.P;
 import org.uwogarage.views.ListCategoriesView;
@@ -37,8 +38,6 @@ import org.uwogarage.views.View;
 
 /**
  * View to insert criteria for a garage sale search.
- * 
- * TODO Test all of the functionality!!!
  * 
  * @author Peter Goodman
  * @version $Id$
@@ -563,6 +562,7 @@ public class SearchGarageSalesView extends View {
      */
     public JPanel view(final ModelSet<GarageSaleModel> sales, 
                               final D<GarageSaleModel> view_responder,
+                              final D2<GarageSaleModel,Integer> rate_responder,
                               final UserModel user) {
         
         Dimension dims = new Dimension(600, 250);
@@ -610,9 +610,10 @@ public class SearchGarageSalesView extends View {
                 // find and show the search results!
                 search_results.removeAll();
                 search_results.add(fieldset("Search Results",
-                    ListGarageSalesReducedView.view(
+                    SearchResultsGarageSalesView.view(
                         sales.filter(p), // filter the sales!
                         view_responder,
+                        rate_responder,
                         user
                     )
                 ));

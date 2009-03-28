@@ -1,10 +1,11 @@
 package map;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
 
 import org.jdesktop.swingx.JXMapKit;
 import org.jdesktop.swingx.JXMapViewer;
@@ -12,6 +13,7 @@ import org.jdesktop.swingx.mapviewer.DefaultTileFactory;
 import org.jdesktop.swingx.mapviewer.WaypointPainter;
 
 import org.uwogarage.models.GarageSaleModel;
+import org.uwogarage.models.ModelSet;
 import org.uwogarage.models.UserModel;
 import org.uwogarage.util.functional.D;
 
@@ -40,7 +42,7 @@ public class MapPanel extends JXMapKit {
      * from the parameter user.
      * @param user the user whose defaults should be used
      */ 
-	public MapPanel(UserModel user, D<Set<GarageSaleModel>> d){
+	public MapPanel(UserModel user, D<ModelSet<GarageSaleModel>> on_click_responder){
     	
     	super();
     	    		
@@ -61,7 +63,9 @@ public class MapPanel extends JXMapKit {
         this.getMainMap().setOverlayPainter(painter);
     	     
         //add a mouse listener to react when waypoints are clicked
-        this.getMainMap().addMouseListener(new MapMouseInputAdapter(this));
+        this.getMainMap().addMouseListener(
+            new MapMouseInputAdapter(this, on_click_responder)
+        );
         
         //----------visuals-------------
         
@@ -72,7 +76,7 @@ public class MapPanel extends JXMapKit {
         this.setPreferredSize(new Dimension(300,300));
         
         //add a border        
-        this.setBorder(BorderFactory.createEtchedBorder(0));
+        this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
     }
     
     
@@ -84,7 +88,7 @@ public class MapPanel extends JXMapKit {
     	try{
     		// Create a new MapWaypoint, add it to the waypoint set and then 
     	    // the the map's waypoint painter
-    	    MapWaypoint point = new MapWaypoint(sale);
+    	    MapWaypoint point = new MapWaypoint(sale);    	    
     	    waypoints.add(point);
     		painter.getWaypoints().add(point);
     		

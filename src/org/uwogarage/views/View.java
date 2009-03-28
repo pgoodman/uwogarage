@@ -1,5 +1,8 @@
 package org.uwogarage.views;
 
+import java.awt.Container;
+import java.util.Stack;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -23,15 +26,70 @@ abstract public class View extends SimpleGui {
     static protected JFrame f;
     
     /**
-     * Replace all current content in the program frame with a new view.
+     * GUI context stack, used to let the GUIs allow controllers to affect
+     * only individual parts of a gui.
+     */
+    static private Stack<Container> context = new Stack<Container>();
+    
+    /**
+     * Replace all current content in the program frame with a new view. The
+     * tricky part about managing contexts is that we need to make sure that we
+     * don't add a component to itself as it is likely that we will have added
+     * a context while building its parent.
      */
     static public void show(JComponent c) {
-        if(null != f) {
-            content.remove(f);
-            content.add(f, c);
-            //f.pack();
-            f.validate();
+        
+        Container which = f;
+        
+        // take the top context, defaults to taking the frame
+        if(context.size() > 0) {
+            Container top = context.peek(),
+                      parent = (Container) top,
+                      self = (Container) c;
+            
+            boolean set_which = true;
+            
+            try {
+                while(null != parent) {
+                    if(parent == self) {
+                        which = context.size() > 1 ? context.get(context.size() - 2) : f;
+                        set_which = false;
+                        break;
+                    }
+                    
+                    parent = parent.getParent();
+                }
+                
+            } catch(Exception e) { }
+            
+            if(set_which) {
+            
+                // try to make the component we are adding as big as possible
+                if(top instanceof JComponent)
+                    c.setBounds(((JComponent) top).getVisibleRect());
+                
+                which = (Container) top;
+            }
         }
+        
+        // if there is some sort of container to use, use it
+        if(null != which) {
+            if(which != c) {
+                content.remove(which);
+                content.add(which, c);
+            }
+            which.validate();
+        }
+    }
+    
+    static protected void pushContext(Container c) {
+        context.push(c);
+    }
+    
+    static protected void popContext() {
+        try {
+            context.pop();
+        } catch(Exception e) { }
     }
     
     /**
@@ -42,9 +100,7 @@ abstract public class View extends SimpleGui {
         return programFrame(title, null);
     }
     static public PFrame programFrame(String title, final D<PFrame> init_program_frame) {
-        
         return SimpleGui.frame(title, new D<PFrame>() {
-            
             public void call(PFrame program_frame) {
                 f = program_frame;
                 
