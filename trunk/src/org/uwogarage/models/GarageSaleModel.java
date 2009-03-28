@@ -194,14 +194,17 @@ public class GarageSaleModel implements Model {
             return false;
         }
         
+        double dlat = Double.parseDouble(lat),
+		 	   dlng = Double.parseDouble(lng);
+		 
+		if(Math.abs(dlat) > 90D || Math.abs(dlng) > 190D)
+			return false;
+        
         // lazy version for GUI :P
         positions = new String[] {lat, lng};
         
         // version for API
-        position = new GeoPosition(
-            Double.parseDouble(lat),
-            Double.parseDouble(lng)
-        );
+        position = new GeoPosition(dlat, dlng);
         
         return true;
     }
