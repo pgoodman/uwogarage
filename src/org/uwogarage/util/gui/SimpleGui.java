@@ -345,6 +345,8 @@ abstract public class SimpleGui {
         
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(content_init.call(dialog));
+        
+        dialog.validate();
         dialog.pack();
         dialog.setVisible(true);
 
