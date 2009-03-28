@@ -83,7 +83,7 @@ public class AddUserView extends TabView {
     public JPanel view(final P<String> id_is_unique, final D<UserModel> responder) {
         
         // the slider to choose the start zoom level
-        final JSlider start_zoom = Slider.view(4, 23, 4, null);
+        final JSlider start_zoom = Slider.view(1, 15, 15, null);
         
         // set the default password to the form
         password.setText("aaa");
