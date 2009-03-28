@@ -1,13 +1,14 @@
 package org.uwogarage.views.seller;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.UserModel;
+import org.uwogarage.util.functional.D;
 import org.uwogarage.util.functional.F0;
-import org.uwogarage.util.gui.SimpleGui.grid;
 import org.uwogarage.views.TabView;
 
 /**
@@ -29,7 +30,8 @@ public class SellerControlPanelView extends TabView {
      * @return
      */
     static public JPanel view(final UserModel user, final F0 my_info, 
-              final F0 my_sales, final F0 add_sale, final F0 bulk_add) {
+                                      final F0 my_sales, final F0 add_sale, 
+                                      final F0 bulk_add, final F0 log_out) {
         
         final JTabbedPane pane = new JTabbedPane();
         
@@ -49,9 +51,12 @@ public class SellerControlPanelView extends TabView {
                 
                 // change the current tab accessible through the TabView, in the
                 // same way that the program frame is accessible through View
-                TabView.setProgramTab(
-                    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
-                );
+                //TabView.setProgramTab(
+                //    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
+                //);
+                
+                popContext();
+                pushContext((JPanel) pane.getComponentAt(pane.getSelectedIndex()));
                 
                 // call the various responders
                 switch(pane.getSelectedIndex()) {
@@ -65,16 +70,24 @@ public class SellerControlPanelView extends TabView {
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.
+        pushContext((JPanel) pane.getComponentAt(0));
         changeProgramTab(0);
         
-     // return the new view
+        // return the new view
         return grid(
             grid.cell(label(
                 "Welcome, "+ user.getFirstName() +" "+ user.getLastName() +
                 " to the seller control panel."
-            )).pos(0, 0).margin(10, 10, 10, 10),
+            )).pos(0, 0).margin(10, 10, 10, 20).anchor(1, 0, 0, 1),
             
-            grid.cell(pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
+            grid.cell(button("Log Out", new D<JButton>() {
+                public void call(JButton b) {
+                    popContext(); // pop out of the tabbed pane
+                    log_out.call();
+                }
+            })).pos(1, 0).anchor(1, 1, 0, 0).margin(10, 10, 10, 10),
+            
+            grid.cell(2, pane).pos(0, 1).fill(1, 1).margin(0, 10, 10, 10)
         );
     }
 }

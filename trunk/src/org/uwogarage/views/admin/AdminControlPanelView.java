@@ -43,9 +43,11 @@ public class AdminControlPanelView extends View {
                 
                 // change the current tab accessible through the TabView, in the
                 // same way that the program frame is accessible through View
-                TabView.setProgramTab(
-                    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
-                );
+                //TabView.setProgramTab(
+                //    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
+                //);
+                popContext();
+                pushContext((JPanel) pane.getComponentAt(pane.getSelectedIndex()));
                 
                 // call the various responders
                 switch(pane.getSelectedIndex()) {
@@ -60,6 +62,8 @@ public class AdminControlPanelView extends View {
                 }
             }
         });
+        
+        pushContext((JPanel) pane.getComponentAt(0));
         
         // load up the basic control panel view, need to do 2 calls to force a
         // state change.. ugh.

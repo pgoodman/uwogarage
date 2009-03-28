@@ -23,6 +23,7 @@ import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.D2;
 import org.uwogarage.util.functional.F;
 import org.uwogarage.util.gui.GridCell;
 
@@ -44,7 +45,7 @@ public class GarageSaleView extends TabView {
      */
     static public GridCell ratingBox(final GarageSaleModel sale, 
                                            final UserModel user,
-                                          final D<Integer> rate_responder) {
+                         final D2<GarageSaleModel,Integer> rate_responder) {
         
         RatingModel user_rating = sale.getRatingFrom(user);
         LinkedList<GridCell[]> rows = new LinkedList<GridCell[]>();
@@ -86,7 +87,11 @@ public class GarageSaleView extends TabView {
                                     // save the rating
                                     grid.cell(button("Rate", new D<JButton>() {
                                         public void call(JButton btn) {
-                                            rate_responder.call(slider.getValue());
+                                            
+                                            rate_responder.call(
+                                                sale, 
+                                                slider.getValue()
+                                            );
                                             dialog.setVisible(false);
                                         }
                                     })).pos(0, 1).margin(10, 0, 10, 10).anchor(1, 1, 0, 0),
@@ -100,7 +105,7 @@ public class GarageSaleView extends TabView {
                                     })).pos(1, 1).margin(10, 10, 10, 0).anchor(1, 0, 0, 1)
                                 );
                             }
-                        }).setVisible(true); // show the dialog
+                        }); // show the dialog
                     }
                 }
             ))));
@@ -204,7 +209,9 @@ public class GarageSaleView extends TabView {
         )).pos(0,4).fill(1,1);
     }
     
-    static public JPanel view(final GarageSaleModel sale, UserModel logged_user, final D<Integer> rate_responder) {
+    static public JPanel view(final GarageSaleModel sale, 
+                              final UserModel logged_user, 
+                              final D2<GarageSaleModel,Integer> rate_responder) {
         
         JTextArea note = new JTextArea(sale.getNote());
         note.setEnabled(false);
@@ -254,7 +261,6 @@ public class GarageSaleView extends TabView {
         // categories for the print box
         for(CategoryModel category : sale.categories) {
         	all_categories.append(cat_sep + category.getName());
-            
         	categories[i++] = grid.row(
                 grid.cell(label(category.getName()))
                     .anchor(1, 0, 0, 1)
@@ -264,75 +270,69 @@ public class GarageSaleView extends TabView {
             cat_sep = ", ";
         }
         
+        UserModel user = sale.user;
+        
         // create the GUI for showing all garage sale info
         return grid(
-                
+            
+            // seller information
+            grid.row(
+                grid.cell(2, fieldset("Seller Information", grid(
+                    form.row(label("Name:"), label(
+                        user.getFirstName() +" "+ user.getLastName()
+                    )),
+                    form.row(label("Telephone:"), label(
+                        StringUtil.join('-', user.getPhoneNumber())
+                    )),
+                    form.row(label("Average Sale Rating:"), label(
+                        String.valueOf(user.getRating())
+                    ))
+                ))).fill(1, 1)
+            ),
+            
             // address
-            grid.cell(fieldset("Address", grid(
-                grid.row(
-                    grid.cell(label("Street:")).anchor(1, 0, 0, 1),
-                    grid.cell(label(address.getStreet()))
-                        .anchor(1, 0, 0, 1)
-                        .margin(0, 0, 0, 10)
-                ),
-                grid.row(
-                    grid.cell(label("City:")).anchor(1, 0, 0, 1),
-                    grid.cell(label(address.getCity()))
-                        .anchor(1, 0, 0, 1)
-                        .margin(0, 0, 0, 10)
-                ),
-                grid.row(
-                    grid.cell(label("Province:")).anchor(1, 0, 0, 1),
-                    grid.cell(label(address.getProvince()))
-                        .anchor(1, 0, 0, 1)
-                        .margin(0, 0, 0, 10)
-                ),
+            grid.row(    
+                grid.cell(fieldset("Location", grid(
+                    form.row(label("Street:"), label(address.getStreet())),
+                    form.row(label("City:"), label(address.getCity())),
+                    form.row(label("Province:"), label(address.getProvince()))
+                ))).fill(1, 1),
                 
-                // TODO map showing where the sale is
-                grid.row(
-                    grid.cell(2, label("map here...")).margin(10, 10, 10, 10)
+                // date and time
+                grid.cell(fieldset("Date / Time", grid(
+                    form.row(label("Date:"), label(sale_date)),
+                    form.row(label("Time:"), label(sale_time))
+                ))).fill(1, 1)
+            ),
+            grid.row(
+                
+                // list of categories
+                grid.cell(fieldset("Categories",
+                    categories.length > 0
+                    ? grid(categories) 
+                    : grid(grid.cell(label("Not Categorized.")))
+                )).fill(1, 1),
+                
+                // note
+                grid.cell(fieldset("Notes", 
+                	sale.getNote().length() == 0
+                	? label("No note")
+                	: note
+                )).fill(1, 1)
+            ),
+            
+            grid.row(
+                
+                // user ratings
+                ratingBox(sale, logged_user, rate_responder), 
+                
+                // print the sale
+                printBox(
+                    sale_date,
+                    sale_time,
+                    all_categories.toString(),
+                    String.valueOf(sale.getRating())
                 )
-            )), 5).pos(1, 0).fill(1, 1),
-            
-            // date and time
-            grid.cell(fieldset("Date / Time", grid(
-                grid.row(
-                    grid.cell(label("Date:")).anchor(1, 0, 0, 1),
-                    grid.cell(label(
-                        sale_date
-                    )).anchor(1, 0, 0, 1).margin(0, 0, 0, 10)
-                ),
-                grid.row(
-                    grid.cell(label("Time:")),
-                    grid.cell(label(
-                        sale_time
-                    )).anchor(1, 0, 0, 1).margin(0, 0, 0, 10)
-                )
-            ))).pos(0, 0).fill(1, 1),
-            
-            // list of categories
-            grid.cell(fieldset("Categories",
-                categories.length > 0
-                ? grid(categories) 
-                : grid(grid.cell(label("Not Categorized.")))
-            )).pos(0, 1).fill(1, 1),
-            
-            // note
-            grid.cell(fieldset("Notes", 
-            	sale.getNote().length() == 0
-            	? label("No note")
-            	: note
-            )).pos(0, 2).fill(1, 1),
-            
-            // user ratings
-            ratingBox(sale, logged_user, rate_responder), 
-            
-            // print the sale
-            printBox(
-                sale_date,
-                sale_time,
-                all_categories.toString(),
-                String.valueOf(sale.getRating())
             )
         );
     }

@@ -1,12 +1,19 @@
 package org.uwogarage.views.buyer;
 
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Calendar;
-import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.uwogarage.models.GarageSaleModel;
 import org.uwogarage.models.ModelSet;
@@ -14,7 +21,10 @@ import org.uwogarage.models.UserModel;
 import org.uwogarage.util.Location;
 import org.uwogarage.util.StringUtil;
 import org.uwogarage.util.functional.D;
+import org.uwogarage.util.functional.D2;
+import org.uwogarage.util.functional.F;
 import org.uwogarage.util.gui.GridCell;
+import org.uwogarage.views.GarageSaleView;
 import org.uwogarage.views.View;
 
 import map.*;
@@ -25,17 +35,75 @@ import map.*;
  * @author petergoodman
  * @version $Id$
  */
-public class ListGarageSalesReducedView extends View {
+public class SearchResultsGarageSalesView extends View {
     
+    /**
+     * Show the dialog that pops up when a waypoint is clicked.
+     * @param sales
+     */
+    static protected void viewWaypointSales(final ModelSet<GarageSaleModel> sales,
+                                            final UserModel logged_user,
+                                            final D2<GarageSaleModel,Integer> rate_responder) {
+        
+        dialog.modal(f, "Viewing Sales", new F<JDialog,Container>() {
+            public Container call(JDialog d) {
+                
+                final JTabbedPane pane = new JTabbedPane();
+                JPanel first = null, 
+                       each;
+                
+                int i = 1;
+                for(GarageSaleModel sale : sales) {
+                    
+                    each = GarageSaleView.view(
+                        sale, 
+                        logged_user, 
+                        rate_responder
+                    );
+                    
+                    if(null == first)
+                        first = each;
+                    
+                    pane.add(String.valueOf(i++), each);
+                };
+                
+                pushContext(first);
+                
+                pane.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent e) {
+                        popContext();
+                        pushContext((JPanel) pane.getComponentAt(pane.getSelectedIndex()));
+                    }
+                });
+                
+                d.addWindowListener(new WindowAdapter() {
+                    public void windowClosed(WindowEvent e) {
+                        popContext();
+                    }
+                });
+                
+                return pane;
+            }
+        });
+    }
+    
+    /**
+     * Show the main search results and the map.
+     * @param sales
+     * @param view_responder
+     * @param user
+     * @return
+     */
     static public JPanel view(ModelSet<GarageSaleModel> sales, 
                                final D<GarageSaleModel> view_responder,
-                               UserModel user) {
+                               final D2<GarageSaleModel,Integer> rate_responder,
+                               final UserModel user) {
         
         // instantiate the map, and give it a delegate to call for when a 
         // waypoint is clicked.
-    	MapPanel map = new MapPanel(user, new D<Set<GarageSaleModel>>() {
-    	    public void call(Set<GarageSaleModel> sales) {
-    	        
+    	MapPanel map = new MapPanel(user, new D<ModelSet<GarageSaleModel>>() {
+    	    public void call(ModelSet<GarageSaleModel> sales) {
+    	        viewWaypointSales(sales, user, rate_responder);
     	    }
     	});
     	
@@ -97,13 +165,14 @@ public class ListGarageSalesReducedView extends View {
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
+        //JScrollPane map_pane = new JScrollPane(map);
         
         pane.setPreferredSize(new Dimension(450, 300));
         
         // put the gui together
         return grid(
             grid.cell(pane).pos(0, 0).margin(10, 0, 10, 10),
-            grid.cell(map).pos(1, 0)
+            grid.cell(map).pos(1, 0).margin(10, 10, 10, 0)
         );
     }
 }

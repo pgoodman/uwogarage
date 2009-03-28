@@ -215,6 +215,12 @@ public class UserController extends Controller<UserModel> {
             new F0() { public void call() { d.garage_sale.search(); }},
             new F0() { public void call() { 
                 d.garage_sale.list(d.garage_sale.getModels()); 
+            }},
+            
+            // logout delegate
+            new F0() { public void call() {
+                logged_user = null;
+                login();
             }}
         ));
     }
@@ -226,7 +232,13 @@ public class UserController extends Controller<UserModel> {
                 d.garage_sale.list(logged_user.sales); 
             }},
             new F0() { public void call() { d.garage_sale.add(); }},
-            new F0() { public void call() { d.garage_sale.bulkAdd(); }}
+            new F0() { public void call() { d.garage_sale.bulkAdd(); }},
+            
+            // logout delegate
+            new F0() { public void call() {
+                logged_user = null;
+                login();
+            }}
         ));
     }
     

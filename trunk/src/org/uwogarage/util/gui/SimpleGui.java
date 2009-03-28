@@ -343,7 +343,7 @@ abstract public class SimpleGui {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setContentPane(content_init.call(dialog));
         dialog.pack();
-//        dialog.setVisible(true);
+        dialog.setVisible(true);
 
         return dialog;
     }

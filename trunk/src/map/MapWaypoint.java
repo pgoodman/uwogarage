@@ -20,7 +20,10 @@ public class MapWaypoint extends Waypoint {
 	 * @param sale the GarageSaleModel that this Waypoint represents
 	 */
 	public MapWaypoint(GarageSaleModel sale){
-		super(sale.getGeoPosition().getLatitude(),sale.getGeoPosition().getLongitude());
+		super(
+		    sale.getGeoPosition().getLatitude(),
+		    sale.getGeoPosition().getLongitude()
+		);
 		this.sale = sale;		
 	}
 	

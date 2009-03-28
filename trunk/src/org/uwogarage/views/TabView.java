@@ -14,7 +14,7 @@ abstract public class TabView extends View {
         t = c;
     }
     
-    static public void show(JComponent c) {
+    /*static public void show(JComponent c) {
         if(null != t) {
             t.removeAll();
             //t.validate();
@@ -24,7 +24,7 @@ abstract public class TabView extends View {
             //f.pack();
             f.validate();
         }
-    }
+    }*/
     
     /**
      * A Delegate that will force a change tab.
