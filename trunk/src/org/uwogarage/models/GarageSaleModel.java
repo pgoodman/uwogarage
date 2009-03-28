@@ -197,7 +197,7 @@ public class GarageSaleModel implements Model {
         double dlat = Double.parseDouble(lat),
 		 	   dlng = Double.parseDouble(lng);
 		 
-		if(Math.abs(dlat) > 90D || Math.abs(dlng) > 190D)
+		if(Math.abs(dlat) > 90D || Math.abs(dlng) > 180D)
 			return false;
         
         // lazy version for GUI :P
