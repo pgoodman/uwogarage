@@ -1,6 +1,5 @@
 package org.uwogarage.views;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
