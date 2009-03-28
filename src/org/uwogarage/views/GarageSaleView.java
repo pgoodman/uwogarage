@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
@@ -345,8 +346,10 @@ public class GarageSaleView extends TabView {
         };
         
         // create the GUI for showing all garage sale info
-        JTextArea note = new JTextArea(sale.getNote());
+        JTextArea note = new JTextArea(sale.getNote(), 5, 30);
         note.setEnabled(false);
+        note.setLineWrap(true);
+        //JScrollPane note_pane = new JScrollPane(note);
         
         return grid(
             
@@ -386,7 +389,7 @@ public class GarageSaleView extends TabView {
                 grid.cell(fieldset("Notes", 
                 	sale.getNote().length() == 0
                 	? label("No note")
-                	: note
+                	: new JScrollPane(note)
                 )).fill(1, 1)
             ),
             
