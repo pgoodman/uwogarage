@@ -1,7 +1,6 @@
 package org.uwogarage.views;
 
 import java.awt.Container;
-import java.awt.Window;
 import java.util.Stack;
 
 import javax.swing.JComponent;

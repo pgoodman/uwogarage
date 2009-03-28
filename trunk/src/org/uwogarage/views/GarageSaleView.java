@@ -51,7 +51,7 @@ public class GarageSaleView extends TabView {
         RatingModel user_rating = sale.getRatingFrom(user);
         LinkedList<GridCell[]> rows = new LinkedList<GridCell[]>();
         
-        rows.add(grid.row(grid.cell(label("Overall Rating"))));
+        rows.add(grid.row(grid.cell(label("Average Rating"))));
         rows.add(grid.row(grid.cell(label(String.valueOf(sale.getRating())))));
         
         // if the user has rated this sale then show what their vote was
