@@ -24,7 +24,7 @@ public class BulkAddGarageSaleView extends TabView {
         // create the gui to do bulk loading
         return grid(
             grid.row(grid.cell(delete_prev_checkbox).margin(10, 0, 10, 0)),
-            grid.row(grid.cell(button("Click to choose a file bulk add sales.", 
+            grid.row(grid.cell(button("Click to choose a file to bulk add sales.", 
                 new D<JButton>(){
     				public void call(JButton arg1) {
     					
