@@ -1,6 +1,7 @@
 package org.uwogarage.views;
 
 import java.awt.Container;
+import java.awt.Window;
 import java.util.Stack;
 
 import javax.swing.JComponent;
@@ -87,8 +88,8 @@ abstract public class View extends SimpleGui {
                 content.add(which, c);
             }
             
-            if(which instanceof JFrame)
-                ((JFrame) which).pack();
+            if(which instanceof Window)
+                ((Window) which).pack();
             
             which.validate();
         }

@@ -118,8 +118,11 @@ public class UserController extends Controller<UserModel> {
     					allSales.remove(sale);
     				
     				// delete all the user's ratings
-    				for (RatingModel rating: user.ratings)
+    				for (RatingModel rating: user.ratings.clone()) {
     					allRatings.remove(rating);
+    					rating.getSale().ratings.remove(rating);
+    					user.ratings.remove(rating);
+    				}
     				
     				// delete the user from the main set
     				models.remove(user);
