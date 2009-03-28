@@ -212,6 +212,13 @@ public class UserModel implements Model {
 	    if(!lat.matches(regex) || !lng.matches(regex)) {
 	        return false;
 	    }
+	    
+	    double dlat = Double.parseDouble(lat),
+	    	   dlng = Double.parseDouble(lng);
+	    
+	    if(Math.abs(dlat) > 90D || Math.abs(dlng) > 190D)
+	    	return false;
+	    
 	    start_coords[0] = lat;
 	    start_coords[1] = lng;
 	    
