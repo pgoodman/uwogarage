@@ -23,9 +23,10 @@ public class EditGarageSaleView extends AddGarageSaleView {
     
     /**
      * Show the form to edit a garage sale.
-     * 
-     * @param responder
-     * @return
+     * @param sale the sale to be edited
+     * @param all_categories a set of all the possible categories
+     * @param responder a responder to be called once the sale has been edited
+     * @return a panel containing the edit sale form
      */
     public JPanel view(final GarageSaleModel sale, 
                      ModelSet<CategoryModel> all_categories, 
