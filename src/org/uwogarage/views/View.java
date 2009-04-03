@@ -36,6 +36,7 @@ abstract public class View extends SimpleGui {
      * tricky part about managing contexts is that we need to make sure that we
      * don't add a component to itself as it is likely that we will have added
      * a context while building its parent.
+     * @param c the component to be shown in the main view
      */
     static public void show(JComponent c) {
         
@@ -100,7 +101,7 @@ abstract public class View extends SimpleGui {
     
     /**
      * Push a context onto the context stack.
-     * @param c
+     * @param c the context to be pushed
      */
     static protected void pushContext(Container c) {
         context.push(c);
@@ -118,10 +119,18 @@ abstract public class View extends SimpleGui {
     /**
      * Create the main frame of the program. This is important as it makes the 
      * main program frame instance available to all views.
+     * @param title the title of the program frame
      */
     static public JFrame programFrame(String title) {
         return programFrame(title, null);
     }
+    /**
+     * Create the main frame of the program. This is important as it makes the 
+     * main program frame instance available to all views.
+     * @param title the title of the program frame
+     * @param init_program_frame the delegate containing the method to be called from the frame
+     * @return the main program frame
+     */
     static public PFrame programFrame(String title, final D<PFrame> init_program_frame) {
         return SimpleGui.frame(title, new D<PFrame>() {
             public void call(PFrame program_frame) {

@@ -14,10 +14,10 @@ abstract public class StringUtil {
     /**
      * Pad an input string on the left side  up to total_length with the pad char.
      * 
-     * @param input
-     * @param pad
-     * @param total_length
-     * @return
+     * @param input the string to pad
+     * @param pad the character to pad it with
+     * @param total_length the total length of the desired padded string
+     * @return the padded input string
      */
     static public String padLeft(String input, char pad, int total_length) {
         if(input.length() >= total_length)
@@ -34,11 +34,12 @@ abstract public class StringUtil {
     }
     
     /**
-     * Well-behaved string join using variadic argument list.
+     * Well-behaved string join using variable argument list.
      * 
-     * @param join
-     * @param strs
-     * @return
+     * @param join the character to join the strings with
+     * @param first the first string to be joined
+     * @param rest the rest of the strings to be joined
+     * @return the joined string
      */
     static public String join(char join, String first, String ... rest) {
         
@@ -64,9 +65,9 @@ abstract public class StringUtil {
     /**
      * String joins using collections.
      * 
-     * @param join
-     * @param strs
-     * @return
+     * @param join the character to join the strings with
+     * @param strs the strings to be joined
+     * @return the joined string
      */
     static public String join(char join, String[] strs) {
         if(null == strs || strs.length == 0)

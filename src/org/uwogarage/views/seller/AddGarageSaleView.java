@@ -132,7 +132,7 @@ public class AddGarageSaleView extends TabView {
     /**
      * Create the form section for inputting address information.
      * 
-     * @return
+     * @return a grid cell containing the address input form
      */
     protected GridCell addressSection() {
         return grid.cell(fieldset("Address", grid(
@@ -147,7 +147,7 @@ public class AddGarageSaleView extends TabView {
     /**
      * Create the form section for inputting date/time information.
      * 
-     * @return
+     * @return a grid cell containing the date and time selection form
      */
     protected GridCell dateAndTimeSection() {
         
@@ -174,6 +174,7 @@ public class AddGarageSaleView extends TabView {
     
     /**
      * Create the categories section of the form.
+     * @return a grid cell containing the categories section
      */
     protected GridCell categoriesSection(ModelSet<CategoryModel> all_categories, 
                                            ModelSet<CategoryModel> selected_categories) {
@@ -194,7 +195,7 @@ public class AddGarageSaleView extends TabView {
     /**
      * Create the section for putting in any extra information.
      * 
-     * @return
+     * @return a grid cell containing the extra information form
      */
     protected GridCell extraInfoSection() {
         
@@ -209,7 +210,8 @@ public class AddGarageSaleView extends TabView {
     
     /**
      * Perform the error checking common to adding and editing a garage sale.
-     * @param responder
+     * 
+     * @param responder the responder to be called when the user saves the sale
      */
     protected void processInput(GarageSaleModel sale, final D<GarageSaleModel> responder) {
         
@@ -306,8 +308,10 @@ public class AddGarageSaleView extends TabView {
     /**
      * Show the form to add a garage sale.
      * 
-     * @param responder
-     * @return
+     * @param user the user currently logged in
+     * @param all_categories the set of all categories
+     * @param responder the responder to be called when the user adds the sale
+     * @return a panel containing the form to add a garage sale
      */
     public JPanel view(final UserModel user, ModelSet<CategoryModel> all_categories, final D<GarageSaleModel> responder) {
         

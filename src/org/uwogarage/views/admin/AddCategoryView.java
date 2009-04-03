@@ -16,6 +16,12 @@ import org.uwogarage.views.TabView;
  */
 public class AddCategoryView extends TabView {
     
+    /**
+     * Get the add category view
+     * @param categories a set of categories to work with
+     * @param responder the responder to be called when a category is created
+     * @return a panel containing the add category view
+     */
     static public JPanel view(final ModelSet<CategoryModel> categories, final D<CategoryModel> responder) {
         
         // category name text field
@@ -32,11 +38,13 @@ public class AddCategoryView extends TabView {
         // the form
         return grid(
             grid.row(
-                grid.cell(2, label("Add Categoery"))
+                grid.cell(2, label("Add Category"))
             ),
             
+            // name label
             form.row(label("Category Name:"), cat_name),
             
+            // add category button 
             grid.row(
                 grid.cell(2, button("Add", new D<JButton>() {
                     public void call(JButton b) {

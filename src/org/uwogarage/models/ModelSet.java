@@ -7,7 +7,7 @@ import org.uwogarage.util.functional.P;
 /**
  * A set of models
  * 
- * @author petergoodman
+ * @author Peter Goodman
  * @version $Id$
  * 
  * @param <T>

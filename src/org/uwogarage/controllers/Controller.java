@@ -31,7 +31,7 @@ abstract public class Controller<T extends Model> implements Serializable {
     /**
      * Set the controller dispatcher.
      * 
-     * @param dispatcher
+     * @param dispatcher the controller dispatcher for the program
      */
     static public void setDispatcher(Dispatcher dispatcher) {
         d = dispatcher;
@@ -40,7 +40,7 @@ abstract public class Controller<T extends Model> implements Serializable {
     /**
      * Return the internal model set of the controller.
      * 
-     * @return
+     * @return the model set stored in the controller
      */
     public ModelSet<T> getModels() {
         return models;

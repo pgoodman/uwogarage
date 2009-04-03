@@ -12,10 +12,18 @@ import org.uwogarage.views.TabView;
 
 
 /**
+ * The view to bulk add garage sales from a file
  * @version $Id$
+ * @author Eivor Cormie
  */
 public class BulkAddGarageSaleView extends TabView {
 	
+    /**
+     * Show the bulk load view
+     * @param logged_user the user currently logged in
+     * @param responder the responder to be called when the user bulk loads
+     * @return a panel containing the bulk load form
+     */
     static public JPanel view(final UserModel logged_user, final D2<Boolean,ModelSet<GarageSaleModel>> responder) {
         
         final JFileChooser chooser = new JFileChooser();

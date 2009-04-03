@@ -15,6 +15,7 @@ import org.uwogarage.util.gui.GridCell;
  * Show a list of categories.
  * 
  * @version $Id$
+ * @author Randy Sousa
  */
 public class ListCategoriesView extends View {
     
@@ -22,9 +23,9 @@ public class ListCategoriesView extends View {
      * Create a check box list of the categories and store the clicked ones in 
      * the responder_categories set.
      * 
-     * @param in_categories
-     * @param responder_categories
-     * @return
+     * @param in_categories the categories that are to be listed
+     * @param responder_categories responders for each category's checkbox
+     * @return a scrollpane containing the Category list 
      */
     static public JScrollPane view(ModelSet<CategoryModel> in_categories,
                         ModelSet<CategoryModel> selected_categories,

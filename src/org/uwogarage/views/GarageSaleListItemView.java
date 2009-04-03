@@ -16,17 +16,18 @@ import org.uwogarage.util.gui.GridCell;
  * etc.
  * 
  * @version $Id$
+ * @author Randy Sousa
  */
 public class GarageSaleListItemView extends View {
     
     /**
-     * 
+     * The constructor for the view
      * @param user Currently logged in user.
      * @param sale Sale to be shown.
      * @param view_responder
      * @param edit_responder
      * @param delete_responder
-     * @return
+     * @return a grid cell containing the list item view
      */
     static public GridCell[] view(UserModel user, 
                       final GarageSaleModel sale,

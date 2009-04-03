@@ -14,9 +14,16 @@ import org.uwogarage.util.functional.F0;
  * View for when a user needs to update their password after an admin reset.
  * 
  * @version $Id$
+ * @author Eivor Cormie
  */
 public class UpdatePasswordView extends View {
     
+    /**
+     * Show the update password view
+     * @param user the user whose password is to be updated
+     * @param responder the responder to be called when the password has been updated
+     * @return a panel containing the update password form
+     */
     static public JPanel view(final UserModel user, final F0 responder) {
         
         // password fields, need them for later ;)

@@ -24,6 +24,7 @@ import static org.uwogarage.util.gui.SimpleGui.*;
  * UWO Garage Sale program.
  * 
  * @version $Id$
+ * @author Randy Sousa
  */
 public class UWOGarage {
     
@@ -95,6 +96,7 @@ public class UWOGarage {
                 
                 // create the main program menu for our application
                 menu(f,
+                    // File menu
                     menu.dd("File",
                         menu.item("Quit", new D<JMenuItem>() {
                             public void call(JMenuItem i) {
@@ -102,6 +104,7 @@ public class UWOGarage {
                             }
                         })
                     ),
+                    // Theme menu
                     menu.dd("Theme",
                         menu.item("System Theme", new D<JMenuItem>() {
                             public void call(JMenuItem item) {
@@ -125,26 +128,10 @@ public class UWOGarage {
                             }
                         })
                     ),
+                    // Help menu
                     menu.dd("Help",
                         menu.item("About UWOGarage", new D<JMenuItem>() {
                         	 public void call(JMenuItem i) {
-                                 /*dialog.alert(f, "This is a CS2212 Project,\n" + 
-                                		 "created by the team consisting of\n" + "\n" +
-                                		 "Eivor Cormie\n" + 
-                                		 "Peter Goodman\n" +
-                                		 "Nate Smith\n" +
-                                		 "Randy Sousa\n" +
-                                		 "Daisy Tsang\n" + "\n" +
-                                		 "March 2009.");*/
-                        		 /*
-                        		 String aboutGreeting = "MyApp is licensed under a BSD-like license available from...";
-
-                        		 JOptionPane.showMessageDialog(
-                        		 myAppFrame,
-                        		 aboutGreeting, "About MyApp",
-                        		 JOptionPane.INFORMATION_MESSAGE,
-                        		 View.;
-                        		 */
                         		 dialog.modal(f, "About UWOGarage", new F<JDialog,Container>(){
                         			 public Container call(JDialog d) {
                         				 return label(icon("files/splash.gif", UWOGarage.class));

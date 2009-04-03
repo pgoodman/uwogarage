@@ -19,6 +19,7 @@ import org.uwogarage.util.functional.P;
  * Login View, shows a login form and attempts to validate the input.
  * 
  * @version $Id$
+ * @author Peter Goodman
  */
 public class LoginView extends View {
     
@@ -27,6 +28,10 @@ public class LoginView extends View {
     /**
      * View the login form. Takes in a delegate from the controller that actually
      * performs the log in operation.
+     * @param users the users that are allowed to log in
+     * @param buyer_responder the responder for the buyer radio button
+     * @param seller_responder the responder for the seller radio button
+     * @return a panel containing the login form
      */
     static public JPanel view(final ModelSet<UserModel> users, 
                                      final D<UserModel> buyer_responder,

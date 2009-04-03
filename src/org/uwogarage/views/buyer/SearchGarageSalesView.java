@@ -114,6 +114,7 @@ public class SearchGarageSalesView extends View {
     
     /**
      * Constructor, disable all the tab content by default.
+     * @param the set of all categories
      */
     public SearchGarageSalesView(ModelSet<CategoryModel> categories) {
         
@@ -161,7 +162,7 @@ public class SearchGarageSalesView extends View {
      * Search criteria for finding a sale within a given radius of some latitude
      * and longitude.
      * 
-     * @return
+     * @return a panel containing the radius search form
      */
     protected JPanel viewRadius() {
         
@@ -240,7 +241,7 @@ public class SearchGarageSalesView extends View {
      * Search criteria for finding a sale created by a specific user with the
      * given id.
      * 
-     * @return
+     * @return a panel containing the search by id form
      */
     protected JPanel viewUserId() {
         
@@ -288,7 +289,7 @@ public class SearchGarageSalesView extends View {
      * Search criteria for finding a sale taking place on a specific date or
      * between a given date range.
      * 
-     * @return
+     * @return a panel containing the search by date form
      */
     protected JPanel viewDate() {
         
@@ -404,7 +405,8 @@ public class SearchGarageSalesView extends View {
     /**
      * Search criteria for finding sales categories with the checked categories.
      * 
-     * @return
+     * @param categories the set of all categories
+     * @return a panel containing the search by categories form
      */
     protected JPanel viewCategory(ModelSet<CategoryModel> categories) {
         
@@ -459,7 +461,7 @@ public class SearchGarageSalesView extends View {
      * Search criteria for finding sales created by users ranked in a particular
      * way.
      * 
-     * @return
+     * @return a panel containing the search by user rating form
      */
     protected JPanel viewUserRating() {
         
@@ -509,7 +511,7 @@ public class SearchGarageSalesView extends View {
     /**
      * Search criteria for finding sales ranked in a particular way.
      * 
-     * @return
+     * @return a panel contiaining the search by sale rating form
      */
     protected JPanel viewSaleRating() {
         
@@ -555,10 +557,12 @@ public class SearchGarageSalesView extends View {
     }
     
     /**
-     * Create the view that allows the user to input search criteria and then
-     * perform a live search on the garage sales.
-     * 
-     * @return
+     * Create the view that allows the user to input search criteria and the perform a live search on the garage sales.
+     * @param sales a set of all of the garage sales
+     * @param view_responder a responder to be called when the user clicks the 'view sale' button
+     * @param rate_responder a responder to be called when the user clicks the 'rate sale' button
+     * @param user the currently logged in user
+     * @return the search view
      */
     public JPanel view(final ModelSet<GarageSaleModel> sales, 
                               final D<GarageSaleModel> view_responder,

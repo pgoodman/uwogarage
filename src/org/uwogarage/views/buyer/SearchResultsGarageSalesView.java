@@ -40,7 +40,9 @@ public class SearchResultsGarageSalesView extends View {
     
     /**
      * Show the dialog that pops up when a waypoint is clicked.
-     * @param sales
+     * @param sales a set of all of the garage sales
+     * @param logged_user the user currently logged in
+     * @param rate_responder the responder to be called when the user rates a sale
      */
     static protected void viewWaypointSales(final ModelSet<GarageSaleModel> sales,
                                             final UserModel logged_user,
@@ -92,10 +94,11 @@ public class SearchResultsGarageSalesView extends View {
     
     /**
      * Show the main search results and the map.
-     * @param sales
-     * @param view_responder
-     * @param user
-     * @return
+     * @param sales the set of all sales
+     * @param view_responder the responder called when switching views
+     * @param rate_responder the responder called when the user rates a sale
+     * @param user the user currently logged in
+     * @return a view containing the main search results and the map
      */
     static public JPanel view(ModelSet<GarageSaleModel> sales, 
                                final D<GarageSaleModel> view_responder,

@@ -9,20 +9,22 @@ import org.uwogarage.util.functional.F0;
 import org.uwogarage.views.TabView;
 import org.uwogarage.views.View;
 
+/**
+ * The administrative control panel
+ * @author Daisy Tsang
+ *
+ */
 public class AdminControlPanelView extends View {
 
 	
-	 /**
-     * Show the Admin Control Panel view.
-     * 
-     * @param user
-     * @param my_info
-     * @param add_sale
-     * @param bulk_add
-     * @param my_sales
-     * @param search
-     * @return
-     */
+	/**
+	 * Show the Admin Control Panel view.
+	 * @param add_user the add user responder
+	 * @param list_users the list user responder
+	 * @param add_category the add category responder
+	 * @param list_category the list category responder
+	 * @return the administrative control panel
+	 */
     static public JPanel view(final F0 add_user, final F0 list_users, 
     		final F0 add_category, final F0 list_category){
         
@@ -43,9 +45,7 @@ public class AdminControlPanelView extends View {
                 
                 // change the current tab accessible through the TabView, in the
                 // same way that the program frame is accessible through View
-                //TabView.setProgramTab(
-                //    (JPanel) pane.getComponentAt(pane.getSelectedIndex())
-                //);
+
                 popContext();
                 pushContext((JPanel) pane.getComponentAt(pane.getSelectedIndex()));
                 
@@ -55,10 +55,7 @@ public class AdminControlPanelView extends View {
                     case 1: list_users.call(); break;
                     case 2: add_category.call(); break;
                     case 3: list_category.call(); break;
-                                     
-                    //case 3: bulk_add.call(); break;
-                    //case 4: search.call(); break;
-                    //case 5: view_all.call(); break;
+
                 }
             }
         });
