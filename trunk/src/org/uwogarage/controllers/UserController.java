@@ -28,6 +28,9 @@ public class UserController extends Controller<UserModel> {
     
     private static final long serialVersionUID = -1190876232059058102L;
 
+    /**
+     * The constructor sets up a few initial users
+     */
     public UserController() {
         
         UserModel test_user = new UserModel();
@@ -209,7 +212,7 @@ public class UserController extends Controller<UserModel> {
     }
     
     /**
-     * Display the main user control panel.
+     * Display the buyer control panel.
      */
     public void buyerPanel() {
         View.show(BuyerControlPanelView.view(logged_user,
@@ -227,6 +230,9 @@ public class UserController extends Controller<UserModel> {
         ));
     }
     
+    /**
+     * Display the seller control panel
+     */
     public void sellerPanel() {
         View.show(SellerControlPanelView.view(logged_user,
             new F0() { public void call() { myInfo(); }},
@@ -244,6 +250,9 @@ public class UserController extends Controller<UserModel> {
         ));
     }
     
+    /**
+     * Display the administrator control panel
+     */
     public void adminPanel() {
     	View.show(AdminControlPanelView.view(
     	    new F0() { public void call() { add(); }},

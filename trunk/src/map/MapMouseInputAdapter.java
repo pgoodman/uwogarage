@@ -80,54 +80,7 @@ public class MapMouseInputAdapter extends MouseInputAdapter {
 			
 			if (rect.contains(pt))
 			    responder_set.add(currentWaypoint.getGarageSale());
-			
-			/*	
-			//get the garage sale associated with this waypoint
-			sale = ;
-			
-			//get various info about this garage sale
-			String address = sale.getLocation().getStreet() + ", " + sale.getLocation().getCity() + ", " + sale.getLocation().getProvince();
-			String seller = sale.user.getFirstName() + " " + sale.user.getLastName();
-			
-			//get phone number
-			String[] phone = sale.user.getPhoneNumber();
-			String phoneFull = "";
-			
-			for(int i = 0; i < phone.length; i++){					
-				phoneFull += phone[i];					
-				if(i != phone.length -1){
-					phoneFull += "-";
-				}
-			}
 
-			//create a new frame
-			JFrame newframe = new JFrame("Garage Sale at " + address);
-			newframe.setPreferredSize(new Dimension(260,110));
-			
-			//create a new panel
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(4,1));
-			
-			//create JLabels for the above fields
-			JLabel titleL = new JLabel("INFORMATION:");
-			JLabel addressL = new JLabel("Address: " + address);
-			JLabel sellerL = new JLabel("Seller:" + seller);
-			JLabel phoneL = new JLabel("Phone Number: " + phoneFull);
-
-			//add all these JLabels to the panel
-			panel.add(titleL);
-			panel.add(addressL);
-			panel.add(sellerL);
-			panel.add(phoneL);
-			
-			//give the panel some padding
-			panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-			
-			//display the frame
-			newframe.getContentPane().add(panel);
-			newframe.pack();
-			newframe.setLocationRelativeTo(parent);
-			newframe.setVisible(true);*/
 		}
 		
 		// only call the responder if necessary

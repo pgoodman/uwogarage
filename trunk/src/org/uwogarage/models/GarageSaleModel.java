@@ -11,6 +11,7 @@ import org.uwogarage.util.Location;
  * The GarageSaleModel class represents a garage sale in the Garage Sale system
  *
  * @version $Id$
+ * @author Randy Sousa
  */
 
 public class GarageSaleModel implements Model {
@@ -53,11 +54,12 @@ public class GarageSaleModel implements Model {
 	
 	/**
 	 * Get the sale's geo position
+	 * @return the sale's geographic position
 	 */
 	public GeoPosition getGeoPosition() {
 	    return position;
 	}
-	
+
 	public String[] getGuiGeoPosition() {
 	    return positions;
 	}
@@ -80,7 +82,7 @@ public class GarageSaleModel implements Model {
 	
 	/**
 	 * Get the rating of this garage sale.
-	 * @return
+	 * @return the garage sale's average rating
 	 */
 	public float getRating() {
 	    int size = ratings.size(),
@@ -95,6 +97,11 @@ public class GarageSaleModel implements Model {
 	    return sum / size;
 	}
 	
+	/**
+	 * Get the rating a given user gave the sale
+	 * @param user the user that rated it
+	 * @return the rating the given user gave the sale
+	 */
 	public RatingModel getRatingFrom(UserModel user) {
 	    for(RatingModel rating : ratings) {
 	        if (rating.user == user)
@@ -105,15 +112,11 @@ public class GarageSaleModel implements Model {
 	
 	/**
 	 * Check if this garage sale has been rated yet.
-	 * @return
+	 * @return true if the sale has been rated, false otherwise
 	 */
 	public boolean isRated() {
 	    return ratings.size() > 0;
 	}
-	
-	/**
-	 * Get the average rating for this garage sale.
-	 */
 	
 	/**
 	 * This method sets the garage sale's location
@@ -132,7 +135,7 @@ public class GarageSaleModel implements Model {
 	 * in the following way: yyyy MM dd hh mm a z. Date parsing is done using
 	 * SimpleDateFormat.
 	 * 
-	 * @param date
+	 * @param date the date to set it to
 	 */
 	public boolean setTime(GregorianCalendar c) {
 	    if(null == c)

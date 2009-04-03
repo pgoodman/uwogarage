@@ -65,9 +65,12 @@ public class ListUsersView extends TabView {
     // store the up/down buttons
     protected GridCell[] sort_buttons;	
 	
-	/**
-	 * Constructor.
-	 */
+    /**
+     * Constructor that creates the sort buttons for the list
+     * @param u the set of users to be listed
+     * @param e the set of responders to be called if the edit button is clicked
+     * @param d the set of responders to be called if the delete button is clicked
+     */
 	public ListUsersView(ModelSet<UserModel> u, D<UserModel> e, D<UserModel> d) {
 	    users = u;
 	    edit_responder = e;
@@ -115,7 +118,7 @@ public class ListUsersView extends TabView {
      * sorting,
      * 
      * @param cc The comparator used to sort with.
-     * @return
+     * @return the delegate
      */
     protected D<JButton> makeSortDelegate(final Comparator<UserModel> cc) {
         return new D<JButton>() {
@@ -130,9 +133,8 @@ public class ListUsersView extends TabView {
     /**
      * Sort a set of models into an ordered set.
      * 
-     * @param usrs
-     * @param c
-     * @return
+     * @param c the comparator to base the sort on
+     * @return an array of users sorted by the comparator
      */
 	protected UserModel[] sortModels (Comparator<UserModel> c) {
 	    UserModel sorted[] = users.toArray(new UserModel[users.size()]);
@@ -142,10 +144,7 @@ public class ListUsersView extends TabView {
 	
 	/**
 	 * Create the list users view.
-	 * @param users
-	 * @param editResponder
-	 * @param deleteResponder
-	 * @return
+	 * @return the list users view
 	 */
     public JPanel view() {
         
@@ -163,6 +162,11 @@ public class ListUsersView extends TabView {
         
     }
     
+    /**
+     * Creates the rows of users in the list
+     * @param users the users in the list
+     * @return a panel containing the list of users
+     */
     public JPanel createRows (UserModel[] users) 
     {
     	// allocate the rows

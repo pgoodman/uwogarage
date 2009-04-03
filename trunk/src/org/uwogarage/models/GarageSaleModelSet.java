@@ -13,6 +13,7 @@ import org.uwogarage.util.Location;
  * Deal with garage sale model sets, and specifically, loading a set from a file.
  * 
  * version $Id$
+ * @author Daisy Tsang
  */
 public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
     
@@ -40,7 +41,7 @@ public class GarageSaleModelSet extends ModelSet<GarageSaleModel> {
      * 
      * @param fin
      * @param regex
-     * @return
+     * @return the line read from input
      * @throws Exception
      */
     private static String matchReadLine(BufferedReader fin, String regex) throws Exception {

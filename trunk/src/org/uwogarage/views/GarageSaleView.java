@@ -31,7 +31,7 @@ import org.uwogarage.util.gui.GridCell;
 /**
  * View a single garage sale.
  * 
- * @version $Id$
+ * @author Peter Goodman
  */
 public class GarageSaleView extends TabView {
     
@@ -42,7 +42,7 @@ public class GarageSaleView extends TabView {
      * @param sale
      * @param user
      * @param rate_responder
-     * @return
+     * @return a rating box
      */
     static public GridCell ratingBox(final GarageSaleModel sale, 
                                            final UserModel user,
@@ -229,6 +229,7 @@ public class GarageSaleView extends TabView {
                         
                         String[] cmd = null;
                         
+                        // open up appropriate browser base on platform
                         if(os_name.startsWith("win")) {
                             cmd = new String[] {
                                 "cmd", "/c", "start", "iexplore.exe", 
@@ -241,6 +242,7 @@ public class GarageSaleView extends TabView {
                             };
                         }
                         
+                        // run the browser
                         if(null != cmd) {
                             try {
                                 Runtime.getRuntime().exec(cmd);
@@ -256,6 +258,13 @@ public class GarageSaleView extends TabView {
         )).pos(0,4).fill(1,1);
     }
     
+    /**
+     * Show the view of all the Garage sale information.
+     * @param sale the sale to be shown
+     * @param logged_user the user that is currently logged in
+     * @param rate_responder a responder for the rating
+     * @return a view containing all of the information for the sale
+     */
     static public JPanel view(final GarageSaleModel sale, 
                               final UserModel logged_user, 
                               final D2<GarageSaleModel,Integer> rate_responder) {

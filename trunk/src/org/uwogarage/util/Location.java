@@ -7,6 +7,7 @@ import java.util.Hashtable;
  * The Location class represents a location in the Garage Sale system
  *
  * @version $Id$
+ * @author Eivor Cormie
  */
 
 public class Location implements Serializable {
@@ -83,8 +84,8 @@ public class Location implements Serializable {
 	/**
 	 * Check if a province code is valid.
 	 * 
-	 * @param code
-	 * @return
+	 * @param code the code to be checked
+	 * @return true if the code is valid
 	 */
 	static public boolean isValidProvinceCode(String code) {
 	    return PROVINCE_TIME_ZONE_CODES.containsKey(code);

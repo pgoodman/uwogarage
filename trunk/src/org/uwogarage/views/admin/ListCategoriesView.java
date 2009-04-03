@@ -16,6 +16,12 @@ import org.uwogarage.views.TabView;
  */
 public class ListCategoriesView extends TabView {
     
+    /**
+     * Show the list of categories
+     * @param categories the categories to be listed
+     * @param responder the responder to be called when the delete button was clicked
+     * @return a panel containing the list categories view
+     */
     static public JPanel view(ModelSet<CategoryModel> categories, 
                                final D<CategoryModel> responder) {
         

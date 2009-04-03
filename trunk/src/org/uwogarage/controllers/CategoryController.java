@@ -11,12 +11,17 @@ import org.uwogarage.views.admin.ListCategoriesView;
  * Deals with the creation and manipulation of categories.
  *
  * @version $Id$
+ * @author Peter Goodman
  */
 public class CategoryController extends Controller<CategoryModel> {
 
     private static final long serialVersionUID = -874405642977554718L;
 
+    /**
+     * The constuctor adds some sample categories (Antiques, Art, Collectables, Children's Clothing/Toys, Furniture)
+     */
     public CategoryController() {
+        // Add some sample categories
         try {
             models.add(new CategoryModel("Antiques"));
             models.add(new CategoryModel("Art"));
@@ -42,6 +47,9 @@ public class CategoryController extends Controller<CategoryModel> {
         }));
     }
     
+    /**
+     * List shows the list view for the categories
+     */
     public void list() {
     	View.show(ListCategoriesView.view(
     		models, 

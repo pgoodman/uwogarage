@@ -20,14 +20,12 @@ public class BuyerControlPanelView extends TabView {
     
     /**
      * Show the User Control Panel view.
-     * 
-     * @param user
-     * @param my_info
-     * @param add_sale
-     * @param bulk_add
-     * @param my_sales
-     * @param search
-     * @return
+     * @param user the buyer
+     * @param my_info the responder to be called when the user clicks the my information tab
+     * @param search the responder to be called when the user clicks the search tab
+     * @param view_all the responder to be called when the user clicks the view all tab
+     * @param log_out the responder to be called when the user clicks the log out button
+     * @return the user control panel view
      */
     static public JPanel view(final UserModel user, final F0 my_info,
                 final F0 search, final F0 view_all, final F0 log_out) {

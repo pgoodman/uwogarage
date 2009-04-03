@@ -19,6 +19,7 @@ import org.uwogarage.views.TabView;
  * View to add a user to the system.
  * 
  * @version $Id$
+ * @author Randy Sousa
  */
 public class AddUserView extends TabView {
     
@@ -39,8 +40,8 @@ public class AddUserView extends TabView {
     /**
      * Collect the common input errors to adding and editing users.
      * 
-     * @param user
-     * @param errors
+     * @param user the user to be added
+     * @param errors a linked list to hold any errors
      */
     protected void collectInputErrors(UserModel user, LinkedList<String> errors) {
                
@@ -77,8 +78,8 @@ public class AddUserView extends TabView {
      * 
      * @param id_is_unique A predicate that checks whether or not a supplied user
      *                     id is unique.
-     * @param responder
-     * @return
+     * @param responder the responder to be called when the add button is clicked
+     * @return a panel containing the add user form
      */
     public JPanel view(final P<String> id_is_unique, final D<UserModel> responder) {
         

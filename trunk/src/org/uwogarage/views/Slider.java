@@ -19,7 +19,11 @@ public class Slider extends View {
     
     /**
      * Create a map slider.
-     * @return
+     * @param min the minimum value of the slider
+     * @param max the maximum value of the slider
+     * @param initial the initial value of the slider
+     * @param on_slide the delegate containing the method to be called when the slider is 'slid'
+     * @return a JSlider with the necessary settings
      */
     static public JSlider view(int min, int max, int initial, final D<JSlider> on_slide) {
         

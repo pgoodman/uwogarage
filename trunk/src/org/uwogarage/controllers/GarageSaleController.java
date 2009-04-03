@@ -18,6 +18,7 @@ import org.uwogarage.views.seller.EditGarageSaleView;
  * in GarageSaleModels in the data store
  *
  * @version $Id$
+ * @author Peter Goodman
  */
 
 public class GarageSaleController extends Controller<GarageSaleModel> {
@@ -82,7 +83,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     
     /**
      * Edit a garage sale.
-     * @param sale
+     * @param sale the sale to be edited
      */
     public void edit(GarageSaleModel sale) {
         View.show((new EditGarageSaleView()).view(
@@ -102,7 +103,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     /**
      * Delete a single garage sale. This delete removes a garage sale and all of
      * its ratings.
-     * @param sale
+     * @param sale the sale to be deleted
      */
     protected void deleteSale(GarageSaleModel sale) {
         ModelSet<RatingModel> ratings = sale.ratings;
@@ -124,7 +125,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     /**
      * View a single garage sale.
      * 
-     * @param sale
+     * @param sale the sale to be viewed
      */
     public void view(final GarageSaleModel sale) {
         View.show(GarageSaleView.view(sale, logged_user, new D2<GarageSaleModel,Integer>() {
@@ -135,7 +136,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     }
     
     /**
-     * Search for some garage sales.
+     * Search for some garage sales. Shows the search view.
      */
     public void search() {
         View.show((new SearchGarageSalesView(d.category.getModels())).view(
@@ -156,7 +157,7 @@ public class GarageSaleController extends Controller<GarageSaleModel> {
     
     /**
      * Display a list of garage sales.
-     * @param sales
+     * @param sales the sales to be listed
      */
     public void list(final ModelSet<GarageSaleModel> sales) {
 

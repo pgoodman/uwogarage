@@ -4,6 +4,7 @@ package org.uwogarage.models;
  * The UserModel class represents a user in the Garage Sale system
  *
  * @version $Id$
+ * @author Randy Sousa
  */
 
 public class UserModel implements Model {
@@ -31,6 +32,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Get the user ID.
+	 * @return the user id
 	 */
 	public String getId() {
 	    return user_id;
@@ -38,6 +40,7 @@ public class UserModel implements Model {
 	
 	/**
      * Get the password.
+     * @return the password
      */
     public String getPassword() {
         return pass;
@@ -72,6 +75,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Get the user's default latitude.
+	 * @return the user's default latitude
 	 */
 	public String[] getStartCoords() {
 	    return start_coords;
@@ -89,6 +93,7 @@ public class UserModel implements Model {
 	/**
 	 * Get the user's average garage sale rating. This calculates it on the spot
 	 * from the user's garage sales.
+	 * @return the user's average garage sale rating
 	 */
 	public float getRating() {
 	    int rating_sum = 0;
@@ -108,6 +113,7 @@ public class UserModel implements Model {
 	/**
 	 * Check if the user's password should be changed, i.e. the user was just
 	 * created or the user's password was just reset by the administrator.
+	 * @return true if the user's password should be reset
 	 */
 	public boolean isUsingDefaultPass() {
 	    return reset_pass;
@@ -115,7 +121,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Set whether or not this user is using the default password.
-	 * @param r
+	 * @param r whether or not the user is using the default password
 	 */
 	public void setUsingDefaultPass(boolean r) {
 	    reset_pass = r;
@@ -123,6 +129,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Set the user id.
+	 * @return true if the user id was valid and set
 	 */
 	public boolean setUserId(String p) {
 	    if(!p.matches("[0-9a-zA-Z]{4}")) {
@@ -134,7 +141,8 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the password. Returns false if the password is incorrectly formatted.
+	 * Set the password. 
+	 * @return false if the password is incorrectly formatted.
 	 */
 	public boolean setPassword(String p) {
 	    
@@ -152,10 +160,10 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the user's first name, returns false if the name is incorrectly
-	 * formatted.
+	 * Set the user's first name
 	 * 
 	 * @param n The user's first name
+	 * @return false if the name is incorrectly formatted.
 	 */
 	public boolean setFirstName(String n) {
 	    if(!n.matches("[a-zA-Z]{1,20}")) {
@@ -167,10 +175,10 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the user's last name, returns false if the name is incorrectly 
-	 * formatted.
+	 * Set the user's last name
 	 * 
 	 * @param n The user's last name
+	 * @return false if the name is incorrectly formatted.
 	 */
 	public boolean setLastName(String n) {
 	    if(!n.matches("[a-zA-Z-]{1,20}")) {
@@ -182,10 +190,10 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the user's phone number, returns false if the supplied number is
-	 * incorrectly formatted.
+	 * Set the user's phone number
 	 * 
 	 * @param phoneNumber the user's phone number
+	 * @return false if the supplied number is incorrectly formatted.
 	 */
 	public boolean setPhoneNumber(String area, String first, String rest) {
 	    if(!(area+first+rest).matches("[0-9]{10}")) {
@@ -200,11 +208,11 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the user's default latitude and longitude, returns false if either of 
-	 * the latitude or longitude are incorrectly formatted.
+	 * Set the user's default latitude and longitude
 	 * 
 	 * @param lng the user's longitude
 	 * @param lng the user's latitude
+	 * @return false if either of the latitude or longitude are incorrectly formatted.
 	 */
 	public boolean setGeoPosition(String lat, String lng) {
 	    String regex = "-?([0-9]{1,3})\\.([0-9]{3,6})";
@@ -226,10 +234,10 @@ public class UserModel implements Model {
 	}
 	
 	/**
-	 * Set the start/default zoom level for the user, returns false if the zoom
-	 * level is out of range.
+	 * Set the start/default zoom level for the user,
 	 * 
 	 * @param level the user's default level
+	 * @return false if the zoom level is out of range.
 	 */
 	public boolean setDefaultZoom(int level) {
 	    if(level < 1 || level > 15)
@@ -241,6 +249,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Add a garage sale to the one's that this user has created.
+	 * @param the sale to be added
 	 */
 	public void addGarageSale(GarageSaleModel sale) {
 	    sales.add(sale);
@@ -248,6 +257,7 @@ public class UserModel implements Model {
 	
 	/**
 	 * Add a rating to the one's that this use has created.
+	 * @param the rating to be added
 	 */
 	public void addRating(RatingModel rating) {
 	    ratings.add(rating);

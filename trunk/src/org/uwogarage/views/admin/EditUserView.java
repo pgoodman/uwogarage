@@ -14,16 +14,14 @@ import org.uwogarage.util.functional.D;
  * View to edit an existing user of the system.
  * 
  * @version $Id$
+ * @author Peter Goodman
  */
 public class EditUserView extends AddUserView {
     
     /**
-     * Show the form to add a user.
-     * 
-     * @param user_exists A predicate that checks whether or not a supplied user
-     *                    id is unique.
-     * @param responder
-     * @return
+     * Show the form to edit a user.
+     * @param user the user to be edited
+     * @return the panel containing the edit user form
      */
     public JPanel view(final UserModel user) {
         

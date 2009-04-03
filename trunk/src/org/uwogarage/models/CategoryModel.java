@@ -4,6 +4,7 @@ package org.uwogarage.models;
  * The CategoryModel class represents a category in the Garage Sale system
  *
  * @version $Id$
+ * @author Daisy Tsang
  */
 
 public class CategoryModel implements Model {

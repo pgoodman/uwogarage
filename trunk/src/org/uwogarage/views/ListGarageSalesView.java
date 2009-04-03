@@ -17,6 +17,7 @@ import org.uwogarage.util.gui.GridCell;
  * Show a list of garage sales.
  * 
  * @version $Id$
+ * @author Peter Goodman
  */
 public class ListGarageSalesView extends View {
     
@@ -25,10 +26,10 @@ public class ListGarageSalesView extends View {
      * 
      * @param user Currently logged in user
      * @param sales Sales to list
-     * @param view_responder
-     * @param edit_responder
-     * @param delete_responder
-     * @return
+     * @param view_responder responder for the view
+     * @param edit_responder responder for the edit button
+     * @param delete_responder responder for the delete button
+     * @return a panel containing the listing information
      */
     static public JPanel view(UserModel user,
               ModelSet<GarageSaleModel> sales,

@@ -8,6 +8,7 @@ import java.io.Serializable;
  * !!! This is temporary until the GeoPosition of JXMapViewer replaces it.
  *
  * @version $Id$
+ * @author Eivor Cormie
  */
 
 public class GeoPosition implements Serializable {
