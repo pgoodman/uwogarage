@@ -87,9 +87,6 @@ public class UserController extends Controller<UserModel> {
                     // view but I decided it best to put that control with the
                     // controller
                     models.add(user);
-                    
-                    // return to the admin panel
-                    adminPanel();
                 }
             }
         ));

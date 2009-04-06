@@ -145,7 +145,7 @@ public class AddUserView extends TabView {
                         } else {
                             responder.call(user);
                             dialog.alert(f, "The user has been added."); 
-                            changeProgramTab(1); 
+                            changeProgramTab(1);
                         }                        
                     }
                 })).margin(10, 10, 10, 10)
