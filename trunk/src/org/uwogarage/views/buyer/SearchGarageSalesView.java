@@ -81,10 +81,6 @@ public class SearchGarageSalesView extends View {
     protected JComboBox user_quantifier = new JComboBox(quantifiers),
                         sale_quantifier = new JComboBox(quantifiers);
     
-    /*protected JTextField user_rating = field.text(1, new NumDocument(1)),
-                         sale_rating = field.text(1, new NumDocument(1));
-    */
-    
     protected JSlider user_rating = Slider.view(1, 5, 0, null),
                       sale_rating = Slider.view(1, 5, 0, null);
     
