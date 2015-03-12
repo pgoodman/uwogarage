@@ -1,0 +1,1 @@
+The software to be developed is a local garage sale charting system. The system will allow sellers to post the location and date of their garage sale and allow buyers to figure out when and where garage sales are being offered and what types of products are available at the sale and to rank the sale after it has happened
